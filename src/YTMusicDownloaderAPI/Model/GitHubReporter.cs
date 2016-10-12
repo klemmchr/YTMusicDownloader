@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Octokit;
 
-namespace YTMusicDownloaderAPINet.Model
+namespace YTMusicDownloaderAPI.Model
 {
     public static class GitHubReporter
     {

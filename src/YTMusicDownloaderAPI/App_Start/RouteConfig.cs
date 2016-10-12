@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace YTMusicDownloaderAPINet
+namespace YTMusicDownloaderAPI
 {
     public class RouteConfig
     {

@@ -1,10 +1,9 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
-namespace YTMusicDownloaderAPINet.Controllers
+namespace YTMusicDownloaderAPI.Controllers
 {
     public class PlaylistDataController : ApiController
     {

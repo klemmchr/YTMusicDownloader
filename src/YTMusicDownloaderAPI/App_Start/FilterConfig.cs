@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace YTMusicDownloaderAPINet
+namespace YTMusicDownloaderAPI
 {
     public class FilterConfig
     {

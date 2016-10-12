@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="YTMusicDownloaderAPINet.WebApiApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="YTMusicDownloaderAPI.WebApiApplication" Language="C#" %>

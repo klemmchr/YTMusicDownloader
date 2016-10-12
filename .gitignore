@@ -240,6 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
 /src/YTMusicDownloaderAPI/Properties/PublishProfiles
-/src/YTMusicDownloaderAPI/Properties/Settings.cs
-/src/YTMusicDownloaderAPI/Settings.cs
+/src/YTMusicDownloaderAPI/Properties/Settings.cs.private

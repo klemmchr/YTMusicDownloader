@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Web.Http;
-using YTMusicDownloaderAPINet.Model;
+using YTMusicDownloaderAPI.Model;
 
-namespace YTMusicDownloaderAPINet
+namespace YTMusicDownloaderAPI
 {
     public static class WebApiConfig
     {

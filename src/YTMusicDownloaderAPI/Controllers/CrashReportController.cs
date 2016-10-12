@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using YTMusicDownloaderAPINet.Model;
+using YTMusicDownloaderAPI.Model;
 
-namespace YTMusicDownloaderAPINet.Controllers
+namespace YTMusicDownloaderAPI.Controllers
 {
     public class CrashReportController : ApiController
     {

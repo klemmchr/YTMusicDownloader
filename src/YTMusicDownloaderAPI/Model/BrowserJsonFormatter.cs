@@ -3,7 +3,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
-namespace YTMusicDownloaderAPINet.Model
+namespace YTMusicDownloaderAPI.Model
 {
     public class BrowserJsonFormatter : JsonMediaTypeFormatter
     {

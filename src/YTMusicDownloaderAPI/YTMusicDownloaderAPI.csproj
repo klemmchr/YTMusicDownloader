@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YTMusicDownloaderAPINet</RootNamespace>
-    <AssemblyName>YTMusicDownloaderAPINet</AssemblyName>
+    <RootNamespace>YTMusicDownloaderAPI</RootNamespace>
+    <AssemblyName>YTMusicDownloaderAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -218,6 +218,20 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>if exist $(ProjectDir)Properties\Settings.cs.private (
+    echo "Moving old settings file"
+    rename $(ProjectDir)Properties\Settings.cs Settings.cs.tmp
+    rename $(ProjectDir)Properties\Settings.cs.private Settings.cs
+)</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if exist $(ProjectDir)Properties\Settings.cs.tmp (
+    echo "Deleting copied settings file"
+    rename $(ProjectDir)Properties\Settings.cs Settings.cs.private
+    rename $(ProjectDir)Properties\Settings.cs.tmp Settings.cs
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

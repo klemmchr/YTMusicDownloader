@@ -1,4 +1,4 @@
-﻿namespace YTMusicDownloaderAPINet.Properties
+﻿namespace YTMusicDownloaderAPI.Properties
 {
     public static class Settings
     {

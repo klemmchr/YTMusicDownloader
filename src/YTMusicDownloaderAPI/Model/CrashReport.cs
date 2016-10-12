@@ -1,4 +1,4 @@
-﻿namespace YTMusicDownloaderAPINet.Model
+﻿namespace YTMusicDownloaderAPI.Model
 {
     public class CrashReport
     {
