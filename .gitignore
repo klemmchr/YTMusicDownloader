@@ -242,3 +242,4 @@ ModelManifest.xml
 .fake/
 /src/YTMusicDownloaderAPI/Properties/PublishProfiles
 /src/YTMusicDownloaderAPI/Properties/Settings.cs
+/src/YTMusicDownloaderAPI/Settings.cs
