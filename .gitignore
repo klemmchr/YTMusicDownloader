@@ -241,5 +241,7 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
+.idea/
+
 /src/YTMusicDownloaderAPI/Properties/PublishProfiles
 /src/YTMusicDownloaderAPI/Properties/Settings.cs.private
