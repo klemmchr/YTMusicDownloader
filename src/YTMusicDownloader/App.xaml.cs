@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Threading;
 using NLog;
+using MessageBox = System.Windows.MessageBox;
 
 namespace YTMusicDownloader
 {
@@ -14,9 +16,23 @@ namespace YTMusicDownloader
     public partial class App
     {
         private readonly List<string> _arguments = new List<string>();
+        private readonly Mutex _mutex;
 
         public App()
         {
+            try
+            {
+                Mutex mutex;
+                if(Mutex.TryOpenExisting("YtMusicDownloader", out mutex))
+                    Environment.Exit(0);
+            }
+            catch
+            {
+                // ignored
+            }
+
+            _mutex = new Mutex(true, "YTMusicDownloader");
+
             ParseCommandLineArgs();
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;

@@ -46,5 +46,17 @@ namespace YTMusicDownloader.Properties {
                 this["PlaylistReceiveMaximum"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstStartup {
+            get {
+                return ((bool)(this["FirstStartup"]));
+            }
+            set {
+                this["FirstStartup"] = value;
+            }
+        }
     }
 }

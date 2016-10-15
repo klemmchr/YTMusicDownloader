@@ -20,7 +20,6 @@ namespace YTMusicDownloader.Model.RetrieverEngine
         public string VideoId { get; }
         public string Title { get; set; }
         public string ThumbnailUrl { get; }
-        public int Position { get; }
 
         [JsonIgnore]
         public string DownloadUrl { get; private set; }
@@ -28,17 +27,16 @@ namespace YTMusicDownloader.Model.RetrieverEngine
         public bool AutoDownload { get; set; }
         #endregion
 
-        public PlaylistItem(string videoId, string title, string thumbnailUrl, int position, /*string downloadUrl,*/ bool autoDownload, string downloadUrl = "")
+        public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload, string downloadUrl = "")
         {
             VideoId = videoId;
             Title = title;
             ThumbnailUrl = thumbnailUrl;
-            Position = position;
             DownloadUrl = downloadUrl;
             AutoDownload = autoDownload;
         }
 
-        public async Task<BitmapImage> UpdateThumbnail()
+        public async Task<BitmapImage> DownloadThumbnail()
         {
             return await Task.Run(() =>
             {
@@ -50,10 +48,14 @@ namespace YTMusicDownloader.Model.RetrieverEngine
                     {
                         var result = client.DownloadData(ThumbnailUrl);
 
-                        image.BeginInit();
-                        image.CacheOption = BitmapCacheOption.OnLoad;
-                        image.StreamSource = new MemoryStream(result);
-                        image.EndInit();
+                        using (var ms = new MemoryStream(result))
+                        {
+                            image.BeginInit();
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = ms;
+                            image.EndInit();
+                            image.Freeze();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -61,7 +63,6 @@ namespace YTMusicDownloader.Model.RetrieverEngine
                     Logger.Warn(ex, "Error downloading thumbnail for video {0}", VideoId);
                 }
 
-                image.Freeze();
                 return image;
             });
         }

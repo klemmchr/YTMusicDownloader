@@ -23,7 +23,8 @@ namespace YTMusicDownloader.Model.Workspaces
         private List<PlaylistItem> _items = new List<PlaylistItem>();
         private int _itemsPerPage = 10;
         private bool _deleteNotSyncedItems;
-        private DownloadFormat _downloadFormat = DownloadFormat.M4A;
+        private DownloadFormat _downloadFormat = DownloadManager.DownloadFormat.M4A;
+        private bool _iTunesSyncEnabled;
 
         #endregion
 
@@ -75,6 +76,17 @@ namespace YTMusicDownloader.Model.Workspaces
             set
             {
                 _downloadFormat = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public bool ITunesSyncEnabled
+        {
+            get { return _iTunesSyncEnabled; }
+            set
+            {
+                _iTunesSyncEnabled = value;
                 RaisePropertyChanged();
             }
         }

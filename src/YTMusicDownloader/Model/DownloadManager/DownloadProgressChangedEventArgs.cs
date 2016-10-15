@@ -4,10 +4,18 @@ namespace YTMusicDownloader.Model.DownloadManager
 {
     public class DownloadProgressChangedEventArgs: EventArgs
     {
-        public int ProgressPercentage { get; }
-        public DownloadProgressChangedEventArgs(int progressPercentange)
+        public double ProgressPercentage { get; }
+        public DownloadProgressChangedEventArgs(long processedBytes, long totalBytes)
         {
-            ProgressPercentage = progressPercentange;
+            if (totalBytes == 0)
+                ProgressPercentage = 0;
+            else
+                ProgressPercentage = ((processedBytes * 1.0) / (totalBytes * 1.0)) * 100;
+        }
+
+        public DownloadProgressChangedEventArgs(int progressPercentage)
+        {
+            ProgressPercentage = progressPercentage;
         }
     }
 }

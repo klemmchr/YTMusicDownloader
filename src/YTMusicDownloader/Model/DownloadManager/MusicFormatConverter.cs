@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YTMusicDownloader.Model.DownloadManager
 {
@@ -12,12 +8,12 @@ namespace YTMusicDownloader.Model.DownloadManager
     {
         public static void M4AToMp3(string filePath, bool deleteOriginal = true)
         {
-            if(string.IsNullOrEmpty(filePath) || !filePath.EndsWith(".m4a"))
+            if(string.IsNullOrEmpty(filePath) || Path.GetExtension(filePath) != ".m4a")
                 throw new ArgumentException(nameof(filePath));
 
             var toolPath = Path.Combine("tools", "ffmpeg.exe");
 
-            var convertedFilePath = filePath.Replace(".m4a", ".mp3");
+            var convertedFilePath = filePath.Replace("m4a", "mp3");
             File.Delete(convertedFilePath);
 
             var process = new Process
@@ -28,7 +24,7 @@ namespace YTMusicDownloader.Model.DownloadManager
 #if !DEBUG
                     WindowStyle = ProcessWindowStyle.Hidden,
 #endif
-                    Arguments = $"-i \"{filePath}\" -acodec libmp3lame -ab 128k \"{convertedFilePath}\""
+                    Arguments = $"-i \"{filePath}\" -acodec libmp3lame -ab 192k \"{convertedFilePath}\""
                 }
             };
 

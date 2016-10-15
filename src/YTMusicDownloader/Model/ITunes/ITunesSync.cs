@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using iTunesLib;
 using YTMusicDownloader.Model.RetrieverEngine;
-using YTMusicDownloader.Model.Workspaces;
 
 namespace YTMusicDownloader.Model.ITunes
 {
@@ -14,9 +12,9 @@ namespace YTMusicDownloader.Model.ITunes
     {
         private static readonly iTunesApp AppClass = new iTunesApp();
 
-        public static async Task<List<IITPlaylist>> GetAllPlaylists()
+        public static List<IITPlaylist> GetAllPlaylists()
         {
-            var list = await Task.Run(() => AppClass.LibrarySource.Playlists.Cast<IITPlaylist>().Where(i => i.Kind == ITPlaylistKind.ITPlaylistKindUser).ToList());
+            var list = AppClass.LibrarySource.Playlists.Cast<IITPlaylist>().Where(i => i.Kind == ITPlaylistKind.ITPlaylistKindUser).ToList();
             list.RemoveRange(0, 12);
             return list;
         }

@@ -1,33 +1,34 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using NLog;
 using YTMusicDownloader.Model.DownloadManager;
 using YTMusicDownloader.Model.RetrieverEngine;
-using YTMusicDownloader.Model.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
     public class PlaylistItemViewModel : ViewModelBase
     {
         #region Fields
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly WorkspaceViewModel _viewModel;
-        private Workspace _workspace;
-        private DownloadItem _downloadItem;
+
+        private readonly WorkspaceViewModel _workspaceViewModel;
+        private DownloadManagerItem _downloadItem;
 
         private BitmapImage _thumbnail;
         private bool _downloading;
-        private bool _downloaded;
-        private readonly string _filePath;
-        private int _downloadProgress;
+        private DownloadState _downloadState;
+        private double _downloadProgress;
         private bool _downloadPending;
+        private string _downloadText;
+        private string _uncovertedPath;
+        private int _index;
+
         #endregion
 
         #region Properties
-
         public PlaylistItem Item { get; }
 
         public BitmapImage Thumbnail
@@ -40,16 +41,6 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        public Workspace Workspace
-        {
-            get { return _workspace; }
-            set
-            {
-                _workspace = value;
-                RaisePropertyChanged(nameof(Workspace));
-            }
-        }
-
         public string Title
         {
             get { return Item.Title; }
@@ -57,8 +48,17 @@ namespace YTMusicDownloader.ViewModel
             {
                 if (!Downloading && Title != value)
                 {
-                    if(Rename(value))
+                    try
+                    {
+                        File.Move(GetFilePath(),
+                            Path.Combine(_workspaceViewModel.Workspace.Path,
+                                value + _workspaceViewModel.Workspace.Settings.DownloadFormat.ToString().ToLower()));
                         Item.Title = value;
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
 
                     RaisePropertyChanged(nameof(Title));
                 }
@@ -85,19 +85,24 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        public bool Downloaded
+        public DownloadState DownloadState
         {
-            get { return _downloaded; }
+            get { return _downloadState; }
             set
             {
-                _downloaded = value;
-                RaisePropertyChanged(nameof(Downloaded));
+                _downloadState = value;
                 RaisePropertyChanged(nameof(DownloadText));
-                RaisePropertyChanged(nameof(DownloadTextColor));
+
+                switch (value)
+                {
+                    case DownloadState.Downloaded: DownloadText = "Downloaded"; break;
+                    case DownloadState.NeedsConvertion: DownloadText = "Needs convertion"; break;
+                    case DownloadState.NotDownloaded: DownloadText = "Not Downloaded"; break;
+                }
             }
         }
 
-        public int DownloadProgress
+        public double DownloadProgress
         {
             get { return _downloadProgress; }
             set
@@ -120,8 +125,25 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        public string DownloadText => Downloaded ? "Downloaded" : "Not Downloaded";
-        public string DownloadTextColor => Downloaded ? "#008A00" : "#FD0018";
+        public string DownloadText
+        {
+            get { return _downloadText; }
+            set
+            {
+                _downloadText = value;
+                RaisePropertyChanged(nameof(DownloadText));
+            }
+        }
+
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                _index = value;
+                RaisePropertyChanged(nameof(Index));
+            }
+        }
 
         public RelayCommand DownloadCommand => new RelayCommand(() =>
         {
@@ -132,12 +154,12 @@ namespace YTMusicDownloader.ViewModel
             else
             {
                 var handler = DownloadSong();
-                _viewModel.DownloadManager.AddToQueue(handler);
+                _workspaceViewModel.DownloadManager.AddToQueue(handler);
             }
         });
         #endregion
         
-        public PlaylistItemViewModel(PlaylistItem item, WorkspaceViewModel workspaceViewModel)
+        public PlaylistItemViewModel(PlaylistItem item, WorkspaceViewModel workspaceWorkspaceViewModel)
         {
             if (IsInDesignMode)
             {
@@ -146,10 +168,8 @@ namespace YTMusicDownloader.ViewModel
 
             Item = item;
             Title = item.Title;
-            Workspace = workspaceViewModel.Workspace;
-            _viewModel = workspaceViewModel;
+            _workspaceViewModel = workspaceWorkspaceViewModel;
 
-            _filePath = Path.Combine(Workspace.Path, $"{Item.Title}.m4a");
             CheckForTrack();
         }
 
@@ -157,56 +177,92 @@ namespace YTMusicDownloader.ViewModel
         {
             try
             {
-                Downloaded = File.Exists(_filePath);
+                if(!File.Exists(GetFilePath()))
+                {
+                    foreach (var format in Enum.GetNames(typeof(DownloadFormat)))
+                    {
+                        var path = Path.Combine(_workspaceViewModel.Workspace.Path, $"{Item.Title}.{format.ToLower()}");
+
+                        if (File.Exists(path))
+                        {
+                            if (_workspaceViewModel.Workspace.Settings.DownloadFormat == DownloadFormat.M4A)
+                            {
+                                DownloadState = DownloadState.NotDownloaded;
+                                File.Delete(path);
+                            }
+                            else
+                            {
+                                _uncovertedPath = path;
+                                DownloadState = DownloadState.NeedsConvertion;
+                            }
+                            
+                            return;
+                        }
+                    }
+
+                    DownloadState = DownloadState.NotDownloaded;
+                }
+                else
+                {
+                    DownloadState = DownloadState.Downloaded;
+                }
             }
             catch (Exception)
             {
-                // ignore
+                DownloadState = DownloadState.NotDownloaded;
             }
+        }
+
+        private string GetFilePath()
+        {
+            return Path.Combine(_workspaceViewModel.Workspace.Path, $"{Item.Title}.{_workspaceViewModel.Workspace.Settings.DownloadFormat.ToString().ToLower()}");
         }
 
         public async void UpdateThumbnail()
         {
-           Thumbnail = await Item.UpdateThumbnail();
+           Thumbnail = await Item.DownloadThumbnail();
         }
 
-        internal DownloadItem DownloadSong(bool overwrite = true)
+        internal DownloadManagerItem DownloadSong(bool overwrite = true)
         {
             Downloading = true;
             DownloadProgress = 1;
             DownloadPending = true;
-            _downloadItem = new DownloadItem(Item, _filePath, overwrite);
-            
-            if (_downloadItem == null) return null;
+            if (DownloadState == DownloadState.NeedsConvertion)
+                _downloadItem = new ConvertionItem(Item, _uncovertedPath, GetFilePath());
+            else
+                _downloadItem = new DownloadItem(Item, GetFilePath(), _workspaceViewModel.Workspace.Settings.DownloadFormat, overwrite);
 
-            _downloadItem.DownloadItemDownloadCompleted += (sender, args) =>
-            {
-                DownloadPending = false;
-                Downloading = false;
-                Downloaded = !args.Cancelled || Downloaded;
-                _downloadItem = null;
-            };
-
-            _downloadItem.DownloadItemDownloadProgressChanged += (sender, args) =>
-            {
-                DownloadPending = false;
-                DownloadProgress = args.ProgressPercentage;
-            };
+            _downloadItem.DownloadItemDownloadProgressChanged += DownloadItemOnDownloadItemDownloadProgressChanged;
+            _downloadItem.DownloadItemDownloadCompleted += DownloadItemOnDownloadItemDownloadCompleted;
 
             return _downloadItem;
         }
 
-        private bool Rename(string newTitle)
+        private void DownloadItemOnDownloadItemDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
         {
-            try
-            {
-                File.Move(Path.Combine(Workspace.Path, Item.Title + ".m4a"), Path.Combine(Workspace.Path, newTitle + ".m4a"));
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            DownloadPending = false;
+            DownloadProgress = args.ProgressPercentage;
+        }
+
+        private void DownloadItemOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
+        {
+            DownloadPending = false;
+            Downloading = false;
+
+            CheckForTrack();
+
+            var managerItem = ((DownloadManagerItem) sender);
+            managerItem.DownloadItemDownloadProgressChanged -= DownloadItemOnDownloadItemDownloadProgressChanged;
+            managerItem.DownloadItemDownloadCompleted -= DownloadItemOnDownloadItemDownloadCompleted;
+            managerItem.Dispose();
+            _downloadItem = null;
+        }
+
+        public void Rename(string newTitle)
+        {
+            Item.Title = newTitle;
+            RaisePropertyChanged(nameof(Title));
         }
 
         public void StopDownload()

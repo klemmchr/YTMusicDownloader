@@ -32,25 +32,6 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\logo_white.ico</ApplicationIcon>
   </PropertyGroup>
@@ -174,13 +155,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DownloadManager\ConvertionItem.cs" />
     <Compile Include="Model\DownloadManager\DownloadCompletedEventArgs.cs" />
     <Compile Include="Model\DownloadManager\DownloadFormat.cs" />
     <Compile Include="Model\DownloadManager\DownloadItem.cs" />
     <Compile Include="Model\DownloadManager\DownloadManager.cs" />
+    <Compile Include="Model\DownloadManager\DownloadManagerItem.cs" />
     <Compile Include="Model\DownloadManager\DownloadProgressChangedEventArgs.cs" />
+    <Compile Include="Model\DownloadManager\DownloadState.cs" />
+    <Compile Include="Model\DownloadManager\IDownloadManagerItem.cs" />
     <Compile Include="Model\DownloadManager\MusicFormatConverter.cs" />
-    <Compile Include="Model\Helpers\Enums.cs" />
     <Compile Include="Model\ITunes\ITunesSync.cs" />
     <Compile Include="Model\RetrieverEngine\PlaylistItemRetreiverCompletedEventArgs.cs" />
     <Compile Include="Model\RetrieverEngine\PlaylistItemRetreiverProgressChangedEventArgs.cs" />
@@ -203,7 +187,7 @@
     <Compile Include="ViewModel\Helpers\ObservableCollectionObject.cs" />
     <Compile Include="ViewModel\Helpers\ObservableImmutableList.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\Messages\DownloadFormatChangedMessage.cs" />
+    <Compile Include="ViewModel\Messages\ShowMessageDialogMessage.cs" />
     <Compile Include="ViewModel\PageSelectorViewModel.cs" />
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
@@ -223,6 +207,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Styles\Tooltip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -294,7 +282,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>MD $(TargetDir)bin\

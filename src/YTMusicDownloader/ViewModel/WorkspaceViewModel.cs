@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,15 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using NLog;
 using YTMusicDownloader.Model.DownloadManager;
 using YTMusicDownloader.Model.RetrieverEngine;
 using YTMusicDownloader.Model.Workspaces;
 using YTMusicDownloader.ViewModel.Helpers;
-using YTMusicDownloader.ViewModel.Messages;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -30,6 +30,12 @@ namespace YTMusicDownloader.ViewModel
         private int _downloadItemsRemaining;
         private bool _initializing;
         private string _downloadingAllSongsText;
+        private int _downloadedTracks;
+        private string _searchText;
+        private bool _searchActive;
+        private ObservableCollection<PlaylistItemViewModel> _searchResult;
+        private string _searchTextboxWatermark;
+
         #endregion
 
         #region Properties
@@ -157,9 +163,17 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        public int TrackCount => Tracks.Count;
+        public int DownloadedTracks
+        {
+            get { return _downloadedTracks; }
+            set
+            {
+                _downloadedTracks = value;
+                RaisePropertyChanged(nameof(DownloadedTracks));
+            }
+        }
 
-        public string WorkspacePath => Workspace.Path;
+        public int TrackCount => Tracks.Count;
 
         /// <summary>
         /// Gets or sets the text displayed in the "Download all" button.
@@ -171,6 +185,47 @@ namespace YTMusicDownloader.ViewModel
             {
                 _downloadingAllSongsText = value;
                 RaisePropertyChanged(nameof(DownloadingAllSongsText));
+            }
+        }
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                _searchText = value;
+                RaisePropertyChanged(nameof(SearchText));
+                SearchTextChanged();
+            }
+        }
+
+        public bool SearchActive
+        {
+            get { return _searchActive; }
+            set
+            {
+                _searchActive = value;
+                RaisePropertyChanged(nameof(SearchActive));
+            }
+        }
+
+        public ObservableCollection<PlaylistItemViewModel> SearchResult
+        {
+            get { return _searchResult; }
+            set
+            {
+                _searchResult = value;
+                RaisePropertyChanged(nameof(SearchResult));
+            }
+        }
+
+        public string SearchTextboxWatermark
+        {
+            get { return _searchTextboxWatermark; }
+            set
+            {
+                _searchTextboxWatermark = value;
+                RaisePropertyChanged(nameof(SearchTextboxWatermark));
             }
         }
 
@@ -199,6 +254,7 @@ namespace YTMusicDownloader.ViewModel
         #endregion
 
         #region Construction        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkspaceViewModel"/> class.
         /// </summary>
@@ -210,20 +266,22 @@ namespace YTMusicDownloader.ViewModel
             Name = Workspace.Name;
             PlaylistUrl = workspace.Settings.PlaylistUrl;
             DownloadingAllSongsText = "Download all";
-            
+            SearchTextboxWatermark = "Search ...";
+
             Tracks = new ObservableImmutableList<PlaylistItemViewModel>();
             Tracks.CollectionChanged += TracksOnCollectionChanged;
             DisplayedTracks = new ObservableImmutableList<PlaylistItemViewModel>();
             PageSelectorViewModel = new PageSelectorViewModel(this);
             DownloadManager = new DownloadManager();
             WorkspaceSettingsViewModel = new WorkspaceSettingsViewModel(this);
+            SearchResult = new ObservableCollection<PlaylistItemViewModel>();
             Workspace.Settings.PropertyChanged += SettingsOnPropertyChanged;
 
             _watcher = new FileSystemWatcher
             {
-                Path = WorkspacePath,
+                Path = Workspace.Path,
                 NotifyFilter = NotifyFilters.FileName,
-                Filter = "*.m4a",
+                Filter = "*.*"
             };
 
             _watcher.Created += WatcherOnCreated;
@@ -292,14 +350,11 @@ namespace YTMusicDownloader.ViewModel
         {
             if (propertyChangedEventArgs.PropertyName == nameof(WorkspaceSettings.DownloadFormat))
             {
-                var type = typeof(DownloadFormat);
-                var memInfo = type.GetMember(Workspace.Settings.DownloadFormat.ToString());
-                var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                var fileEnding = ((DescriptionAttribute) attributes[0]).Description;
-
-                _watcher.Filter = $"*{fileEnding}";
+                foreach (var track in Tracks)
+                {
+                    track.CheckForTrack();
+                }
             }
-                Messenger.Default.Send(new DownloadFormatChangedMessage(Workspace.Settings.DownloadFormat));
         }
 
         /// <summary>
@@ -310,12 +365,45 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="renamedEventArgs">The <see cref="RenamedEventArgs"/> instance containing the event data.</param>
         private void WatcherOnRenamed(object sender, RenamedEventArgs renamedEventArgs)
         {
-            foreach (var track in Tracks)
-            {
-                if (track.Title.Replace(".mp3", "").Replace(".m4a", "") != renamedEventArgs.OldName) continue;
+            var oldTitle = Path.GetFileNameWithoutExtension(renamedEventArgs.OldName);
+            var newTitle = Path.GetFileNameWithoutExtension(renamedEventArgs.Name);
 
-                track.Title = renamedEventArgs.Name.Replace(".m4a", "");
-                break;
+            var oldExtension = Path.GetExtension(renamedEventArgs.OldName);
+            var newExtension = Path.GetExtension(renamedEventArgs.Name);
+
+            if (oldExtension != newExtension && oldTitle == newTitle)
+            {
+                foreach (var track in Tracks)
+                {
+                    if (track.Title == newTitle)
+                    {
+                        track.DownloadState = Path.GetExtension(renamedEventArgs.Name)?.Replace(".", "") != Workspace.Settings.DownloadFormat.ToString().ToLower()? DownloadState.NeedsConvertion: DownloadState.Downloaded;
+                        if (track.DownloadState == DownloadState.Downloaded)
+                            DownloadedTracks++;
+
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                if (Path.GetExtension(renamedEventArgs.Name)?.Replace(".", "") != Workspace.Settings.DownloadFormat.ToString().ToLower())
+                    return;
+
+                foreach (var track in Tracks)
+                {
+                    if (track.Title == newTitle)
+                    {
+                        track.DownloadState = DownloadState.Downloaded;
+                        DownloadedTracks++;
+                        return;
+                    }
+
+                    if (track.Title != oldTitle) continue;
+
+                    track.Rename(newTitle);
+                    return;
+                }
             }
         }
 
@@ -327,12 +415,18 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="fileSystemEventArgs">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
         private void WatcherOnDeleted(object sender, FileSystemEventArgs fileSystemEventArgs)
         {
+            if(Path.GetExtension(fileSystemEventArgs.Name)?.Replace(".", "") != Workspace.Settings.DownloadFormat.ToString().ToLower())
+                return;
+
+            var title = Path.GetFileNameWithoutExtension(fileSystemEventArgs.Name);
+
             foreach (var track in Tracks)
             {
-                if (track.Title.Replace(".mp3", "").Replace(".m4a", "") != fileSystemEventArgs.Name) continue;
+                if (track.Title != title) continue;
 
-                track.Downloaded = false;
-                break;
+                DownloadedTracks--;
+                track.DownloadState = DownloadState.NotDownloaded;
+                return;
             }
         }
 
@@ -344,12 +438,19 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="fileSystemEventArgs">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
         private void WatcherOnCreated(object sender, FileSystemEventArgs fileSystemEventArgs)
         {
+            var title = Path.GetFileNameWithoutExtension(fileSystemEventArgs.Name);
+            var extension = Path.GetExtension(fileSystemEventArgs.Name)?.Replace(".", "");
+
             foreach (var track in Tracks)
             {
-                if (track.Title.Replace(".mp3", "").Replace(".m4a", "") != fileSystemEventArgs.Name) continue;
+                if (track.Title != title) continue;
+                if(track.Downloading) return;
 
-                track.Downloaded = true;
-                break;
+                track.DownloadState = extension != Workspace.Settings.DownloadFormat.ToString().ToLower() ? DownloadState.NeedsConvertion : DownloadState.Downloaded;
+                if (track.DownloadState == DownloadState.Downloaded)
+                    DownloadedTracks++;
+
+                return;
             }
         }
 
@@ -360,7 +461,7 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="notifyCollectionChangedEventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         private void TracksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
-            PageSelectorViewModel.UpdatePageview();
+            PageSelectorViewModel.UpdatePageview(Tracks.Count);
 
             RaisePropertyChanged(nameof(TrackCount));
         }
@@ -443,9 +544,16 @@ namespace YTMusicDownloader.ViewModel
                 Tracks.Add(new PlaylistItemViewModel(item, this));
             }
 
+            var i = 0;
+            DownloadedTracks = 0;
             Workspace.Settings.Items.Clear();
+
             foreach (var track in Tracks)
             {
+                if (track.DownloadState == DownloadState.Downloaded)
+                    DownloadedTracks++;
+
+                track.Index = i++;
                 Workspace.Settings.Items.Add(track.Item);
             }
             Workspace.SaveWorkspaceConfig();
@@ -463,10 +571,16 @@ namespace YTMusicDownloader.ViewModel
             DisplayedTracks.Clear();
 
             var startingIndex = (PageSelectorViewModel.PageNumber - 1) * PageSelectorViewModel.ItemsPerPage;
-            var endingIndex = startingIndex + Math.Min(Tracks.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
+            int endingIndex;
+            if(SearchActive)
+                endingIndex = startingIndex + Math.Min(SearchResult.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
+            else
+                endingIndex = startingIndex + Math.Min(Tracks.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
+
             for (var i = startingIndex; i < endingIndex; i++)
             {
-                var current = Tracks[i];
+                var current = SearchActive ? SearchResult[i] : Tracks[i];
+
                 if (current.Thumbnail == null)
                     current.UpdateThumbnail();
 
@@ -485,21 +599,15 @@ namespace YTMusicDownloader.ViewModel
             foreach (var track in Tracks)
             {
                 track.CheckForTrack();
-                if (!track.Downloaded && track.AutoDownload)
+
+                if (track.DownloadState != DownloadState.Downloaded && track.AutoDownload)
                 {
                     DownloadItemsRemaining ++;
 
                     var handler = track.DownloadSong(false);
                     if(handler == null) continue;
 
-                    handler.DownloadItemDownloadCompleted += (sender, args) =>
-                    {
-                        DownloadItemsRemaining --;
-                        if (DownloadItemsRemaining <= 0)
-                        {
-                            DownloadingAllSongs = false;
-                        }
-                    };
+                    handler.DownloadItemDownloadCompleted += HandlerOnDownloadItemDownloadCompleted;
 
                     DownloadManager.AddToQueue(handler);
                 }
@@ -507,6 +615,45 @@ namespace YTMusicDownloader.ViewModel
 
             if (DownloadItemsRemaining == 0)
                 DownloadingAllSongs = false;
+        }
+
+        private void HandlerOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
+        {
+            DownloadItemsRemaining--;
+            DownloadedTracks++;
+
+            if (DownloadItemsRemaining <= 0)
+            {
+                DownloadingAllSongs = false;
+            }
+
+            ((DownloadManagerItem) sender).DownloadItemDownloadCompleted -= HandlerOnDownloadItemDownloadCompleted;
+        }
+
+        private void SearchTextChanged()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                SearchActive = false;
+                SearchResult.Clear();
+                OnPageNumberChanged();
+                PageSelectorViewModel.UpdatePageview(Tracks.Count);
+                SearchTextboxWatermark = "Search ...";
+                return;
+            }
+
+            SearchActive = true;
+            SearchResult.Clear();
+            foreach (var track in Tracks)
+            {
+                if(track.Item.Title.ToLower().Contains(SearchText.ToLower()))
+                    SearchResult.Add(track);
+            }
+
+            SearchTextboxWatermark = $"{SearchResult.Count} results";
+
+            OnPageNumberChanged();
+            PageSelectorViewModel.UpdatePageview(SearchResult.Count);
         }
 
         /// <summary>

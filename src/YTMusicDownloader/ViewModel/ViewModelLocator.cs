@@ -13,6 +13,7 @@
 */
 
 using GalaSoft.MvvmLight.Ioc;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.ServiceLocation;
 using NLog;
 
@@ -30,7 +31,9 @@ namespace YTMusicDownloader.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            
+
+            SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
+
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
 

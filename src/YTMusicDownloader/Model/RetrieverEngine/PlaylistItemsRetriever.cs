@@ -73,10 +73,9 @@ namespace YTMusicDownloader.Model.RetrieverEngine
                             {
                                 var title = Regex.Replace(current["snippet"]["title"].ToString(), @"[\\/<>\|:""*?]", "");
                                 var thumbnailUrl = current["snippet"]["thumbnails"]["medium"]["url"].ToString();
-                                var position = int.Parse(current["snippet"]["position"].ToString());
                                 var videoId = current["snippet"]["resourceId"]["videoId"].ToString();
 
-                                playlistItems.Add(new PlaylistItem(videoId, title, thumbnailUrl, position, true));
+                                playlistItems.Add(new PlaylistItem(videoId, title, thumbnailUrl, true));
 
                                 OnPlaylistItemsRetrieverProgressChanged(new PlaylistItemRetreiverProgressChangedEventArgs(playlistItems.Count, totalResults));
                             }

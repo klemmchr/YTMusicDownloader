@@ -8,9 +8,10 @@
           <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
           <!-- Accent and AppTheme setting -->
           <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
-          <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+          <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
           <ResourceDictionary Source="Views/Styles/Button.xaml" />
-      </ResourceDictionary.MergedDictionaries>
+          <ResourceDictionary Source="Views/Styles/Tooltip.xaml" />
+        </ResourceDictionary.MergedDictionaries>
       <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:YTMusicDownloader.ViewModel" />
       <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
       <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />

@@ -1,150 +1,167 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using NLog;
 using YTMusicDownloader.Model.RetrieverEngine;
 using System.IO;
+using System.Runtime;
+using System.Threading;
+using System.Windows.Input;
 
 namespace YTMusicDownloader.Model.DownloadManager
 {
-    public class DownloadItem: IDisposable
+    public class DownloadItem : DownloadManagerItem
     {
-        #region Events
-        public delegate void DownloadItemDownloadCompletedEventHandler(object sender, DownloadCompletedEventArgs args);
-
-        public event DownloadItemDownloadCompletedEventHandler DownloadItemDownloadCompleted;
-
-        protected virtual void OnDownloadItemDownloadCompleted(DownloadCompletedEventArgs e)
-        {
-            DownloadItemDownloadCompleted?.Invoke(this, e);
-        }
-
-        public delegate void DownloadItemDownloadProgressChangedEventHandler(object sender, DownloadProgressChangedEventArgs args);
-
-        public event DownloadItemDownloadProgressChangedEventHandler DownloadItemDownloadProgressChanged;
-
-        protected virtual void OnDownloadItemDownloadProgressChanged(DownloadProgressChangedEventArgs e)
-        {
-            DownloadItemDownloadProgressChanged?.Invoke(this, e);
-        }
-        #endregion
-
         #region Fields
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private WebClient _client;
+
+        private WebClient _webClient;
+        private Thread _downloadThread;
+
         #endregion
+
         #region Properties
-        public PlaylistItem Item { get; }
+
         public string SavePath { get; }
         public bool Overwrite { get; }
+        public DownloadFormat DownloadFormat { get; }
+
         #endregion
 
-        public DownloadItem(PlaylistItem item, string savePath, bool overwrite = false)
+        public DownloadItem(PlaylistItem item, string savePath, DownloadFormat downloadFormat, bool overwrite = false)
+            : base(item)
         {
-            Item = item;
             SavePath = savePath;
             Overwrite = overwrite;
+            DownloadFormat = downloadFormat;
         }
 
-        public void StartDownload()
+        public override void StartDownload()
         {
-            if (File.Exists(SavePath) && !Overwrite)
+            _downloadThread = new Thread(StartDownloadInternal);
+            _downloadThread.Start();
+        }
+
+        private void StartDownloadInternal()
+        {
+            try
             {
-                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true));
+                if (File.Exists(SavePath) && !Overwrite)
+                {
+                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true));
+                    return;
+                }
+
+                OnDownloadItemDownloadProgressChanged(new DownloadProgressChangedEventArgs(1));
+                Item.RetreiveDownloadUrl();
+
+                if (string.IsNullOrEmpty(Item.DownloadUrl))
+                {
+                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true,
+                        new InvalidOperationException("Could not retreive download url")));
+                    return;
+                }
+
+                using (_webClient = new WebClient())
+                {
+                    _webClient.Headers.Add("user-agent",
+                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+                    try
+                    {
+                        _webClient.OpenReadCompleted += WebClientOnOpenReadCompleted;
+
+                        _webClient.OpenReadAsync(new Uri(Item.DownloadUrl));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Warn(ex, "Error downloading track {0}", Item.VideoId);
+                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
+                    }
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                // ignored
+            }
+        }
+
+        private void WebClientOnOpenReadCompleted(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
+        {
+            _webClient.Dispose();
+
+            if (openReadCompletedEventArgs.Cancelled)
+            {
+                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, openReadCompletedEventArgs.Error));
                 return;
             }
 
-            OnDownloadItemDownloadProgressChanged(new DownloadProgressChangedEventArgs(1));
-            Item.RetreiveDownloadUrl();
-
-            if (string.IsNullOrEmpty(Item.DownloadUrl))
-            {
-                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, new InvalidOperationException("Could not retreive download url")));
+            if (!Overwrite && File.Exists(SavePath))
                 return;
-            }
 
-            // GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-            using (_client = new WebClient())
+            var totalLength = 0;
+            try
             {
-                _client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-
-                try
-                {
-                    _client.DownloadDataCompleted +=
-                        (sender, args) =>
-                        {
-                            Task.Run(() =>
-                            {
-                                DownloadCompleted(args);
-                            });
-                        };
-                    _client.DownloadProgressChanged += (sender, args) => OnDownloadItemDownloadProgressChanged(new DownloadProgressChangedEventArgs(args.ProgressPercentage));
-                    _client.DownloadDataAsync(new Uri(Item.DownloadUrl));
-                }
-                catch (Exception ex)
-                {
-                    Logger.Warn(ex, "Error downloading track {0}", Item.VideoId);
-                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
-                }
+                totalLength = int.Parse(((WebClient)sender).ResponseHeaders["Content-Length"]);
             }
-        }
-
-    private void DownloadCompleted(DownloadDataCompletedEventArgs args)
-    {
-        _client.Dispose();
-        // _client = null;
-
-        // GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-        // GC.Collect(2, GCCollectionMode.Forced);
-
-        if (args.Cancelled)
-        {
-            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, args.Error));
-            return;
-        }
-
-        try
-        {
-            // File.WriteAllBytes(SavePath, args.Result);
-
-            /*
-            using (var file = TagLib.File.Create(SavePath))
+            catch (Exception)
             {
-                file.Save();
+                // ignored
             }
 
             try
             {
-                MusicFormatConverter.M4AToMp3(SavePath);
+                long processed = 0;
+                var tmpPath = Path.GetTempFileName();
+
+                using (var stream = openReadCompletedEventArgs.Result)
+                using (var fs = File.Create(tmpPath))
+                {
+                    var buffer = new byte[16 * 1024];
+                    int read;
+
+                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fs.Write(buffer, 0, read);
+
+                        processed += read;
+                        OnDownloadItemDownloadProgressChanged(new DownloadProgressChangedEventArgs(processed, totalLength));
+                    }
+                }
+
+                File.Move(tmpPath, SavePath);
+
+                GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+                GC.Collect();
+
+                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(false));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ignore
+                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
             }
-            */
-
-            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(false));
         }
-        catch (Exception ex)
-        {
-            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
-            Logger.Error(ex, "Error writing track file for track {0}", Item.VideoId);
-        }
-    }
 
-        public void StopDownload()
+        public override void StopDownload()
         {
-            _client?.CancelAsync();
+            _downloadThread?.Abort();
+            _webClient?.CancelAsync();
+            _webClient?.Dispose();
+
+            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true));
+        }
+
+        public override void Dispose()
+        {
+            _webClient?.Dispose();
         }
 
         public override int GetHashCode()
         {
             return Item.GetHashCode();
-        }
-
-        public void Dispose()
-        {
-            _client?.Dispose();
         }
 
         public override bool Equals(object obj)

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 using NLog;
 using RestSharp.Extensions.MonoHttp;
-using YTMusicDownloader.Model.RetrieverEngine;
 
 namespace YTMusicDownloader.Model.Workspaces
 {

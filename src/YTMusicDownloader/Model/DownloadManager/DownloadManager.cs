@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
@@ -10,22 +9,21 @@ namespace YTMusicDownloader.Model.DownloadManager
     {
         #region Fields
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly Queue<DownloadItem> _queue;
-        private readonly List<DownloadItem> _activeDownloads;
-        private bool _active;
+        private readonly Queue<DownloadManagerItem> _queue;
+        private readonly List<DownloadManagerItem> _activeDownloads;
         private Thread _thread;
         #endregion
 
         #region Construction
         public DownloadManager()
         {
-            _queue = new Queue<DownloadItem>();
-            _activeDownloads = new List<DownloadItem>();
+            _queue = new Queue<DownloadManagerItem>();
+            _activeDownloads = new List<DownloadManagerItem>();
         }
         #endregion
 
         #region Methods
-        public void AddToQueue(DownloadItem item)
+        public void AddToQueue(DownloadManagerItem item)
         {
             _queue.Enqueue(item);
 
@@ -42,9 +40,7 @@ namespace YTMusicDownloader.Model.DownloadManager
 
         private void StartManager()
         {
-            if(_active) return;
-
-            _active = true;
+            if(_thread != null && _thread.IsAlive) return;
 
             _thread = new Thread(() =>
             {
@@ -53,14 +49,12 @@ namespace YTMusicDownloader.Model.DownloadManager
                     while (_queue.Count > 0 && _queue.Peek() != null)
                     {
                         DownloadItem();
-
-                        while (_activeDownloads.Count >= Properties.Settings.Default.ParallelDownloads)
+                        
+                        do
                         {
                             Thread.Sleep(10);
-                        }
+                        } while (_activeDownloads.Count >= Properties.Settings.Default.ParallelDownloads);
                     }
-
-                    _active = false;
                 }
                 catch (ThreadInterruptedException)
                 {
@@ -73,15 +67,15 @@ namespace YTMusicDownloader.Model.DownloadManager
         private void DownloadItem()
         {
             if (_activeDownloads.Count >= Properties.Settings.Default.ParallelDownloads) return;
-            
-            DownloadItem item;
+
+            DownloadManagerItem item = null;
             try
             {
                 item = _queue.Dequeue();
             }
             catch
             {
-                return;
+                // ignored
             }
             
             if (item != null)
@@ -89,16 +83,13 @@ namespace YTMusicDownloader.Model.DownloadManager
                 item.DownloadItemDownloadCompleted += (sender, args) =>
                 {
                     if(args.Error != null)
-                        Logger.Error(args.Error, "Error downloading track {0}", ((DownloadItem)sender).Item.VideoId);
-
-                    var dItem = (DownloadItem) sender;
-                    _activeDownloads.Remove(dItem);
-
-                    dItem.Dispose();
+                        Logger.Error(args.Error, "Error downloading track {0}", ((DownloadManagerItem)sender).Item.VideoId);
+                    
+                    _activeDownloads.Remove((DownloadManagerItem)sender);
                 };
 
                 _activeDownloads.Add(item);
-                Task.Run(() => item.StartDownload());
+                item.StartDownload();
             }
         }
         #endregion
