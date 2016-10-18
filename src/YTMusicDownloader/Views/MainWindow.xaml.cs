@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using YTMusicDownloader.Model.Workspaces;
+using YTMusicDownloaderLib.Workspaces;
 using YTMusicDownloader.ViewModel;
 
 namespace YTMusicDownloader.Views

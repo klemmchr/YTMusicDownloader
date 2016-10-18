@@ -6,229 +6,229 @@ using System.Threading;
 using System.Windows.Threading;
 
 namespace YTMusicDownloader.ViewModel.Helpers
-	{
-	public abstract class ObservableCollectionObject : INotifyCollectionChanged, INotifyPropertyChanged
-		{
-		#region Private
+{
+    public abstract class ObservableCollectionObject : INotifyCollectionChanged, INotifyPropertyChanged
+    {
+        #region Private
 
-		private bool _lockObjWasTaken;
-		private readonly object _lockObj;
-		private int _lock; // 0=unlocked		1=locked
+        private bool _lockObjWasTaken;
+        private readonly object _lockObj;
+        private int _lock; // 0=unlocked		1=locked
 
-		#endregion Private
+        #endregion Private
 
-		#region Public Properties
+        #region Public Properties
 
-		private readonly LockTypeEnum _lockType;
-		public LockTypeEnum LockType
-			{
-			get
-				{
-				return _lockType;
-				}
-			}
+        private readonly LockTypeEnum _lockType;
+        public LockTypeEnum LockType
+        {
+            get
+            {
+                return _lockType;
+            }
+        }
 
-		#endregion Public Properties
+        #endregion Public Properties
 
-		#region Constructor
+        #region Constructor
 
-		protected ObservableCollectionObject(LockTypeEnum lockType)
-			{
-			_lockType = lockType;
-			_lockObj = new object();
-			}
+        protected ObservableCollectionObject(LockTypeEnum lockType)
+        {
+            _lockType = lockType;
+            _lockObj = new object();
+        }
 
-		#endregion Constructor
+        #endregion Constructor
 
-		#region SpinWait/PumpWait Methods
+        #region SpinWait/PumpWait Methods
 
-		// note : find time to put all these methods into a helper class instead of in a base class
+        // note : find time to put all these methods into a helper class instead of in a base class
 
-		// returns a valid dispatcher if this is a UI thread (can be more than one UI thread so different dispatchers are possible); null if not a UI thread
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected Dispatcher GetDispatcher()
-			{
-			return Dispatcher.FromThread(Thread.CurrentThread);
-			}
+        // returns a valid dispatcher if this is a UI thread (can be more than one UI thread so different dispatchers are possible); null if not a UI thread
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected Dispatcher GetDispatcher()
+        {
+            return Dispatcher.FromThread(Thread.CurrentThread);
+        }
 
-		protected void WaitForCondition(Func<bool> condition)
-			{
-			var dispatcher = GetDispatcher();
+        protected void WaitForCondition(Func<bool> condition)
+        {
+            var dispatcher = GetDispatcher();
 
-			if (dispatcher == null)
-				{
-				switch (LockType)
-					{
-					case LockTypeEnum.SpinWait:
-						SpinWait.SpinUntil(condition); // spin baby... 
-						break;
-					case LockTypeEnum.Lock:
-						var isLockTaken = false;
-						Monitor.Enter(_lockObj, ref isLockTaken);
-						_lockObjWasTaken = isLockTaken;
-						break;
-					}
-				return;
-				}
+            if (dispatcher == null)
+            {
+                switch (LockType)
+                {
+                    case LockTypeEnum.SpinWait:
+                        SpinWait.SpinUntil(condition); // spin baby... 
+                        break;
+                    case LockTypeEnum.Lock:
+                        var isLockTaken = false;
+                        Monitor.Enter(_lockObj, ref isLockTaken);
+                        _lockObjWasTaken = isLockTaken;
+                        break;
+                }
+                return;
+            }
 
-			_lockObjWasTaken = true;
-			PumpWait_PumpUntil(dispatcher, condition);
-			}
+            _lockObjWasTaken = true;
+            PumpWait_PumpUntil(dispatcher, condition);
+        }
 
-		protected void PumpWait_PumpUntil(Dispatcher dispatcher, Func<bool> condition)
-			{
-			var frame = new DispatcherFrame();
-			BeginInvokePump(dispatcher, frame, condition);
-			Dispatcher.PushFrame(frame);
-			}
+        protected void PumpWait_PumpUntil(Dispatcher dispatcher, Func<bool> condition)
+        {
+            var frame = new DispatcherFrame();
+            BeginInvokePump(dispatcher, frame, condition);
+            Dispatcher.PushFrame(frame);
+        }
 
-		private static void BeginInvokePump(Dispatcher dispatcher, DispatcherFrame frame, Func<bool> condition)
-			{
-			dispatcher.BeginInvoke
-				(
-				DispatcherPriority.DataBind,
-				(Action)
-					(
-					() =>
-						{
-						frame.Continue = !condition();
+        private static void BeginInvokePump(Dispatcher dispatcher, DispatcherFrame frame, Func<bool> condition)
+        {
+            dispatcher.BeginInvoke
+                (
+                DispatcherPriority.DataBind,
+                (Action)
+                    (
+                    () =>
+                        {
+                            frame.Continue = !condition();
 
-						if (frame.Continue)
-							BeginInvokePump(dispatcher, frame, condition);
-						}
-					)
-				);
-			}
+                            if (frame.Continue)
+                                BeginInvokePump(dispatcher, frame, condition);
+                        }
+                    )
+                );
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void DoEvents()
-			{
-			var dispatcher = GetDispatcher();
-			if (dispatcher == null)
-				{
-				return;
-				}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DoEvents()
+        {
+            var dispatcher = GetDispatcher();
+            if (dispatcher == null)
+            {
+                return;
+            }
 
-			var frame = new DispatcherFrame();
-			dispatcher.BeginInvoke(DispatcherPriority.DataBind, new DispatcherOperationCallback(ExitFrame), frame);
-			Dispatcher.PushFrame(frame);
-			}
+            var frame = new DispatcherFrame();
+            dispatcher.BeginInvoke(DispatcherPriority.DataBind, new DispatcherOperationCallback(ExitFrame), frame);
+            Dispatcher.PushFrame(frame);
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static object ExitFrame(object frame)
-			{
-			((DispatcherFrame)frame).Continue = false;
-			return null;
-			}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static object ExitFrame(object frame)
+        {
+            ((DispatcherFrame)frame).Continue = false;
+            return null;
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected bool TryLock()
-			{
-			switch (LockType)
-				{
-				case LockTypeEnum.SpinWait:
-					return Interlocked.CompareExchange(ref _lock, 1, 0) == 0;
-				case LockTypeEnum.Lock:
-					return Monitor.TryEnter(_lockObj);
-				}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected bool TryLock()
+        {
+            switch (LockType)
+            {
+                case LockTypeEnum.SpinWait:
+                    return Interlocked.CompareExchange(ref _lock, 1, 0) == 0;
+                case LockTypeEnum.Lock:
+                    return Monitor.TryEnter(_lockObj);
+            }
 
-			return false;
-			}
+            return false;
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected void Lock()
-			{
-			switch (LockType)
-				{
-				case LockTypeEnum.SpinWait:
-					WaitForCondition(() => Interlocked.CompareExchange(ref _lock, 1, 0) == 0);
-					break;
-				case LockTypeEnum.Lock:
-					WaitForCondition(() => Monitor.TryEnter(_lockObj));
-					break;
-				}
-			}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void Lock()
+        {
+            switch (LockType)
+            {
+                case LockTypeEnum.SpinWait:
+                    WaitForCondition(() => Interlocked.CompareExchange(ref _lock, 1, 0) == 0);
+                    break;
+                case LockTypeEnum.Lock:
+                    WaitForCondition(() => Monitor.TryEnter(_lockObj));
+                    break;
+            }
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected void Unlock()
-			{
-			switch (LockType)
-				{
-				case LockTypeEnum.SpinWait:
-					_lock = 0;
-					break;
-				case LockTypeEnum.Lock:
-					if (_lockObjWasTaken)
-						Monitor.Exit(_lockObj);
-					_lockObjWasTaken = false;
-					break;
-				}
-			}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void Unlock()
+        {
+            switch (LockType)
+            {
+                case LockTypeEnum.SpinWait:
+                    _lock = 0;
+                    break;
+                case LockTypeEnum.Lock:
+                    if (_lockObjWasTaken)
+                        Monitor.Exit(_lockObj);
+                    _lockObjWasTaken = false;
+                    break;
+            }
+        }
 
-		#endregion SpinWait/PumpWait Methods
+        #endregion SpinWait/PumpWait Methods
 
-		#region INotifyCollectionChanged
+        #region INotifyCollectionChanged
 
-		public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+        public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
-		protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
-			{
-			var notifyCollectionChangedEventHandler = CollectionChanged;
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            var notifyCollectionChangedEventHandler = CollectionChanged;
 
-			if (notifyCollectionChangedEventHandler == null)
-				return;
+            if (notifyCollectionChangedEventHandler == null)
+                return;
 
-			foreach (NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
-				{
-				var dispatcherObject = handler.Target as DispatcherObject;
+            foreach (NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
+            {
+                var dispatcherObject = handler.Target as DispatcherObject;
 
-				if (dispatcherObject != null && !dispatcherObject.CheckAccess())
-					{
-					dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, handler, this, args);
-					}
-				else
-					handler(this, args);
-				}
-			}
+                if (dispatcherObject != null && !dispatcherObject.CheckAccess())
+                {
+                    dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, handler, this, args);
+                }
+                else
+                    handler(this, args);
+            }
+        }
 
-		protected virtual void RaiseNotifyCollectionChanged()
-			{
-			RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			}
+        protected virtual void RaiseNotifyCollectionChanged()
+        {
+            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
 
-		protected virtual void RaiseNotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
-			{
-			RaisePropertyChanged("Count");
-			RaisePropertyChanged("Item[]");
-			OnCollectionChanged(args);
-			}
+        protected virtual void RaiseNotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            RaisePropertyChanged("Count");
+            RaisePropertyChanged("Item[]");
+            OnCollectionChanged(args);
+        }
 
-		#endregion INotifyCollectionChanged
+        #endregion INotifyCollectionChanged
 
-		#region INotifyPropertyChanged
+        #region INotifyPropertyChanged
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		public void RaisePropertyChanged(string propertyName)
-			{
-			var propertyChangedEventHandler = PropertyChanged;
+        public void RaisePropertyChanged(string propertyName)
+        {
+            var propertyChangedEventHandler = PropertyChanged;
 
-			if (propertyChangedEventHandler != null)
-				{
-				propertyChangedEventHandler(this, new PropertyChangedEventArgs(propertyName));
-				}
-			}
+            if (propertyChangedEventHandler != null)
+            {
+                propertyChangedEventHandler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
-		#endregion INotifyPropertyChanged
+        #endregion INotifyPropertyChanged
 
-		#region Nested Types
+        #region Nested Types
 
-		public enum LockTypeEnum
-			{
-			SpinWait,
-			Lock
-			}
+        public enum LockTypeEnum
+        {
+            SpinWait,
+            Lock
+        }
 
-		#endregion Nested Types
-		}
-	}
+        #endregion Nested Types
+    }
+}

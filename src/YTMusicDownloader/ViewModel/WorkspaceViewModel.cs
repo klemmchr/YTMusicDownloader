@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,23 +7,32 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NLog;
-using YTMusicDownloader.Model.DownloadManager;
-using YTMusicDownloader.Model.RetrieverEngine;
-using YTMusicDownloader.Model.Workspaces;
+using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.RetrieverEngine;
+using YTMusicDownloaderLib.Workspaces;
 using YTMusicDownloader.ViewModel.Helpers;
 
 namespace YTMusicDownloader.ViewModel
 {
+    public enum FilterMode
+    {
+        [Description("Nothing")]
+        None,
+        [Description("Downloaded")]
+        Downloaded,
+        [Description("Not downloaded")]
+        NotDownloaded
+    }
+
     public class WorkspaceViewModel: ViewModelBase
     {
         #region Fields
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly FileSystemWatcher _watcher;
-
+        
         private double _playlistFetchProgress;
         private bool _fetchingPlaylist;
         private bool _downloadingAllSongs;
@@ -32,10 +41,10 @@ namespace YTMusicDownloader.ViewModel
         private string _downloadingAllSongsText;
         private int _downloadedTracks;
         private string _searchText;
-        private bool _searchActive;
-        private ObservableCollection<PlaylistItemViewModel> _searchResult;
         private string _searchTextboxWatermark;
-
+        private bool _playlistUrlChanged;
+        private FilterMode _selectedFilterMode;
+        private bool _searchTextChangeInProgress;
         #endregion
 
         #region Properties
@@ -43,9 +52,11 @@ namespace YTMusicDownloader.ViewModel
         public DownloadManager DownloadManager { get; }
         public PageSelectorViewModel PageSelectorViewModel { get; }
         public WorkspaceSettingsViewModel WorkspaceSettingsViewModel { get; }
+        
 
-        public ObservableImmutableList<PlaylistItemViewModel> Tracks { get; }
-        public ObservableImmutableList<PlaylistItemViewModel> DisplayedTracks { get; }
+        public ObservableImmutableList<PlaylistItemViewModel> Tracks { get; private set; }
+        public ObservableImmutableList<PlaylistItemViewModel> DisplayedTracks { get; private set; }
+        public List<PlaylistItemViewModel> DisplayedTracksSource { get; private set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -78,6 +89,7 @@ namespace YTMusicDownloader.ViewModel
                 {
                     Workspace.SetPlaylistUrl(value);
                     RaisePropertyChanged(nameof(PlaylistUrl));
+                    _playlistUrlChanged = true;
                 }
             }
         }
@@ -198,26 +210,8 @@ namespace YTMusicDownloader.ViewModel
                 SearchTextChanged();
             }
         }
-
-        public bool SearchActive
-        {
-            get { return _searchActive; }
-            set
-            {
-                _searchActive = value;
-                RaisePropertyChanged(nameof(SearchActive));
-            }
-        }
-
-        public ObservableCollection<PlaylistItemViewModel> SearchResult
-        {
-            get { return _searchResult; }
-            set
-            {
-                _searchResult = value;
-                RaisePropertyChanged(nameof(SearchResult));
-            }
-        }
+        
+        public Dictionary<FilterMode, string> FilterModes { get; }
 
         public string SearchTextboxWatermark
         {
@@ -226,6 +220,17 @@ namespace YTMusicDownloader.ViewModel
             {
                 _searchTextboxWatermark = value;
                 RaisePropertyChanged(nameof(SearchTextboxWatermark));
+            }
+        }
+
+        public FilterMode SelectedFilterMode
+        {
+            get { return _selectedFilterMode; }
+            set
+            {
+                _selectedFilterMode = value;
+                RaisePropertyChanged(nameof(SelectedFilterMode));
+                SearchTextChanged();
             }
         }
 
@@ -272,10 +277,12 @@ namespace YTMusicDownloader.ViewModel
             Tracks.CollectionChanged += TracksOnCollectionChanged;
             DisplayedTracks = new ObservableImmutableList<PlaylistItemViewModel>();
             PageSelectorViewModel = new PageSelectorViewModel(this);
-            DownloadManager = new DownloadManager();
+            DownloadManager = new DownloadManager(Properties.Settings.Default.ParallelDownloads);
             WorkspaceSettingsViewModel = new WorkspaceSettingsViewModel(this);
-            SearchResult = new ObservableCollection<PlaylistItemViewModel>();
+            DisplayedTracksSource = new List<PlaylistItemViewModel>();
             Workspace.Settings.PropertyChanged += SettingsOnPropertyChanged;
+            FilterModes = new Dictionary<FilterMode, string>();
+            Properties.Settings.Default.PropertyChanged += ApplicationSettingsOnPropertyChanged;
 
             _watcher = new FileSystemWatcher
             {
@@ -287,6 +294,8 @@ namespace YTMusicDownloader.ViewModel
             _watcher.Created += WatcherOnCreated;
             _watcher.Deleted += WatcherOnDeleted;
             _watcher.Renamed += WatcherOnRenamed;
+
+             SetupFilter();
         }
         #endregion
 
@@ -313,6 +322,25 @@ namespace YTMusicDownloader.ViewModel
                 Initializing = false;
                 _watcher.EnableRaisingEvents = true;
             }).Start();
+        }
+
+        private void SetupFilter()
+        {
+            foreach (var mode in Enum.GetNames(typeof(FilterMode)))
+            {
+                var attributes = typeof(FilterMode).GetMember(mode)[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                FilterModes.Add((FilterMode)Enum.Parse(typeof(FilterMode), mode), ((DescriptionAttribute)attributes[0]).Description);
+            }
+
+            SelectedFilterMode = FilterMode.None;
+        }
+
+        private void ApplicationSettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(Properties.Settings.Default.ParallelDownloads))
+            {
+                DownloadManager.ParallelDownloads = Properties.Settings.Default.ParallelDownloads;
+            }
         }
 
         private void CleanupWorkspaceFolder()
@@ -354,6 +382,8 @@ namespace YTMusicDownloader.ViewModel
                 {
                     track.CheckForTrack();
                 }
+
+                SearchTextChanged();
             }
         }
 
@@ -365,43 +395,44 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="renamedEventArgs">The <see cref="RenamedEventArgs"/> instance containing the event data.</param>
         private void WatcherOnRenamed(object sender, RenamedEventArgs renamedEventArgs)
         {
-            var oldTitle = Path.GetFileNameWithoutExtension(renamedEventArgs.OldName);
             var newTitle = Path.GetFileNameWithoutExtension(renamedEventArgs.Name);
 
-            var oldExtension = Path.GetExtension(renamedEventArgs.OldName);
-            var newExtension = Path.GetExtension(renamedEventArgs.Name);
-
-            if (oldExtension != newExtension && oldTitle == newTitle)
+            foreach (var track in Tracks)
             {
-                foreach (var track in Tracks)
+                if (track.Title == newTitle)
                 {
-                    if (track.Title == newTitle)
+                    var previousState = track.DownloadState;
+
+                    if (Path.GetExtension(renamedEventArgs.Name)?.Replace(".", "") !=
+                        Workspace.Settings.DownloadFormat.ToString().ToLower())
                     {
-                        track.DownloadState = Path.GetExtension(renamedEventArgs.Name)?.Replace(".", "") != Workspace.Settings.DownloadFormat.ToString().ToLower()? DownloadState.NeedsConvertion: DownloadState.Downloaded;
-                        if (track.DownloadState == DownloadState.Downloaded)
-                            DownloadedTracks++;
+                        track.DownloadState = DownloadState.NeedsConvertion;
 
-                        return;
+                        if (previousState == DownloadState.Downloaded)
+                            DownloadedTracks--;
+
+                        if (SelectedFilterMode == FilterMode.NotDownloaded)
+                        {
+                            DisplayedTracksSource.Add(track);
+                            DisplayedTracksSource.Sort();
+                            OnPageNumberChanged();
+                        }
                     }
-                }
-            }
-            else
-            {
-                if (Path.GetExtension(renamedEventArgs.Name)?.Replace(".", "") != Workspace.Settings.DownloadFormat.ToString().ToLower())
-                    return;
-
-                foreach (var track in Tracks)
-                {
-                    if (track.Title == newTitle)
+                    else
                     {
                         track.DownloadState = DownloadState.Downloaded;
-                        DownloadedTracks++;
-                        return;
+
+                        if (previousState == DownloadState.NotDownloaded)
+                            DownloadedTracks++;
+
+                        if (SelectedFilterMode == FilterMode.Downloaded)
+                        {
+                            DisplayedTracksSource.Add(track);
+                            DisplayedTracksSource.Sort();
+                            OnPageNumberChanged();
+                        }
                     }
-
-                    if (track.Title != oldTitle) continue;
-
-                    track.Rename(newTitle);
+                    
                     return;
                 }
             }
@@ -426,6 +457,14 @@ namespace YTMusicDownloader.ViewModel
 
                 DownloadedTracks--;
                 track.DownloadState = DownloadState.NotDownloaded;
+
+                if (SelectedFilterMode == FilterMode.NotDownloaded)
+                {
+                    DisplayedTracksSource.Add(track);
+                    DisplayedTracksSource.Sort();
+                    OnPageNumberChanged();
+                }
+
                 return;
             }
         }
@@ -446,9 +485,22 @@ namespace YTMusicDownloader.ViewModel
                 if (track.Title != title) continue;
                 if(track.Downloading) return;
 
-                track.DownloadState = extension != Workspace.Settings.DownloadFormat.ToString().ToLower() ? DownloadState.NeedsConvertion : DownloadState.Downloaded;
-                if (track.DownloadState == DownloadState.Downloaded)
+                if (extension != Workspace.Settings.DownloadFormat.ToString().ToLower())
+                {
+                    track.DownloadState = DownloadState.NeedsConvertion;
+                }
+                else
+                {
+                    track.DownloadState = DownloadState.Downloaded;
                     DownloadedTracks++;
+                }
+
+                if (SelectedFilterMode == FilterMode.NotDownloaded)
+                {
+                    DisplayedTracksSource.Add(track);
+                    DisplayedTracksSource.Sort();
+                    OnPageNumberChanged();
+                }
 
                 return;
             }
@@ -461,8 +513,6 @@ namespace YTMusicDownloader.ViewModel
         /// <param name="notifyCollectionChangedEventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         private void TracksOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
-            PageSelectorViewModel.UpdatePageview(Tracks.Count);
-
             RaisePropertyChanged(nameof(TrackCount));
         }
 
@@ -471,7 +521,7 @@ namespace YTMusicDownloader.ViewModel
         /// </summary>
         private async void UpdatePlaylistUrl()
         {
-            if (Workspace.Settings.PlaylistUrl != PlaylistUrl)
+            if (_playlistUrlChanged)
             {
                 Workspace.SetPlaylistUrl(PlaylistUrl);
                 Tracks.Clear();
@@ -488,7 +538,7 @@ namespace YTMusicDownloader.ViewModel
             PlaylistFetchProgress = 0;
             FetchingPlaylist = true;
 
-            var retreiver = new PlaylistItemsRetriever();
+            var retreiver = new PlaylistItemsRetriever(Properties.Settings.Default.PlaylistReceiveMaximum);
             retreiver.PlaylistItemsRetrieverProgressChanged +=
             delegate(object sender, PlaylistItemRetreiverProgressChangedEventArgs args)
             {
@@ -501,11 +551,21 @@ namespace YTMusicDownloader.ViewModel
                 new Thread(() =>
                 {
                     Workspace.Settings.Items.Clear();
-                    Workspace.Settings.Items.AddRange(args.Result);
+
+                    foreach (var result in args.Result)
+                    {
+                        Workspace.Settings.Items.Add(result);
+                    }
 
                     UpdateTracks();
 
                     FetchingPlaylist = false;
+
+                    if (_playlistUrlChanged)
+                    {
+                        _playlistUrlChanged = false;
+                        CleanupWorkspaceFolder();
+                    }
                 }).Start();
             };
 
@@ -526,6 +586,7 @@ namespace YTMusicDownloader.ViewModel
         /// </summary>
         private void UpdateTracks()
         {
+            DisplayedTracksSource.Clear();
             // Get playlist items from the viewmodel collection
             var tracks = Tracks.Select(t => t.Item);
 
@@ -558,7 +619,9 @@ namespace YTMusicDownloader.ViewModel
             }
             Workspace.SaveWorkspaceConfig();
 
+            DisplayedTracksSource.AddRange(Tracks);
             OnPageNumberChanged();
+            PageSelectorViewModel.UpdatePageview();
         }
 
         /// <summary>
@@ -569,23 +632,27 @@ namespace YTMusicDownloader.ViewModel
             if (Tracks.Count == 0) return;
 
             DisplayedTracks.Clear();
+            var pageItems = new List<PlaylistItemViewModel>();
 
             var startingIndex = (PageSelectorViewModel.PageNumber - 1) * PageSelectorViewModel.ItemsPerPage;
-            int endingIndex;
-            if(SearchActive)
-                endingIndex = startingIndex + Math.Min(SearchResult.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
-            else
-                endingIndex = startingIndex + Math.Min(Tracks.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
+            var endingIndex = startingIndex + Math.Min(DisplayedTracksSource.Count - startingIndex, PageSelectorViewModel.ItemsPerPage);
 
             for (var i = startingIndex; i < endingIndex; i++)
             {
-                var current = SearchActive ? SearchResult[i] : Tracks[i];
+                var current = DisplayedTracksSource[i];
 
-                if (current.Thumbnail == null)
-                    current.UpdateThumbnail();
+                if (!DisplayedTracks.Contains(current))
+                {
+                    if (current.Thumbnail == null)
+                        current.UpdateThumbnail();
 
-                DisplayedTracks.Add(current);
+                    pageItems.Add(current);
+                }
             }
+
+            DisplayedTracks.RemoveAll(x => !pageItems.Contains(x));
+            DisplayedTracks.AddRange(pageItems);
+            DisplayedTracks.Sort();
         }
 
         /// <summary>
@@ -607,53 +674,83 @@ namespace YTMusicDownloader.ViewModel
                     var handler = track.DownloadSong(false);
                     if(handler == null) continue;
 
-                    handler.DownloadItemDownloadCompleted += HandlerOnDownloadItemDownloadCompleted;
-
                     DownloadManager.AddToQueue(handler);
                 }
             }
 
-            if (DownloadItemsRemaining == 0)
+            if (DownloadItemsRemaining <= 0)
                 DownloadingAllSongs = false;
         }
 
-        private void HandlerOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
+        internal void HandlerOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
         {
-            DownloadItemsRemaining--;
-            DownloadedTracks++;
+            var downloadManagerItem = (DownloadManagerItem) sender;
+            downloadManagerItem.DownloadItemDownloadCompleted -= HandlerOnDownloadItemDownloadCompleted;
 
-            if (DownloadItemsRemaining <= 0)
+            if (DownloadingAllSongs && --DownloadItemsRemaining <= 0)
             {
                 DownloadingAllSongs = false;
             }
 
-            ((DownloadManagerItem) sender).DownloadItemDownloadCompleted -= HandlerOnDownloadItemDownloadCompleted;
+            if (args.Cancelled)
+                return;
+
+            DownloadedTracks++;
+
+            SearchTextChanged();
         }
 
         private void SearchTextChanged()
         {
+            if(_searchTextChangeInProgress)
+                return;
+
+            _searchTextChangeInProgress = true;
+            var refreshPageView = false;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                SearchActive = false;
-                SearchResult.Clear();
-                OnPageNumberChanged();
-                PageSelectorViewModel.UpdatePageview(Tracks.Count);
                 SearchTextboxWatermark = "Search ...";
-                return;
+                if (DisplayedTracksSource.Count != Tracks.Count)
+                {
+                    DisplayedTracksSource.Clear();
+                    DisplayedTracksSource.AddRange(Tracks);
+                    refreshPageView = true;
+                }
             }
-
-            SearchActive = true;
-            SearchResult.Clear();
-            foreach (var track in Tracks)
+            else
             {
-                if(track.Item.Title.ToLower().Contains(SearchText.ToLower()))
-                    SearchResult.Add(track);
+                var results = Tracks.Where(x => x.Item.Title.ToLower().Contains(SearchText.ToLower())).ToList();
+                DisplayedTracksSource.Clear();
+                DisplayedTracksSource.AddRange(results);
+
+                SearchTextboxWatermark = $"{results.Count} results";
+
+                refreshPageView = true;
             }
 
-            SearchTextboxWatermark = $"{SearchResult.Count} results";
+            ApplyFilter();
 
-            OnPageNumberChanged();
-            PageSelectorViewModel.UpdatePageview(SearchResult.Count);
+            if(refreshPageView)
+                OnPageNumberChanged();
+
+            PageSelectorViewModel.UpdatePageview();
+            _searchTextChangeInProgress = false;
+        }
+
+        private void ApplyFilter()
+        {
+            switch (SelectedFilterMode)
+            {
+                case FilterMode.Downloaded:
+                {
+                    DisplayedTracksSource.RemoveAll(x => x.DownloadState != DownloadState.Downloaded);
+                } break;
+
+                case FilterMode.NotDownloaded:
+                {
+                    DisplayedTracksSource.RemoveAll(x => x.DownloadState == DownloadState.Downloaded);
+                } break;
+            }
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
-using YTMusicDownloader.Model.Workspaces;
+using YTMusicDownloaderLib.Workspaces;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
 

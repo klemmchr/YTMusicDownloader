@@ -4,8 +4,8 @@ using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using iTunesLib;
-using YTMusicDownloader.Model.DownloadManager;
-using YTMusicDownloader.Model.ITunes;
+using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.ITunes;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 
@@ -15,14 +15,15 @@ namespace YTMusicDownloader.ViewModel
     {
         #region Fields
         private readonly WorkspaceViewModel _workspaceViewModel;
-        private readonly List<IITPlaylist> _playlists;
 
         private int _selectedPlaylistIndex;
+        private readonly List<IITPlaylist> _playlists;
         #endregion
 
         #region Properties
         public ObservableImmutableList<string> Playlists { get; }
         public Dictionary<DownloadFormat, string> DownloadFormatOptions { get; }
+        public IITPlaylist SelectedPlaylist { get; private set; }
 
         // ReSharper disable once InconsistentNaming
         public bool ITunesSyncEnabled
@@ -36,13 +37,14 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        public int SelectedPlaylistIndex {
+        public int SelectedPlaylistIndex
+        {
             get { return _selectedPlaylistIndex; }
             set
             {
                 _selectedPlaylistIndex = value;
-                PlaylistSelectionChanged();
                 RaisePropertyChanged(nameof(SelectedPlaylistIndex));
+                new Thread(() => PlaylistSelectionChanged(value)).Start();
             }
         }
 
@@ -109,21 +111,49 @@ namespace YTMusicDownloader.ViewModel
         {
             new Thread(() =>
             {
-                ResetITunesPlaylists();
+                Playlists.Clear();
+                Playlists.Add("Disabled");
+                _playlists.Clear();
+                _playlists.Add(null);
 
-                _playlists.AddRange(ITunesSync.GetAllPlaylists());
-                
-                foreach (var playlist in _playlists)
+                var i = 1;
+                foreach (var playlist in ITunesSync.GetAllPlaylists())
                 {
-                    if (playlist != null)
-                        Playlists.Add(playlist.Name);
+                    Playlists.Add(playlist.Name);
+                    _playlists.Add(playlist);
+
+                    if (playlist.Name == _workspaceViewModel.Workspace.Settings.ITunesSyncPlaylist)
+                        SelectedPlaylistIndex = i;
+
+                    i++;
                 }
+
+                if (SelectedPlaylistIndex == -1)
+                    SelectedPlaylistIndex = 0;
             }).Start();
         }
 
-        private void PlaylistSelectionChanged()
+        private void PlaylistSelectionChanged(int index)
         {
-            
+            IITPlaylist newPlaylist = null;
+            if (index > 0 && index < _playlists.Count)
+            {
+                newPlaylist = _playlists[index];
+                _workspaceViewModel.Workspace.Settings.ITunesSyncPlaylist = newPlaylist.Name;
+                ITunesSync.RemoveOldTracks(newPlaylist);
+            }
+
+            foreach (var track in _workspaceViewModel.Tracks)
+            {
+                if(SelectedPlaylist != null)
+                    ITunesSync.RemoveTrack(SelectedPlaylist, track.Item);
+
+                if(newPlaylist !=  null)
+                    ITunesSync.AddTrack(newPlaylist, track.Item, track.GetFilePath());
+            }
+
+            if (newPlaylist != null)
+                SelectedPlaylist = newPlaylist;
         }
         #endregion
     }

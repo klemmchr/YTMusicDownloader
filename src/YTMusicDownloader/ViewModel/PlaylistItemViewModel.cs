@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Windows.Documents;
+using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using YTMusicDownloader.Model.DownloadManager;
-using YTMusicDownloader.Model.RetrieverEngine;
+using NLog;
+using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.RetrieverEngine;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class PlaylistItemViewModel : ViewModelBase
+    public class PlaylistItemViewModel : ViewModelBase, IComparable<PlaylistItemViewModel>
     {
         #region Fields
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly WorkspaceViewModel _workspaceViewModel;
         private DownloadManagerItem _downloadItem;
 
@@ -48,11 +49,20 @@ namespace YTMusicDownloader.ViewModel
             {
                 if (!Downloading && Title != value)
                 {
+                    if (DownloadState == DownloadState.NotDownloaded)
+                    {
+                        Item.Title = value;
+                        RaisePropertyChanged(nameof(Title));
+                        return;
+                    }
+
                     try
                     {
-                        File.Move(GetFilePath(),
+                        var path = DownloadState == DownloadState.NeedsConvertion ? _uncovertedPath : GetFilePath();
+
+                        File.Move(path,
                             Path.Combine(_workspaceViewModel.Workspace.Path,
-                                value + _workspaceViewModel.Workspace.Settings.DownloadFormat.ToString().ToLower()));
+                                value + "." + _workspaceViewModel.Workspace.Settings.DownloadFormat.ToString().ToLower()));
                         Item.Title = value;
                     }
                     catch (Exception)
@@ -185,16 +195,8 @@ namespace YTMusicDownloader.ViewModel
 
                         if (File.Exists(path))
                         {
-                            if (_workspaceViewModel.Workspace.Settings.DownloadFormat == DownloadFormat.M4A)
-                            {
-                                DownloadState = DownloadState.NotDownloaded;
-                                File.Delete(path);
-                            }
-                            else
-                            {
-                                _uncovertedPath = path;
-                                DownloadState = DownloadState.NeedsConvertion;
-                            }
+                            _uncovertedPath = path;
+                            DownloadState = DownloadState.NeedsConvertion;
                             
                             return;
                         }
@@ -213,14 +215,40 @@ namespace YTMusicDownloader.ViewModel
             }
         }
 
-        private string GetFilePath()
+        public string GetFilePath()
         {
             return Path.Combine(_workspaceViewModel.Workspace.Path, $"{Item.Title}.{_workspaceViewModel.Workspace.Settings.DownloadFormat.ToString().ToLower()}");
         }
 
         public async void UpdateThumbnail()
         {
-           Thumbnail = await Item.DownloadThumbnail();
+            Thumbnail = await Task.Run(() =>
+            {
+                var image = new BitmapImage();
+
+                try
+                {
+                    using (var client = new WebClient())
+                    {
+                        var result = client.DownloadData(Item.ThumbnailUrl);
+
+                        using (var ms = new MemoryStream(result))
+                        {
+                            image.BeginInit();
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = ms;
+                            image.EndInit();
+                            image.Freeze();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Error downloading thumbnail for video {0}", Item.VideoId);
+                }
+
+                return image;
+            });
         }
 
         internal DownloadManagerItem DownloadSong(bool overwrite = true)
@@ -239,7 +267,7 @@ namespace YTMusicDownloader.ViewModel
             return _downloadItem;
         }
 
-        private void DownloadItemOnDownloadItemDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
+        private void DownloadItemOnDownloadItemDownloadProgressChanged(object sender, YTMusicDownloaderLib.DownloadManager.DownloadProgressChangedEventArgs args)
         {
             DownloadPending = false;
             DownloadProgress = args.ProgressPercentage;
@@ -257,6 +285,8 @@ namespace YTMusicDownloader.ViewModel
             managerItem.DownloadItemDownloadCompleted -= DownloadItemOnDownloadItemDownloadCompleted;
             managerItem.Dispose();
             _downloadItem = null;
+
+            _workspaceViewModel.HandlerOnDownloadItemDownloadCompleted(sender, args);
         }
 
         public void Rename(string newTitle)
@@ -278,6 +308,23 @@ namespace YTMusicDownloader.ViewModel
             base.Cleanup();
 
             Thumbnail.StreamSource.Dispose();
+        }
+
+        public override int GetHashCode()
+        {
+            return Item.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var vm = obj as PlaylistItemViewModel;
+
+            return vm != null && vm.Item == Item;
+        }
+
+        public int CompareTo(PlaylistItemViewModel other)
+        {
+            return other == null ? 1 : Index.CompareTo(other.Index);
         }
     }
 }

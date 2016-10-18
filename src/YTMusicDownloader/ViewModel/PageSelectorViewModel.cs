@@ -29,9 +29,7 @@ namespace YTMusicDownloader.ViewModel
                 {
                     _workspaceViewModel.OnPageNumberChanged();
 
-                    UpdatePageview(_workspaceViewModel.SearchActive
-                        ? _workspaceViewModel.SearchResult.Count
-                        : _workspaceViewModel.Tracks.Count);
+                    UpdatePageview();
                 }
             }
         }
@@ -92,9 +90,9 @@ namespace YTMusicDownloader.ViewModel
         #endregion
 
         #region Methods
-        public void UpdatePageview(int trackCount)
+        public void UpdatePageview()
         {
-            PageNumberMax = Math.Max(1, (int)Math.Ceiling((trackCount * 1.0) / (ItemsPerPage * 1.0)));
+            PageNumberMax = Math.Max(1, (int)Math.Ceiling((_workspaceViewModel.DisplayedTracksSource.Count * 1.0) / (ItemsPerPage * 1.0)));
             PageNumber = Math.Min(PageNumberMax, PageNumber);
         }
         #endregion

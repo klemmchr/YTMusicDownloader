@@ -88,6 +88,10 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -128,6 +132,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.0-ALPHA009\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -155,25 +160,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\DownloadManager\ConvertionItem.cs" />
-    <Compile Include="Model\DownloadManager\DownloadCompletedEventArgs.cs" />
-    <Compile Include="Model\DownloadManager\DownloadFormat.cs" />
-    <Compile Include="Model\DownloadManager\DownloadItem.cs" />
-    <Compile Include="Model\DownloadManager\DownloadManager.cs" />
-    <Compile Include="Model\DownloadManager\DownloadManagerItem.cs" />
-    <Compile Include="Model\DownloadManager\DownloadProgressChangedEventArgs.cs" />
-    <Compile Include="Model\DownloadManager\DownloadState.cs" />
-    <Compile Include="Model\DownloadManager\IDownloadManagerItem.cs" />
-    <Compile Include="Model\DownloadManager\MusicFormatConverter.cs" />
-    <Compile Include="Model\ITunes\ITunesSync.cs" />
-    <Compile Include="Model\RetrieverEngine\PlaylistItemRetreiverCompletedEventArgs.cs" />
-    <Compile Include="Model\RetrieverEngine\PlaylistItemRetreiverProgressChangedEventArgs.cs" />
-    <Compile Include="Model\RetrieverEngine\PlaylistItemsRetriever.cs" />
-    <Compile Include="Model\Workspaces\DeleteMode.cs" />
-    <Compile Include="Model\RetrieverEngine\PlaylistItem.cs" />
-    <Compile Include="Model\Workspaces\Workspace.cs" />
-    <Compile Include="Model\Workspaces\WorkspaceManagement.cs" />
-    <Compile Include="Model\Workspaces\WorkspaceSettings.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -185,6 +171,7 @@
     <Compile Include="ViewModel\Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\Converters\PageDisplayConverter.cs" />
     <Compile Include="ViewModel\Helpers\ObservableCollectionObject.cs" />
+    <Compile Include="ViewModel\Helpers\ObservableImmutableDictionary.cs" />
     <Compile Include="ViewModel\Helpers\ObservableImmutableList.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Messages\ShowMessageDialogMessage.cs" />
@@ -224,9 +211,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="tools\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -248,17 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="iTunesLib">
-      <Guid>{9E93C96F-CF0D-43F6-8BA8-B807A3370712}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>13</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\logo_white.png" />
@@ -283,16 +256,30 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\Helpers\" />
+    <ProjectReference Include="..\YTMusicDownloaderLib\YTMusicDownloaderLib.csproj">
+      <Project>{4407ef4f-9146-4ffa-b558-1f22d27fe404}</Project>
+      <Name>YTMusicDownloaderLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="iTunesLib">
+      <Guid>{9E93C96F-CF0D-43F6-8BA8-B807A3370712}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>13</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>MD $(TargetDir)bin\
 MOVE /Y $(TargetDir)*.dll $(TargetDir)bin\
+DEL /Q $(TargetDir)*.xml
 
 if $(ConfigurationName) == Release (
     DEL /Q $(TargetDir)*.pdb
-    DEL /Q $(TargetDir)*.xml
 )</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets')" />
