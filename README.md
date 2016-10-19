@@ -26,6 +26,13 @@ Unlike other YouTube converters you can even download complete playlists and syn
 #### Requirements
 - Windows 7 or later (other versions are not directly supported)
 - .NET Framework 4.5 or later
+- **NOTE: This is an early version (even pre-alpha) so bugs and errors can occur and included features are not final!**
+
+
+#### License
+This project itself is licensed under the [Apache-2.0](https://opensource.org/licenses/Apache-2.0) license. This is also stated in the header of every file.
+The used libraries aren't all licensed under Apache-2.0. You can find information about their licenses down below. With the use of the programm you accept all of them automaticially.
+With your contribution you accept that your work is licensed automaticially under the Apache-2.0 too. However you still have your own copyright.
 
 
 #### Used libraries
