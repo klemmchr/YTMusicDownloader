@@ -10,11 +10,12 @@ using System.Windows.Data;
 
 namespace YTMusicDownloader.ViewModel.Helpers
 {
-    public class ObservableImmutableList<T> : ObservableCollectionObject, IList, ICollection, IEnumerable, IList<T>, IImmutableList<T>, ICollection<T>, IEnumerable<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
+    public class ObservableImmutableList<T> : ObservableCollectionObject, IList, ICollection, IEnumerable, IList<T>,
+        IImmutableList<T>, ICollection<T>, IEnumerable<T>, IReadOnlyList<T>, IReadOnlyCollection<T>,
+        INotifyCollectionChanged, INotifyPropertyChanged
     {
         #region Private
 
-        private readonly object _syncRoot;
         private ImmutableList<T> _items;
 
         #endregion Private
@@ -35,10 +36,9 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public ObservableImmutableList(IEnumerable<T> items, LockTypeEnum lockType) : base(lockType)
         {
-            _syncRoot = new object();
+            SyncRoot = new object();
             _items = ImmutableList<T>.Empty.AddRange(items);
-            BindingOperations.EnableCollectionSynchronization(this, _syncRoot);
-
+            BindingOperations.EnableCollectionSynchronization(this, SyncRoot);
         }
 
         #endregion Constructors
@@ -62,7 +62,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         #region Helpers
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryOperation(Func<ImmutableList<T>, ImmutableList<T>> operation, NotifyCollectionChangedEventArgs args)
+        private bool TryOperation(Func<ImmutableList<T>, ImmutableList<T>> operation,
+            NotifyCollectionChangedEventArgs args)
         {
             try
             {
@@ -72,10 +73,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                     var newItems = operation(oldList);
 
                     if (newItems == null)
-                    {
-                        // user returned null which means he cancelled operation
                         return false;
-                    }
 
                     _items = newItems;
 
@@ -93,7 +91,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryOperation(Func<ImmutableList<T>, KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>> operation)
+        private bool TryOperation(
+            Func<ImmutableList<T>, KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>> operation)
         {
             try
             {
@@ -105,10 +104,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                     var args = kvp.Value;
 
                     if (newItems == null)
-                    {
-                        // user returned null which means he cancelled operation
                         return false;
-                    }
 
                     _items = newItems;
 
@@ -126,7 +122,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool DoOperation(Func<ImmutableList<T>, ImmutableList<T>> operation, NotifyCollectionChangedEventArgs args)
+        private bool DoOperation(Func<ImmutableList<T>, ImmutableList<T>> operation,
+            NotifyCollectionChangedEventArgs args)
         {
             bool result;
 
@@ -137,10 +134,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                 var newItems = operation(_items);
 
                 if (newItems == null)
-                {
-                    // user returned null which means he cancelled operation
                     return false;
-                }
 
                 result = (_items = newItems) != oldItems;
 
@@ -156,7 +150,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool DoOperation(Func<ImmutableList<T>, KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>> operation)
+        private bool DoOperation(
+            Func<ImmutableList<T>, KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>> operation)
         {
             bool result;
 
@@ -169,10 +164,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                 var args = kvp.Value;
 
                 if (newItems == null)
-                {
-                    // user returned null which means he cancelled operation
                     return false;
-                }
 
                 result = (_items = newItems) != oldItems;
 
@@ -196,149 +188,161 @@ namespace YTMusicDownloader.ViewModel.Helpers
         public bool DoInsert(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newItems = currentItems.Insert(kvp.Key, kvp.Value);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newItems = currentItems.Insert(kvp.Key, kvp.Value);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
+                }
+            );
         }
 
         public bool DoAdd(Func<ImmutableList<T>, T> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        T value;
-                        var newItems = _items.Add(value = valueProvider(currentItems));
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, currentItems.Count));
-                    }
-                );
+                {
+                    T value;
+                    var newItems = _items.Add(value = valueProvider(currentItems));
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value,
+                            currentItems.Count));
+                }
+            );
         }
 
         public bool DoAddRange(Func<ImmutableList<T>, IEnumerable<T>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    currentItems.AddRange(valueProvider(currentItems))
-                );
+                        currentItems.AddRange(valueProvider(currentItems))
+            );
         }
 
         public bool DoRemove(Func<ImmutableList<T>, T> valueProvider)
         {
             return DoRemoveAt
-                (
+            (
                 currentItems =>
-                    currentItems.IndexOf(valueProvider(currentItems))
-                );
+                        currentItems.IndexOf(valueProvider(currentItems))
+            );
         }
 
         public bool DoRemoveAt(Func<ImmutableList<T>, int> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var index = valueProvider(currentItems);
-                        var value = currentItems[index];
-                        var newItems = currentItems.RemoveAt(index);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
-                    }
-                );
+                {
+                    var index = valueProvider(currentItems);
+                    var value = currentItems[index];
+                    var newItems = currentItems.RemoveAt(index);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+                }
+            );
         }
 
         public bool DoSetItem(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newValue = kvp.Value;
-                        var index = kvp.Key;
-                        var oldValue = currentItems[index];
-                        var newItems = currentItems.SetItem(kvp.Key, newValue);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue, index));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newValue = kvp.Value;
+                    var index = kvp.Key;
+                    var oldValue = currentItems[index];
+                    var newItems = currentItems.SetItem(kvp.Key, newValue);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue,
+                            index));
+                }
+            );
         }
 
         public bool TryInsert(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newItems = currentItems.Insert(kvp.Key, kvp.Value);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newItems = currentItems.Insert(kvp.Key, kvp.Value);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
+                }
+            );
         }
 
         public bool TryAdd(Func<ImmutableList<T>, T> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        T value;
-                        var newItems = _items.Add(value = valueProvider(currentItems));
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, currentItems.Count));
-                    }
-                );
+                {
+                    T value;
+                    var newItems = _items.Add(value = valueProvider(currentItems));
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value,
+                            currentItems.Count));
+                }
+            );
         }
 
         public bool TryAddRange(Func<ImmutableList<T>, IEnumerable<T>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    currentItems.AddRange(valueProvider(currentItems))
-                );
+                        currentItems.AddRange(valueProvider(currentItems))
+            );
         }
 
         public bool TryRemove(Func<ImmutableList<T>, T> valueProvider)
         {
             return TryRemoveAt
-                (
+            (
                 currentItems =>
-                    currentItems.IndexOf(valueProvider(currentItems))
-                );
+                        currentItems.IndexOf(valueProvider(currentItems))
+            );
         }
 
         public bool TryRemoveAt(Func<ImmutableList<T>, int> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var index = valueProvider(currentItems);
-                        var value = currentItems[index];
-                        var newItems = currentItems.RemoveAt(index);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
-                    }
-                );
+                {
+                    var index = valueProvider(currentItems);
+                    var value = currentItems[index];
+                    var newItems = currentItems.RemoveAt(index);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+                }
+            );
         }
 
         public bool TrySetItem(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newValue = kvp.Value;
-                        var index = kvp.Key;
-                        var oldValue = currentItems[index];
-                        var newItems = currentItems.SetItem(kvp.Key, newValue);
-                        return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue, index));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newValue = kvp.Value;
+                    var index = kvp.Key;
+                    var oldValue = currentItems[index];
+                    var newItems = currentItems.SetItem(kvp.Key, newValue);
+                    return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue,
+                            index));
+                }
+            );
         }
 
         #endregion Specific
@@ -370,37 +374,34 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public int Add(object value)
         {
-            var val = (T)value;
+            var val = (T) value;
             Add(val);
             return IndexOf(val);
         }
 
         public bool Contains(object value)
         {
-            return Contains((T)value);
+            return Contains((T) value);
         }
 
         public int IndexOf(object value)
         {
-            return IndexOf((T)value);
+            return IndexOf((T) value);
         }
 
         public void Insert(int index, object value)
         {
-            Insert(index, (T)value);
+            Insert(index, (T) value);
         }
 
         public bool IsFixedSize
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         public void Remove(object value)
         {
-            Remove((T)value);
+            Remove((T) value);
         }
 
         void IList.RemoveAt(int index)
@@ -410,14 +411,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                SetItem(index, (T)value);
-            }
+            get { return this[index]; }
+            set { SetItem(index, (T) value); }
         }
 
         public void CopyTo(Array array, int index)
@@ -427,19 +422,10 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public bool IsSynchronized
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
-        public object SyncRoot
-        {
-            get
-            {
-                return _syncRoot;
-            }
-        }
+        public object SyncRoot { get; }
 
         #endregion IList
 
@@ -462,14 +448,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public T this[int index]
         {
-            get
-            {
-                return _items[index];
-            }
-            set
-            {
-                SetItem(index, value);
-            }
+            get { return _items[index]; }
+            set { SetItem(index, value); }
         }
 
         void ICollection<T>.Add(T item)
@@ -499,18 +479,12 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public int Count
         {
-            get
-            {
-                return _items.Count;
-            }
+            get { return _items.Count; }
         }
 
         public bool IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         public bool Remove(T item)
@@ -531,7 +505,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         {
             var index = _items.Count;
             _items = _items.Add(value);
-            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, index));
+            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value,
+                index));
             return this;
         }
 
@@ -557,7 +532,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         public IImmutableList<T> Insert(int index, T element)
         {
             _items = _items.Insert(index, element);
-            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, element, index));
+            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, element,
+                index));
             return this;
         }
 
@@ -591,7 +567,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         {
             var value = _items[index];
             _items = _items.RemoveAt(index);
-            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
+                value, index));
             return this;
         }
 
@@ -621,7 +598,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         {
             var oldItem = _items[index];
             _items = _items.SetItem(index, value);
-            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldItem, value, index));
+            RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace,
+                oldItem, value, index));
             return this;
         }
 

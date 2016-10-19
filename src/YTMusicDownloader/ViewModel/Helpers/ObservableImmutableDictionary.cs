@@ -8,11 +8,13 @@ using System.Runtime.CompilerServices;
 
 namespace YTMusicDownloader.ViewModel.Helpers
 {
-    public class ObservableImmutableDictionary<T, V> : ObservableCollectionObject, IImmutableDictionary<T, V>, IReadOnlyDictionary<T, V>, IReadOnlyCollection<KeyValuePair<T, V>>, IDictionary<T, V>, ICollection<KeyValuePair<T, V>>, IEnumerable<KeyValuePair<T, V>>, IDictionary, INotifyCollectionChanged, INotifyPropertyChanged
+    public class ObservableImmutableDictionary<T, V> : ObservableCollectionObject, IImmutableDictionary<T, V>,
+        IReadOnlyDictionary<T, V>, IReadOnlyCollection<KeyValuePair<T, V>>, IDictionary<T, V>,
+        ICollection<KeyValuePair<T, V>>, IEnumerable<KeyValuePair<T, V>>, IDictionary, INotifyCollectionChanged,
+        INotifyPropertyChanged
     {
         #region Private
 
-        private readonly object _syncRoot;
         private ImmutableDictionary<T, V> _items;
 
         #endregion Private
@@ -31,9 +33,10 @@ namespace YTMusicDownloader.ViewModel.Helpers
         {
         }
 
-        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, LockTypeEnum lockType) : base(lockType)
+        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, LockTypeEnum lockType)
+            : base(lockType)
         {
-            _syncRoot = new object();
+            SyncRoot = new object();
             _items = ImmutableDictionary<T, V>.Empty.AddRange(items);
         }
 
@@ -58,7 +61,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         #region Helpers
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryOperation(Func<ImmutableDictionary<T, V>, ImmutableDictionary<T, V>> operation, NotifyCollectionChangedEventArgs args)
+        private bool TryOperation(Func<ImmutableDictionary<T, V>, ImmutableDictionary<T, V>> operation,
+            NotifyCollectionChangedEventArgs args)
         {
             try
             {
@@ -68,10 +72,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                     var newItems = operation(oldList);
 
                     if (newItems == null)
-                    {
-                        // user returned null which means he cancelled operation
                         return false;
-                    }
 
                     _items = newItems;
 
@@ -89,7 +90,9 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryOperation(Func<ImmutableDictionary<T, V>, KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>> operation)
+        private bool TryOperation(
+            Func<ImmutableDictionary<T, V>, KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>>
+                operation)
         {
             try
             {
@@ -101,10 +104,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                     var args = kvp.Value;
 
                     if (newItems == null)
-                    {
-                        // user returned null which means he cancelled operation
                         return false;
-                    }
 
                     _items = newItems;
 
@@ -122,7 +122,8 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool DoOperation(Func<ImmutableDictionary<T, V>, ImmutableDictionary<T, V>> operation, NotifyCollectionChangedEventArgs args)
+        private bool DoOperation(Func<ImmutableDictionary<T, V>, ImmutableDictionary<T, V>> operation,
+            NotifyCollectionChangedEventArgs args)
         {
             bool result;
 
@@ -133,10 +134,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                 var newItems = operation(_items);
 
                 if (newItems == null)
-                {
-                    // user returned null which means he cancelled operation
                     return false;
-                }
 
                 result = (_items = newItems) != oldItems;
 
@@ -152,7 +150,9 @@ namespace YTMusicDownloader.ViewModel.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool DoOperation(Func<ImmutableDictionary<T, V>, KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>> operation)
+        private bool DoOperation(
+            Func<ImmutableDictionary<T, V>, KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>>
+                operation)
         {
             bool result;
 
@@ -165,10 +165,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
                 var args = kvp.Value;
 
                 if (newItems == null)
-                {
-                    // user returned null which means he cancelled operation
                     return false;
-                }
 
                 result = (_items = newItems) != oldItems;
 
@@ -192,155 +189,161 @@ namespace YTMusicDownloader.ViewModel.Helpers
         public bool DoAdd(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newItems = _items.Add(kvp.Key, kvp.Value);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newItems = _items.Add(kvp.Key, kvp.Value);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp));
+                }
+            );
         }
 
         public bool DoAddRange(Func<ImmutableDictionary<T, V>, IEnumerable<KeyValuePair<T, V>>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    currentItems.AddRange(valueProvider(currentItems))
-                );
+                        currentItems.AddRange(valueProvider(currentItems))
+            );
         }
 
         public bool DoClear()
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    currentItems.Clear()
-                );
+                        currentItems.Clear()
+            );
         }
 
         public bool DoRemove(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var newKVP = valueProvider(currentItems);
-                        var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
-                        var newItems = currentItems.Remove(newKVP.Key);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldKVP));
-                    }
-                );
+                {
+                    var newKVP = valueProvider(currentItems);
+                    var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
+                    var newItems = currentItems.Remove(newKVP.Key);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldKVP));
+                }
+            );
         }
 
         public bool DoRemoveRange(Func<ImmutableDictionary<T, V>, IEnumerable<T>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    currentItems.RemoveRange(valueProvider(currentItems))
-                );
+                        currentItems.RemoveRange(valueProvider(currentItems))
+            );
         }
 
         public bool DoSetItem(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var newKVP = valueProvider(currentItems);
-                        var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
-                        var newItems = currentItems.SetItem(newKVP.Key, newKVP.Value);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldKVP, newKVP));
-                    }
-                );
+                {
+                    var newKVP = valueProvider(currentItems);
+                    var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
+                    var newItems = currentItems.SetItem(newKVP.Key, newKVP.Value);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldKVP, newKVP));
+                }
+            );
         }
 
         public bool DoSetItems(Func<ImmutableDictionary<T, V>, IEnumerable<KeyValuePair<T, V>>> valueProvider)
         {
             return DoOperation
-                (
+            (
                 currentItems =>
-                    currentItems.SetItems(valueProvider(currentItems))
-                );
+                        currentItems.SetItems(valueProvider(currentItems))
+            );
         }
 
         public bool TryAdd(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var kvp = valueProvider(currentItems);
-                        var newItems = _items.Add(kvp.Key, kvp.Value);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp));
-                    }
-                );
+                {
+                    var kvp = valueProvider(currentItems);
+                    var newItems = _items.Add(kvp.Key, kvp.Value);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp));
+                }
+            );
         }
 
         public bool TryAddRange(Func<ImmutableDictionary<T, V>, IEnumerable<KeyValuePair<T, V>>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    currentItems.AddRange(valueProvider(currentItems))
-                );
+                        currentItems.AddRange(valueProvider(currentItems))
+            );
         }
 
         public bool TryClear()
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    currentItems.Clear()
-                );
+                        currentItems.Clear()
+            );
         }
 
         public bool TryRemove(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var newKVP = valueProvider(currentItems);
-                        var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
-                        var newItems = currentItems.Remove(newKVP.Key);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldKVP));
-                    }
-                );
+                {
+                    var newKVP = valueProvider(currentItems);
+                    var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
+                    var newItems = currentItems.Remove(newKVP.Key);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldKVP));
+                }
+            );
         }
 
         public bool TryRemoveRange(Func<ImmutableDictionary<T, V>, IEnumerable<T>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    currentItems.RemoveRange(valueProvider(currentItems))
-                );
+                        currentItems.RemoveRange(valueProvider(currentItems))
+            );
         }
 
         public bool TrySetItem(Func<ImmutableDictionary<T, V>, KeyValuePair<T, V>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    {
-                        var newKVP = valueProvider(currentItems);
-                        var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
-                        var newItems = currentItems.SetItem(newKVP.Key, newKVP.Value);
-                        return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldKVP, newKVP));
-                    }
-                );
+                {
+                    var newKVP = valueProvider(currentItems);
+                    var oldKVP = new KeyValuePair<T, V>(newKVP.Key, currentItems[newKVP.Key]);
+                    var newItems = currentItems.SetItem(newKVP.Key, newKVP.Value);
+                    return new KeyValuePair<ImmutableDictionary<T, V>, NotifyCollectionChangedEventArgs>(newItems,
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldKVP, newKVP));
+                }
+            );
         }
 
         public bool TrySetItems(Func<ImmutableDictionary<T, V>, IEnumerable<KeyValuePair<T, V>>> valueProvider)
         {
             return TryOperation
-                (
+            (
                 currentItems =>
-                    currentItems.SetItems(valueProvider(currentItems))
-                );
+                        currentItems.SetItems(valueProvider(currentItems))
+            );
         }
 
         #endregion Specific
@@ -436,10 +439,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public IEnumerable<T> Keys
         {
-            get
-            {
-                return _items.Keys;
-            }
+            get { return _items.Keys; }
         }
 
         public bool TryGetValue(T key, out V value)
@@ -449,18 +449,12 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public IEnumerable<V> Values
         {
-            get
-            {
-                return _items.Values;
-            }
+            get { return _items.Values; }
         }
 
         public int Count
         {
-            get
-            {
-                return _items.Count;
-            }
+            get { return _items.Count; }
         }
 
         #endregion IImmutableDictionary<T, V>
@@ -474,10 +468,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         ICollection<T> IDictionary<T, V>.Keys
         {
-            get
-            {
-                return (_items as IDictionary<T, V>).Keys;
-            }
+            get { return (_items as IDictionary<T, V>).Keys; }
         }
 
         bool IDictionary<T, V>.Remove(T key)
@@ -494,18 +485,12 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         ICollection<V> IDictionary<T, V>.Values
         {
-            get
-            {
-                return (_items as IDictionary<T, V>).Values;
-            }
+            get { return (_items as IDictionary<T, V>).Values; }
         }
 
         public V this[T key]
         {
-            get
-            {
-                return _items[key];
-            }
+            get { return _items[key]; }
             set
             {
                 _items.SetItem(key, value);
@@ -531,10 +516,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public bool IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         public bool Remove(KeyValuePair<T, V> item)
@@ -550,7 +532,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public void Add(object key, object value)
         {
-            Add((T)key, (V)value);
+            Add((T) key, (V) value);
         }
 
         void IDictionary.Clear()
@@ -570,18 +552,12 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public bool IsFixedSize
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         ICollection IDictionary.Keys
         {
-            get
-            {
-                return (_items as IDictionary).Keys;
-            }
+            get { return (_items as IDictionary).Keys; }
         }
 
         public void Remove(object key)
@@ -592,22 +568,13 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         ICollection IDictionary.Values
         {
-            get
-            {
-                return (_items as IDictionary).Values;
-            }
+            get { return (_items as IDictionary).Values; }
         }
 
         public object this[object key]
         {
-            get
-            {
-                return this[(T)key];
-            }
-            set
-            {
-                this[(T)key] = (V)value;
-            }
+            get { return this[(T) key]; }
+            set { this[(T) key] = (V) value; }
         }
 
         public void CopyTo(Array array, int index)
@@ -617,19 +584,10 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         public bool IsSynchronized
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
-        public object SyncRoot
-        {
-            get
-            {
-                return _syncRoot;
-            }
-        }
+        public object SyncRoot { get; }
 
         #endregion IDictionary
 

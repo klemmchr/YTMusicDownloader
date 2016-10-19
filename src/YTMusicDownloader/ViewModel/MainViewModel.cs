@@ -1,3 +1,19 @@
+/*
+    Copyright 2016 Christian Klemm
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
@@ -8,23 +24,48 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
-using YTMusicDownloaderLib.Workspaces;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
+using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        public MainViewModel(IDialogCoordinator dialogCoordinator)
+        {
+            _dialogCoordinator = dialogCoordinator;
+
+            Workspaces = new ObservableCollection<WorkspaceViewModel>();
+
+            if (IsInDesignMode)
+            {
+                IsWorkspaceSelected = true;
+                return;
+            }
+
+            LoadWorkspaces();
+
+            Messenger.Default.Register<ShowMessageDialogMessage>(this,
+                message => { _dialogCoordinator.ShowMessageAsync(this, message.Title, message.Content, message.Style); });
+
+            FirstStartup();
+
+            Logger.Trace("Initialized Main View Model");
+        }
+
         #region Fields
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IDialogCoordinator _dialogCoordinator;
 
         private WorkspaceViewModel _selectedWorkspace;
         private int _selectedTabIndex;
+
         #endregion
 
         #region Properties
+
         public WorkspaceViewModel SelectedWorkspace
         {
             get { return _selectedWorkspace; }
@@ -39,6 +80,7 @@ namespace YTMusicDownloader.ViewModel
                 RaisePropertyChanged(nameof(IsWorkspaceSelected));
             }
         }
+
         public string SelectedWorkspaceName => _selectedWorkspace?.Workspace.ToString();
         public bool SelectedWorkspaceVisible => _selectedWorkspace != null;
 
@@ -50,7 +92,7 @@ namespace YTMusicDownloader.ViewModel
                 _selectedTabIndex = value;
                 RaisePropertyChanged(nameof(SelectedTabIndex));
 
-                if(value == 2)
+                if (value == 2)
                     SelectedWorkspace?.WorkspaceSettingsViewModel.SettingsPageSelected();
             }
         }
@@ -61,44 +103,24 @@ namespace YTMusicDownloader.ViewModel
         public ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 
         public RelayCommand AddWorkspaceCommand => new RelayCommand(AddWorkspace);
-        public RelayCommand SelectWorkspaceCommand => new RelayCommand(SelectWorkspace, () => SelectedWorkspaceIndex != -1);
-        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(RemoveWorkspace, () => SelectedWorkspaceIndex != -1);
+
+        public RelayCommand SelectWorkspaceCommand
+            => new RelayCommand(SelectWorkspace, () => SelectedWorkspaceIndex != -1);
+
+        public RelayCommand RemoveWorkspaceCommand
+            => new RelayCommand(RemoveWorkspace, () => SelectedWorkspaceIndex != -1);
+
         #endregion
 
-        public MainViewModel(IDialogCoordinator dialogCoordinator)
-        {
-            _dialogCoordinator = dialogCoordinator;
-
-            Workspaces = new ObservableCollection<WorkspaceViewModel>();
-            
-            if (IsInDesignMode)
-            {
-                IsWorkspaceSelected = true;
-                return;
-            }
-
-            LoadWorkspaces();
-
-            Messenger.Default.Register<ShowMessageDialogMessage>(this, message =>
-            {
-                _dialogCoordinator.ShowMessageAsync(this, message.Title, message.Content, message.Style);
-            });
-
-            FirstStartup();
-
-            Logger.Trace("Initialized Main View Model");
-        }
-
         #region Methods
+
         public void LoadWorkspaces()
         {
 #if DEBUG
             var watch = Stopwatch.StartNew();
 #endif
             foreach (var workspace in WorkspaceManagement.Workspaces)
-            {
                 Workspaces.Add(new WorkspaceViewModel(workspace));
-            }
 #if DEBUG
             Logger.Trace("Loaded all workspaces: {0} ms", watch.ElapsedMilliseconds);
 #else
@@ -113,9 +135,7 @@ namespace YTMusicDownloader.ViewModel
             Task.Run(async () =>
             {
                 while (_dialogCoordinator == null)
-                {
                     Thread.Sleep(50);
-                }
 
                 var result = await _dialogCoordinator.ShowMessageAsync(this, "YouTube Music Downloader",
                     "Thank you for using the YouTube Music Downloader!\n\nThis tool will help you keeping your playlists in sync and makes it easy to download your favourite YouTube Playlist all at once.\nDo you want to start a small tour to get started?",
@@ -143,15 +163,15 @@ namespace YTMusicDownloader.ViewModel
             fbd.ShowDialog();
 
             var workspace = WorkspaceManagement.AddWorkspace(fbd.SelectedPath);
-            if(workspace != null)
+            if (workspace != null)
                 Workspaces.Add(new WorkspaceViewModel(workspace));
         }
 
         private void SelectWorkspace()
         {
-            if(SelectedWorkspaceIndex > Workspaces.Count - 1)
+            if (SelectedWorkspaceIndex > Workspaces.Count - 1)
                 return;
-            
+
             SelectedWorkspace = Workspaces[SelectedWorkspaceIndex];
             SelectedWorkspace.Init();
 
@@ -162,21 +182,22 @@ namespace YTMusicDownloader.ViewModel
 
         private void RemoveWorkspace()
         {
-            if (SelectedWorkspaceIndex > Workspaces.Count - 1 || SelectedWorkspaceIndex < 0)
+            if ((SelectedWorkspaceIndex > Workspaces.Count - 1) || (SelectedWorkspaceIndex < 0))
                 return;
 
             var index = SelectedWorkspaceIndex;
 
-            if(Workspaces[index] == null)
+            if (Workspaces[index] == null)
                 return;
 
-            var result = MessageBox.Show(Resources.MainViewModel_RemoveWorkspace_Description, Resources.MainViewModel_RemoveWorkspace_Title, MessageBoxButtons.YesNoCancel);
-            if(result == DialogResult.Cancel)
+            var result = MessageBox.Show(Resources.MainViewModel_RemoveWorkspace_Description,
+                Resources.MainViewModel_RemoveWorkspace_Title, MessageBoxButtons.YesNoCancel);
+            if (result == DialogResult.Cancel)
                 return;
 
             var deleteMode = result == DialogResult.Yes ? DeleteMode.DeleteWorkspace : DeleteMode.KeepWorkspace;
-            
-            if (SelectedWorkspace != null && SelectedWorkspace.Workspace.Equals(Workspaces[index].Workspace))
+
+            if ((SelectedWorkspace != null) && SelectedWorkspace.Workspace.Equals(Workspaces[index].Workspace))
                 SelectedWorkspace = null;
 
             var workspace = Workspaces[index].Workspace;
@@ -186,6 +207,7 @@ namespace YTMusicDownloader.ViewModel
 
             Logger.Debug("Removed workspace {0} - deleteMode: {1}", workspace.Name, deleteMode);
         }
+
         #endregion
     }
 }

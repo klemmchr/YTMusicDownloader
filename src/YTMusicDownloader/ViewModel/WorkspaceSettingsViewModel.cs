@@ -1,26 +1,63 @@
-﻿using System;
+﻿/*
+    Copyright 2016 Christian Klemm
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using iTunesLib;
-using YTMusicDownloaderLib.DownloadManager;
-using YTMusicDownloaderLib.ITunes;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
+using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.ITunes;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class WorkspaceSettingsViewModel: ViewModelBase
+    public class WorkspaceSettingsViewModel : ViewModelBase
     {
+        #region Construction
+
+        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
+        {
+            _workspaceViewModel = workspaceViewModel;
+
+            Playlists = new ObservableImmutableList<string>();
+            _playlists = new List<IITPlaylist>();
+            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
+
+            ResetITunesPlaylists();
+
+            foreach (var format in (DownloadFormat[]) Enum.GetValues(typeof(DownloadFormat)))
+                DownloadFormatOptions.Add(format, format.ToString());
+        }
+
+        #endregion
+
         #region Fields
+
         private readonly WorkspaceViewModel _workspaceViewModel;
 
         private int _selectedPlaylistIndex;
         private readonly List<IITPlaylist> _playlists;
+
         #endregion
 
         #region Properties
+
         public ObservableImmutableList<string> Playlists { get; }
         public Dictionary<DownloadFormat, string> DownloadFormatOptions { get; }
         public IITPlaylist SelectedPlaylist { get; private set; }
@@ -33,7 +70,8 @@ namespace YTMusicDownloader.ViewModel
             {
                 _workspaceViewModel.Workspace.Settings.ITunesSyncEnabled = value;
                 RaisePropertyChanged(nameof(ITunesSyncEnabled));
-                if (value) RefreshITunesPlaylists(); else ResetITunesPlaylists();
+                if (value) RefreshITunesPlaylists();
+                else ResetITunesPlaylists();
             }
         }
 
@@ -62,38 +100,22 @@ namespace YTMusicDownloader.ViewModel
                 _workspaceViewModel.Workspace.Settings.DownloadFormat = value;
                 RaisePropertyChanged();
 
-                Messenger.Default.Send (
-                    new ShowMessageDialogMessage (
-                        "Download format changed", 
+                Messenger.Default.Send(
+                    new ShowMessageDialogMessage(
+                        "Download format changed",
                         $"You have changed the download format to {value.ToString().ToLower()}.\n\nTo convert your current tracks to the new format simply just sync your workspace or download them manually again."
                     )
                 );
             }
         }
-        #endregion
 
-        #region Construction
-        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
-        {
-            _workspaceViewModel = workspaceViewModel;
-
-            Playlists = new ObservableImmutableList<string>();
-            _playlists = new List<IITPlaylist>();
-            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
-
-            ResetITunesPlaylists();
-
-            foreach (var format in (DownloadFormat[]) Enum.GetValues(typeof(DownloadFormat)))
-            {
-                DownloadFormatOptions.Add(format, format.ToString());
-            }
-        }
         #endregion
 
         #region Methods
+
         public void SettingsPageSelected()
         {
-            if(ITunesSyncEnabled)
+            if (ITunesSyncEnabled)
                 RefreshITunesPlaylists();
         }
 
@@ -136,7 +158,7 @@ namespace YTMusicDownloader.ViewModel
         private void PlaylistSelectionChanged(int index)
         {
             IITPlaylist newPlaylist = null;
-            if (index > 0 && index < _playlists.Count)
+            if ((index > 0) && (index < _playlists.Count))
             {
                 newPlaylist = _playlists[index];
                 _workspaceViewModel.Workspace.Settings.ITunesSyncPlaylist = newPlaylist.Name;
@@ -145,16 +167,17 @@ namespace YTMusicDownloader.ViewModel
 
             foreach (var track in _workspaceViewModel.Tracks)
             {
-                if(SelectedPlaylist != null)
+                if (SelectedPlaylist != null)
                     ITunesSync.RemoveTrack(SelectedPlaylist, track.Item);
 
-                if(newPlaylist !=  null)
+                if (newPlaylist != null)
                     ITunesSync.AddTrack(newPlaylist, track.Item, track.GetFilePath());
             }
 
             if (newPlaylist != null)
                 SelectedPlaylist = newPlaylist;
         }
+
         #endregion
     }
 }

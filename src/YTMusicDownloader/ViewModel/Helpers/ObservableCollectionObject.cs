@@ -9,6 +9,26 @@ namespace YTMusicDownloader.ViewModel.Helpers
 {
     public abstract class ObservableCollectionObject : INotifyCollectionChanged, INotifyPropertyChanged
     {
+        #region Nested Types
+
+        public enum LockTypeEnum
+        {
+            SpinWait,
+            Lock
+        }
+
+        #endregion Nested Types
+
+        #region Constructor
+
+        protected ObservableCollectionObject(LockTypeEnum lockType)
+        {
+            LockType = lockType;
+            _lockObj = new object();
+        }
+
+        #endregion Constructor
+
         #region Private
 
         private bool _lockObjWasTaken;
@@ -19,26 +39,9 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         #region Public Properties
 
-        private readonly LockTypeEnum _lockType;
-        public LockTypeEnum LockType
-        {
-            get
-            {
-                return _lockType;
-            }
-        }
+        public LockTypeEnum LockType { get; }
 
         #endregion Public Properties
-
-        #region Constructor
-
-        protected ObservableCollectionObject(LockTypeEnum lockType)
-        {
-            _lockType = lockType;
-            _lockObj = new object();
-        }
-
-        #endregion Constructor
 
         #region SpinWait/PumpWait Methods
 
@@ -85,19 +88,19 @@ namespace YTMusicDownloader.ViewModel.Helpers
         private static void BeginInvokePump(Dispatcher dispatcher, DispatcherFrame frame, Func<bool> condition)
         {
             dispatcher.BeginInvoke
-                (
+            (
                 DispatcherPriority.DataBind,
                 (Action)
-                    (
+                (
                     () =>
-                        {
-                            frame.Continue = !condition();
+                    {
+                        frame.Continue = !condition();
 
-                            if (frame.Continue)
-                                BeginInvokePump(dispatcher, frame, condition);
-                        }
-                    )
-                );
+                        if (frame.Continue)
+                            BeginInvokePump(dispatcher, frame, condition);
+                    }
+                )
+            );
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -105,9 +108,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
         {
             var dispatcher = GetDispatcher();
             if (dispatcher == null)
-            {
                 return;
-            }
 
             var frame = new DispatcherFrame();
             dispatcher.BeginInvoke(DispatcherPriority.DataBind, new DispatcherOperationCallback(ExitFrame), frame);
@@ -117,7 +118,7 @@ namespace YTMusicDownloader.ViewModel.Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static object ExitFrame(object frame)
         {
-            ((DispatcherFrame)frame).Continue = false;
+            ((DispatcherFrame) frame).Continue = false;
             return null;
         }
 
@@ -178,14 +179,13 @@ namespace YTMusicDownloader.ViewModel.Helpers
             if (notifyCollectionChangedEventHandler == null)
                 return;
 
-            foreach (NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
+            foreach (
+                NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
             {
                 var dispatcherObject = handler.Target as DispatcherObject;
 
-                if (dispatcherObject != null && !dispatcherObject.CheckAccess())
-                {
+                if ((dispatcherObject != null) && !dispatcherObject.CheckAccess())
                     dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, handler, this, args);
-                }
                 else
                     handler(this, args);
             }
@@ -214,21 +214,9 @@ namespace YTMusicDownloader.ViewModel.Helpers
             var propertyChangedEventHandler = PropertyChanged;
 
             if (propertyChangedEventHandler != null)
-            {
                 propertyChangedEventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         #endregion INotifyPropertyChanged
-
-        #region Nested Types
-
-        public enum LockTypeEnum
-        {
-            SpinWait,
-            Lock
-        }
-
-        #endregion Nested Types
     }
 }

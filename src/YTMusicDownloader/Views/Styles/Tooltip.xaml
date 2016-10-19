@@ -4,7 +4,7 @@
         <Setter Property="BorderBrush" Value="#E63B32" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="MaxWidth" Value="450" />
-        
+
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
