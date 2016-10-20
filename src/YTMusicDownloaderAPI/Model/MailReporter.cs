@@ -45,6 +45,8 @@ namespace YTMusicDownloaderAPI.Model
             {
                 sb.AppendLine("This is your automated crash report notifier.");
                 sb.AppendLine();
+                sb.Append("Used ip: ");
+                sb.AppendLine(ip);
                 sb.AppendLine();
                 sb.AppendLine("A new crash report for the YT Music downloader was created in GitHub.");
                 sb.AppendLine();

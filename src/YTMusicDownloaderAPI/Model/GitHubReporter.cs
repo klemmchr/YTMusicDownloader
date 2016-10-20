@@ -37,9 +37,6 @@ namespace YTMusicDownloaderAPI.Model
 
             sb.AppendLine("## Automated crash report");
             sb.AppendLine();
-            sb.Append("**IP:** ");
-            sb.AppendLine(ip);
-            sb.AppendLine();
             sb.Append("**Report time:** ");
             sb.AppendLine(report.Time);
             sb.Append("**Assembly version:** ");
@@ -48,8 +45,6 @@ namespace YTMusicDownloaderAPI.Model
             sb.AppendLine(report.MemoryAllocated.ToString());
             sb.Append("**GUID:** ");
             sb.AppendLine(report.Guid);
-            sb.Append("**Machine name:** ");
-            sb.AppendLine(report.MachineName);
             sb.AppendLine();
             sb.AppendLine("### Exception trace");
             sb.AppendLine("___");

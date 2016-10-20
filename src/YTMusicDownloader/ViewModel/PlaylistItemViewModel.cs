@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
@@ -89,8 +90,6 @@ namespace YTMusicDownloader.ViewModel
         {
             Thumbnail = await Task.Run(() =>
             {
-                var image = new BitmapImage();
-
                 try
                 {
                     using (var client = new WebClient())
@@ -99,11 +98,15 @@ namespace YTMusicDownloader.ViewModel
 
                         using (var ms = new MemoryStream(result))
                         {
+                            var image = new BitmapImage();
+
                             image.BeginInit();
                             image.CacheOption = BitmapCacheOption.OnLoad;
                             image.StreamSource = ms;
                             image.EndInit();
                             image.Freeze();
+
+                            return image;
                         }
                     }
                 }
@@ -112,7 +115,7 @@ namespace YTMusicDownloader.ViewModel
                     Logger.Warn(ex, "Error downloading thumbnail for video {0}", Item.VideoId);
                 }
 
-                return image;
+                return null;
             });
         }
 

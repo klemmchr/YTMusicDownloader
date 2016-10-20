@@ -31,6 +31,8 @@
     </controls:MetroWindow.Flyouts>
     
     <Grid>
+        <Border Background="Black" Visibility="{Binding Path=IsInDesignMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        
         <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}">
             <TabItem Header="Workspaces">
                 <Grid Margin="5">
@@ -465,6 +467,9 @@
                         </Grid>
                     </ScrollViewer>
                 </Grid>
+            </TabItem>
+            <TabItem Header="About">
+                
             </TabItem>
         </TabControl>
     </Grid>
