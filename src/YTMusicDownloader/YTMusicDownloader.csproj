@@ -113,6 +113,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Converters\BooleanOpacityConverter.cs" />
     <Compile Include="ViewModel\Converters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModel\Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -121,6 +122,9 @@
     <Compile Include="ViewModel\Helpers\ObservableImmutableDictionary.cs" />
     <Compile Include="ViewModel\Helpers\ObservableImmutableList.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Messages\AddWorkspaceMessage.cs" />
+    <Compile Include="ViewModel\Messages\Callbacks\ShowMessageDialogResultCallback.cs" />
+    <Compile Include="ViewModel\Messages\CloseAddWorkspaceFlyoutMessage.cs" />
     <Compile Include="ViewModel\Messages\ShowMessageDialogMessage.cs" />
     <Compile Include="ViewModel\PageSelectorViewModel.cs" />
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
@@ -219,6 +223,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>MD $(TargetDir)bin\

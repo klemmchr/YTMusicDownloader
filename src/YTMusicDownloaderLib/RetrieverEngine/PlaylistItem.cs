@@ -14,11 +14,7 @@
     limitations under the License.
 */
 using System;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using NLog;
 using VideoLibrary;
@@ -35,6 +31,7 @@ namespace YTMusicDownloaderLib.RetrieverEngine
         public string VideoId { get; }
         public string Title { get; set; }
         public string ThumbnailUrl { get; }
+        public bool UserDefined { get; }
 
         [JsonIgnore]
         public string DownloadUrl { get; private set; }
@@ -42,11 +39,12 @@ namespace YTMusicDownloaderLib.RetrieverEngine
         public bool AutoDownload { get; set; }
         #endregion
 
-        public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload, string downloadUrl = "")
+        public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload, bool userDefined = false, string downloadUrl = "")
         {
             VideoId = videoId;
             Title = title;
             ThumbnailUrl = thumbnailUrl;
+            UserDefined = userDefined;
             DownloadUrl = downloadUrl;
             AutoDownload = autoDownload;
         }

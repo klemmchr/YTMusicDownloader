@@ -148,27 +148,5 @@ namespace YTMusicDownloaderLib.Workspaces
                 }
             }
         }
-
-        public static void UpdateWorkspace(Workspace workspace)
-        {
-            if (Workspaces.Contains(workspace))
-            {
-                for (var i = 0; i < Workspaces.Count; i++)
-                {
-                    var current = Workspaces[i];
-                    if (current.Equals(workspace))
-                    {
-                        Workspaces[i] = workspace;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                Workspaces.Add(workspace);
-            }
-
-            SaveWorkspaces();
-        }
     }
 }

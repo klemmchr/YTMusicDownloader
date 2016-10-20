@@ -290,6 +290,7 @@ namespace YTMusicDownloader.ViewModel
                 _selectedFilterMode = value;
                 RaisePropertyChanged(nameof(SelectedFilterMode));
                 SearchTextChanged();
+                OnPageNumberChanged();
             }
         }
 
@@ -311,7 +312,6 @@ namespace YTMusicDownloader.ViewModel
             else
                 DownloadAllSongs();
         });
-
         #endregion
 
         #region Methods        
@@ -324,6 +324,7 @@ namespace YTMusicDownloader.ViewModel
         {
             new Thread(() =>
             {
+                // TODO: Handle when folder was deleted
 #if DEBUG
                 var watch = Stopwatch.StartNew();
 #endif
@@ -373,7 +374,7 @@ namespace YTMusicDownloader.ViewModel
                     var name = Path.GetFileNameWithoutExtension(file);
 
                     if ((!file.EndsWith(".m4a") && !file.EndsWith(".mp3")) ||
-                        !Tracks.Any(item => item.Item.Title == name))
+                        Tracks.All(item => item.Item.Title != name))
                         try
                         {
                             File.Delete(file);
@@ -757,14 +758,12 @@ namespace YTMusicDownloader.ViewModel
                 case FilterMode.Downloaded:
                 {
                     DisplayedTracksSource.RemoveAll(x => x.DownloadState != DownloadState.Downloaded);
-                }
-                    break;
+                } break;
 
                 case FilterMode.NotDownloaded:
                 {
                     DisplayedTracksSource.RemoveAll(x => x.DownloadState == DownloadState.Downloaded);
-                }
-                    break;
+                } break;
             }
         }
 

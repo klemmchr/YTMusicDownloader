@@ -11,10 +11,29 @@
                       WindowTransitionsEnabled="False" GlowBrush="Red" NonActiveGlowBrush="Gray"
                       Icon="../Resources/logo_white.png" ShowIconOnTitleBar="True" SaveWindowPosition="True"
                       dialogs:DialogParticipation.Register="{Binding}">
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl Name="AddWorkspaceFlyout" DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
+            <controls:Flyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True" IsOpen="{Binding Source={StaticResource Locator}, Path=Main.IsAddingWorkspace}" CloseCommand="{Binding Path=CloseCommand}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" BorderBrush="#E63B32" Height="20" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True" controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}"/>
+                    <Button Grid.Column="2" Content="Select folder" FontSize="12" Width="120" VerticalAlignment="Center" HorizontalAlignment="Stretch" Command="{Binding Path=SelectFolderCommand}"/>
+                    <Button Grid.Column="4" Content="Add" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}"/>
+                </Grid>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+    
     <Grid>
-        <TabControl Margin="5" SelectedIndex="{Binding Path=SelectedTabIndex}">
+        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}">
             <TabItem Header="Workspaces">
-                <Grid>
+                <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="160" />
@@ -22,22 +41,22 @@
 
                     <Grid Grid.Column="1" Margin="20,0">
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="40"
-                                Content="Add Workspace" Command="{Binding Path=AddWorkspaceCommand}" />
+                            Command="{Binding Path=AddWorkspaceCommand}" Content="Add workspace" FontSize="12"/>
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="40"
-                                Content="Select Workspace" Margin="0,55,0,0"
-                                Command="{Binding Path=SelectWorkspaceCommand}" />
+                            Content="Select Workspace" Margin="0,55,0,0"
+                            Command="{Binding Path=SelectWorkspaceCommand}" FontSize="12"/>
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="40"
-                                Content="Remove Workspace" Margin="0,110,0,0"
-                                Command="{Binding Path=RemoveWorkspaceCommand}" />
+                            Content="Remove Workspace" Margin="0,110,0,0"
+                            Command="{Binding Path=RemoveWorkspaceCommand}" FontSize="12"/>
                     </Grid>
 
                     <DataGrid ItemsSource="{Binding Path=Workspaces}" AutoGenerateColumns="False" Grid.Column="0"
-                              SelectedIndex="{Binding Path=SelectedWorkspaceIndex}">
+                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding Path=Name}" Width="200"
-                                                FontWeight="SemiBold" FontSize="15" />
+                                            FontWeight="SemiBold" FontSize="15" />
                             <DataGridTextColumn Header="Path" Binding="{Binding Path=Workspace.Path}" IsReadOnly="True"
-                                                Width="*" FontWeight="SemiBold" />
+                                            Width="*" FontWeight="SemiBold" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -61,24 +80,6 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <!-- Top controls -->
-                        <Border BorderBrush="#E63B32" BorderThickness="1" VerticalAlignment="Stretch"
-                                HorizontalAlignment="Right" Width="160">
-                            <Grid Margin="5">
-                                <Grid Margin="0,-1,0,0">
-                                    <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0"
-                                             Stretch="None" Width="50" Height="50">
-                                        <Canvas>
-                                            <Path
-                                                Data="M20,4H14V10L16.24,7.76C17.32,8.85 18,10.34 18,12C18,13 17.75,13.94 17.32,14.77L18.78,16.23C19.55,15 20,13.56 20,12C20,9.79 19.09,7.8 17.64,6.36L20,4M2.86,5.41L5.22,7.77C4.45,9 4,10.44 4,12C4,14.21 4.91,16.2 6.36,17.64L4,20H10V14L7.76,16.24C6.68,15.15 6,13.66 6,12C6,11 6.25,10.06 6.68,9.23L14.76,17.31C14.5,17.44 14.26,17.56 14,17.65V19.74C14.79,19.53 15.54,19.2 16.22,18.78L18.58,21.14L19.85,19.87L4.14,4.14L2.86,5.41M10,6.35V4.26C9.2,4.47 8.45,4.8 7.77,5.22L9.23,6.68C9.5,6.56 9.73,6.44 10,6.35Z"
-                                                Fill="Black" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </Grid>
-                                <Label Foreground="#E63B32" Content="Not in sync" HorizontalAlignment="Right"
-                                       VerticalAlignment="Center" FontWeight="SemiBold" FontSize="22" Margin="0,-4,0,0" />
-                            </Grid>
-                        </Border>
-
                         <Label Content="Playlist Url" VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"
                                Grid.Row="1" Foreground="#E63B32" FontWeight="SemiBold" FontSize="17" />
                         <TextBox VerticalAlignment="Top" Margin="0,35,125,0" Grid.Row="1"
@@ -107,7 +108,7 @@
 
                         <Label Content="Filter by" Grid.Row="4" Foreground="LightSlateGray" VerticalAlignment="Bottom"
                                FontSize="15" />
-                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="125" BorderBrush="#E63B32"
+                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140" BorderBrush="#E63B32"
                                   HorizontalAlignment="Left" Margin="65,0,0,0" ItemsSource="{Binding Path=FilterModes}"
                                   SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Path=SelectedFilterMode}" FontSize="14" />

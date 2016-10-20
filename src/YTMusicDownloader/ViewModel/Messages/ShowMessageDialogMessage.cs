@@ -15,21 +15,30 @@
 */
 
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32.SafeHandles;
+using YTMusicDownloader.ViewModel.Messages.Callbacks;
 
 namespace YTMusicDownloader.ViewModel.Messages
 {
     internal class ShowMessageDialogMessage
     {
-        public ShowMessageDialogMessage(string title, string content,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative)
+        public string Title { get; }
+        public string Content { get; }
+        public MessageDialogStyle Style { get; } = MessageDialogStyle.Affirmative;
+        public ShowMessageDialogResultCallback Callback { get; }
+        public MetroDialogSettings Settings { get; }
+
+        public ShowMessageDialogMessage(string title, string content)
         {
             Title = title;
             Content = content;
-            Style = style;
         }
 
-        public string Title { get; }
-        public string Content { get; }
-        public MessageDialogStyle Style { get; }
+        public ShowMessageDialogMessage(string title, string content, MessageDialogStyle style, ShowMessageDialogResultCallback callback, MetroDialogSettings settings = null): this(title, content)
+        {
+            Style = style;
+            Callback = callback;
+            Settings = settings;
+        }
     }
 }
