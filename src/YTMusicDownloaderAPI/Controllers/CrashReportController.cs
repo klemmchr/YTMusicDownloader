@@ -28,7 +28,7 @@ namespace YTMusicDownloaderAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> Post([FromBody]CrashReport report)
         {
-            var ip = GetClientIp();
+            var ip = WebApiApplication.GetClientIp();
 
             if (!RequestProtection.AddRequest(ip))
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
@@ -36,12 +36,6 @@ namespace YTMusicDownloaderAPI.Controllers
             var issueId = await GitHubReporter.CreateIssue(ip, report);
 
             return MailReporter.SendMail(ip, report, issueId) ? Request.CreateResponse(HttpStatusCode.OK, "Success") : Request.CreateResponse(HttpStatusCode.InternalServerError, "Error sending message");
-        }
-
-        private static string GetClientIp()
-        {
-            var ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            return string.IsNullOrEmpty(ip) ? HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] : ip;
         }
     }
 }

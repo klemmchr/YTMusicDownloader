@@ -11,5 +11,8 @@
         public const string GitHubRepoOwner = "**REMOVED**";
         public const string GitHubRepoName = "**REMOVED**";
         public const string GoogleApiKey = "**REMOVED**";
+        public const string DiscogsApiKey = "**REMOVED**";
+        public const string DiscogsApiSecret = "**REMOVED**";
+        public const string LastFmApiKey = "**REMOVED**";
     }
 }

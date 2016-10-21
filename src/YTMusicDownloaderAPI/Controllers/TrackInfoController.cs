@@ -18,29 +18,22 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
-using RestSharp;
+using YTMusicDownloaderAPI.Model;
 
 namespace YTMusicDownloaderAPI.Controllers
 {
-    public class PlaylistDataController : ApiController
+    public class TrackInfoController : ApiController
     {
-        public HttpResponseMessage Get(string playlistId, string pageToken)
+        public HttpResponseMessage Get(string name)
         {
+            var ip = WebApiApplication.GetClientIp();
+
+            if (!RequestProtection.AddRequest(ip))
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
+
             try
             {
-                var client = new RestClient("https://www.googleapis.com");
-                var request = new RestRequest("/youtube/v3/playlistItems", Method.GET);
-
-                request.AddParameter("key", Properties.Settings.GoogleApiKey);
-                request.AddParameter("part", "snippet");
-                request.AddParameter("playlistId", playlistId);
-                request.AddParameter("maxResults", 50);
-                request.AddParameter("pageToken", pageToken);
-
-                var response = client.Execute(request);
-
-                return Request.CreateResponse(response.StatusCode, JObject.Parse(response.Content));
+                return Request.CreateResponse(TrackInformationFetcher.GetTrackInformation(name));
             }
             catch
             {

@@ -6,9 +6,9 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       mc:Ignorable="d"
-                      Title="YouTube Synchronizer" Height="800" MinHeight="400" Width="1200" MinWidth="600"
+                      Title="YT Music Downloader" Height="800" MinHeight="500" Width="1200" MinWidth="700"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      WindowTransitionsEnabled="False" GlowBrush="Red" NonActiveGlowBrush="Gray"
+                      WindowTransitionsEnabled="False" GlowBrush="#E63B32" NonActiveGlowBrush="Gray"
                       Icon="../Resources/logo_white.png" ShowIconOnTitleBar="True" SaveWindowPosition="True"
                       dialogs:DialogParticipation.Register="{Binding}">
     <controls:MetroWindow.Flyouts>
@@ -29,11 +29,11 @@
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
-    
+
     <Grid>
-        <Border Background="Black" Visibility="{Binding Path=IsInDesignMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        
-        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}">
+        <Border Background="#252525" Visibility="{Binding Path=IsInDesignMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}" Margin="5">
             <TabItem Header="Workspaces">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -53,12 +53,12 @@
                     </Grid>
 
                     <DataGrid ItemsSource="{Binding Path=Workspaces}" AutoGenerateColumns="False" Grid.Column="0"
-                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}">
+                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}" SelectionMode="Single" SelectionUnit="FullRow">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding Path=Name}" Width="200"
-                                            FontWeight="SemiBold" FontSize="15" />
+                                            FontWeight="SemiBold" FontSize="17" />
                             <DataGridTextColumn Header="Path" Binding="{Binding Path=Workspace.Path}" IsReadOnly="True"
-                                            Width="*" FontWeight="SemiBold" />
+                                            Width="*" FontSize="15" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -135,7 +135,7 @@
                         <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5,0,5,0">
                             <DataGrid ItemsSource="{Binding Path=DisplayedTracks}" AutoGenerateColumns="False"
                                       IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
-                                      Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                      Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" SelectionMode="Single" SelectionUnit="FullRow">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn MaxWidth="200" Width="120">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -372,7 +372,7 @@
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Column="2"
-                                  Visibility="{Binding Path=IsWorkspaceSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                  Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                                   HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                         <Grid
                             DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace.WorkspaceSettingsViewModel}">
@@ -469,8 +469,121 @@
                 </Grid>
             </TabItem>
             <TabItem Header="About">
-                
+                <Grid Margin="10" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="580"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="400"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="../Resources/logo_white.ico" Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <TextBlock Grid.Row="0" Text="YouTube Music Downloader" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="38" FontWeight="SemiBold"/>
+
+                        <Grid Grid.Row="1" Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="90"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" ContentStringFormat="Version {0}" Content="{Binding Path=Version}" VerticalAlignment="Top" FontSize="15"/>
+
+                            <TextBlock Grid.Row="2" FontSize="14" Margin="5" TextWrapping="Wrap">
+                                The YouTube Music Downloader was developed in 2016 to create a simple way to download audio from YouTube.<LineBreak />
+                                It offers you a possibility to sync your music playlists from YouTube with your local computer.
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold">
+                                Thank you for using the YouTube Music Downloader!
+                            </TextBlock>
+
+                            <Label Grid.Row="4">
+                                <TextBlock FontSize="15">
+                                    Licensed under the Apache-2.0 license which can be obtained
+                                    <Hyperlink Foreground="#E63B32" Command="{Binding Path=OpenLicenseCommand}">
+                                        <Hyperlink.Inlines>
+                                            <Run Text="here" />
+                                        </Hyperlink.Inlines>
+                                    </Hyperlink>
+                                </TextBlock>
+                            </Label>
+                            <Label Grid.Row="5">
+                                <TextBlock FontSize="15">
+                                    This project is hosted on
+                                    <Hyperlink Foreground="#E63B32" Command="{Binding Path=OpenGitHubCommand}">
+                                        <Hyperlink.Inlines>
+                                            <Run Text="GitHub" />
+                                        </Hyperlink.Inlines>
+                                    </Hyperlink>
+                                </TextBlock>
+                            </Label>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
+
+        <Border Background="#252525" Opacity="1" x:Name="LoadingScreen">
+            <Border.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsLoaded}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=LoadingScreen, Path=Opacity}" Value="0">
+                            <Setter Property="Border.Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsInDesignModeStatic}" Value="True">
+                            <Setter Property="Border.Visibility" Value="Hidden"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="600"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="400"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="130"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0">
+                        <Image Source="../Resources/logo_white.ico" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100"/>
+                        <Label Content="YouTube Music Downloader" FontSize="38" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                    </DockPanel>
+                    <Grid Grid.Row="2">
+                        <Label Content="Initializing your user experience..." VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="23" Foreground="#E63B32" FontWeight="SemiBold"/>
+                        <controls:ProgressRing VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </controls:MetroWindow>

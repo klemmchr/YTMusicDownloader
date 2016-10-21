@@ -20,7 +20,10 @@ using System.Runtime;
 using System.Threading;
 using NAudio.Wave;
 using NLog;
+using TagLib;
 using YTMusicDownloaderLib.RetrieverEngine;
+using YTMusicDownloaderLib.TrackInformation;
+using File = System.IO.File;
 
 namespace YTMusicDownloaderLib.DownloadManager
 {
@@ -79,9 +82,6 @@ namespace YTMusicDownloaderLib.DownloadManager
 
                 using (_webClient = new WebClient())
                 {
-                    _webClient.Headers.Add("user-agent",
-                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-
                     try
                     {
                         _webClient.OpenReadCompleted += WebClientOnOpenReadCompleted;
@@ -160,6 +160,32 @@ namespace YTMusicDownloaderLib.DownloadManager
 
                         File.Delete(tmpPath);
                     } break;
+                }
+
+                var information = TrackInformationFetcher.GetTrackInformation(Item);
+                using (var file = TagLib.File.Create(SavePath))
+                {
+                    file.Tag.Title = information.Name;
+                    file.Tag.AlbumArtists = new[] {information.Artist};
+                    file.Tag.Album = information.Album;
+
+                    if (!string.IsNullOrEmpty(information.CoverUrl))
+                    {
+                        byte[] result;
+
+                        using (var client = new WebClient())
+                        {
+                            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                            result = client.DownloadData(information.CoverUrl);
+                        }
+
+                        file.Tag.Pictures = new IPicture[]
+                        {
+                            new Picture(new ByteVector(result))
+                        };
+                    }
+                    
+                    file.Save();       
                 }
 
                 GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;

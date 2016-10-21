@@ -113,6 +113,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="ViewModel\AboutTabViewModel.cs" />
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Converters\BooleanOpacityConverter.cs" />
     <Compile Include="ViewModel\Converters\InverseBooleanConverter.cs" />

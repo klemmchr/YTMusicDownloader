@@ -53,6 +53,7 @@ namespace YTMusicDownloader.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<AddWorkspaceViewModel>();
+            SimpleIoc.Default.Register<AboutTabViewModel>();
 
             LogManager.GetCurrentClassLogger().Trace("Registered all view models in view model locator");
         }
@@ -60,5 +61,6 @@ namespace YTMusicDownloader.ViewModel
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
         public AddWorkspaceViewModel AddWorkspace => ServiceLocator.Current.GetInstance<AddWorkspaceViewModel>();
+        public AboutTabViewModel AboutTab => ServiceLocator.Current.GetInstance<AboutTabViewModel>();
     }
 }

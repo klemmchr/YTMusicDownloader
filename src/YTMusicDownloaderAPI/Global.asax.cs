@@ -35,5 +35,11 @@ namespace YTMusicDownloaderAPI
         {
             Response.Redirect("index.html");
         }
+
+        public static string GetClientIp()
+        {
+            var ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            return string.IsNullOrEmpty(ip) ? HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"] : ip;
+        }
     }
 }
