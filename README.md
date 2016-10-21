@@ -1,5 +1,7 @@
 # YouTube Music Downloader
-A powerful tool to sync your favourite YouTube music with your computer.  
+A powerful tool to sync your favourite YouTube music with your computer.
+
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/YTMusicDownloader/Lobby)
 
 This tool offers you the possibility to download YouTube videos as a sound file and keep them in sync with your local library.
 Unlike other YouTube converters you can even download complete playlists and sync them without the need to download all songs again when you added new tracks to your playlist.  
