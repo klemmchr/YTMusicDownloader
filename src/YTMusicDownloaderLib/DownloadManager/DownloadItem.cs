@@ -70,7 +70,7 @@ namespace YTMusicDownloaderLib.DownloadManager
                     return;
                 }
 
-                OnDownloadItemDownloadProgressChanged(new DownloadProgressChangedEventArgs(1));
+                OnDownloadItemDownloadStarted(null);
                 Item.RetreiveDownloadUrl();
 
                 if (string.IsNullOrEmpty(Item.DownloadUrl))
@@ -153,6 +153,7 @@ namespace YTMusicDownloaderLib.DownloadManager
 
                     case DownloadFormat.MP3:
                     {
+                        OnDownloadItemConvertionStarted(null);
                         using (var reader = new MediaFoundationReader(tmpPath))
                         {
                             MediaFoundationEncoder.EncodeToMp3(reader, SavePath);
@@ -182,6 +183,10 @@ namespace YTMusicDownloaderLib.DownloadManager
                         file.Tag.Pictures = new IPicture[]
                         {
                             new Picture(new ByteVector(result))
+                            {
+                                Type = PictureType.FrontCover,
+                                Description = "Cover"
+                            }
                         };
                     }
                     

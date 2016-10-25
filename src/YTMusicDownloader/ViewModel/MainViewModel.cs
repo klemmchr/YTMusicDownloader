@@ -16,7 +16,7 @@
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -29,7 +29,7 @@ using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    internal class MainViewModel : ViewModelBase
     {
         #region Fields
 
@@ -42,10 +42,11 @@ namespace YTMusicDownloader.ViewModel
         private bool _isLoaded;
         private string _selectedWorkspaceName;
         private bool _selectedWorkspaceVisible;
-
+        private int _selectedWorkspaceIndex = -1;
         #endregion
 
         #region Properties
+        public static bool IsReleaseVersion { get; }
 
         public WorkspaceViewModel SelectedWorkspace
         {
@@ -57,8 +58,6 @@ namespace YTMusicDownloader.ViewModel
                 SelectedWorkspaceVisible = _selectedWorkspace != null;
 
                 RaisePropertyChanged(nameof(SelectedWorkspace));
-                RaisePropertyChanged(nameof(SelectedWorkspaceName));
-                RaisePropertyChanged(nameof(SelectedWorkspaceVisible));
             }
         }
 
@@ -110,20 +109,29 @@ namespace YTMusicDownloader.ViewModel
             get { return _isLoaded; }
             private set
             {
-                _isLoaded = true;
+                _isLoaded = value;
                 RaisePropertyChanged(nameof(IsLoaded));
             }
         }
 
-        public int SelectedWorkspaceIndex { get; set; }
+        public int SelectedWorkspaceIndex
+        {
+            get { return _selectedWorkspaceIndex; }
+            set
+            {
+                _selectedWorkspaceIndex = value;
+                RaisePropertyChanged(nameof(SelectedWorkspaceIndex));
+            }
+        }
 
         public ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 
         public RelayCommand AddWorkspaceCommand => new RelayCommand(() => IsAddingWorkspace = true);
-        public RelayCommand SelectWorkspaceCommand => new RelayCommand(SelectWorkspace, () => SelectedWorkspaceIndex != -1);
-        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(RemoveWorkspace, () => SelectedWorkspaceIndex != -1);
+        public RelayCommand SelectWorkspaceCommand => new RelayCommand(SelectWorkspace);
+        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(RemoveWorkspace);
         #endregion
 
+        #region Construction
         public MainViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
@@ -145,10 +153,26 @@ namespace YTMusicDownloader.ViewModel
                     var result = await _dialogCoordinator.ShowMessageAsync(this, message.Title, message.Content, message.Style, message.Settings);
                     message.Callback?.Invoke(result);
                 });
+
+            Messenger.Default.Register<WorkspaceErrorMessage>(this, message =>
+            {
+                if(SelectedWorkspace.Workspace.Equals(message.Workspace))
+                    SelectedTabIndex = 0;
+
+                SelectedWorkspace = null;
+            });
             Startup();
 
             Logger.Trace("Initialized Main View Model");
         }
+
+        static MainViewModel()
+        {
+#if DEBUG
+            IsReleaseVersion = true;
+#endif
+        }
+        #endregion
 
         #region Methods
 
@@ -204,17 +228,25 @@ namespace YTMusicDownloader.ViewModel
             });
         }
 
-        private void SelectWorkspace()
+        private async void SelectWorkspace()
         {
-            if (SelectedWorkspaceIndex > Workspaces.Count - 1)
-                return;
+            await Task.Run(() =>
+            {
+                if (SelectedWorkspaceIndex > Workspaces.Count - 1)
+                    return;
 
-            SelectedWorkspace = Workspaces[SelectedWorkspaceIndex];
-            SelectedWorkspace.Init();
+                SelectedWorkspace = Workspaces[SelectedWorkspaceIndex];
+                if (!Directory.Exists(SelectedWorkspace.Workspace.Path))
+                {
+                    Messenger.Default.Send(new ShowMessageDialogMessage("Workspace folder not available", "The workspace folder seems to be deleted."));
+                    return;
+                }
+                SelectedWorkspace.Init();
 
-            SelectedTabIndex = 1;
+                SelectedTabIndex = 1;
 
-            Logger.Debug("Selected workspace {0}", SelectedWorkspace.Workspace.Name);
+                Logger.Debug("Selected workspace {0}", SelectedWorkspace.Workspace.Name);
+            });
         }
 
         private void RemoveWorkspace()

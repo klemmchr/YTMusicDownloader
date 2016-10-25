@@ -37,12 +37,16 @@ namespace YTMusicDownloaderLib.DownloadManager
         {
             await Task.Run(() =>
             {
+                OnDownloadItemDownloadStarted(null);
+
                 var oldExtension = Path.GetExtension(CurrentPath)?.ToLower();
                 var newExtension = Path.GetExtension(NewPath)?.ToLower();
 
                 if ((oldExtension == ".m4a") && (newExtension == ".mp3"))
                     try
                     {
+                        OnDownloadItemConvertionStarted(null);
+
                         using (var reader = new MediaFoundationReader(CurrentPath))
                         {
                             MediaFoundationEncoder.EncodeToMp3(reader, NewPath);
@@ -59,6 +63,8 @@ namespace YTMusicDownloaderLib.DownloadManager
                 else if ((oldExtension == ".mp3") && (newExtension == ".m4a"))
                     try
                     {
+                        OnDownloadItemConvertionStarted(null);
+
                         using (var reader = new MediaFoundationReader(CurrentPath))
                         {
                             MediaFoundationEncoder.EncodeToAac(reader, NewPath);

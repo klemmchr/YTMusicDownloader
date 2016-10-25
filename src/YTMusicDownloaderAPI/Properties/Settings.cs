@@ -1,8 +1,7 @@
 ﻿namespace YTMusicDownloaderAPI.Properties
 {
-    public static class Settings
+    internal partial class Settings
     {
-        public const int MaxRequestsPerHour = 120;
         public const string SmtpServer = "**REMOVED**";
         public const int SmtpPort = -1;
         public const string SmptUsername = "**REMOVED**";

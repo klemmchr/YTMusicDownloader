@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Name="YT Music Downloader" Manufacturer="chris5790" Id="4DAD5BD9-CCCD-4CAB-AB0A-B4D079793390" UpgradeCode="ED762A2D-9791-4BF9-8B3C-3C0940CE3DA0" Language="1033" Codepage="1252" Version="1.0.0">
+    <Package Id="*" Keywords="Installer" Description="YT Music Downloader Installer" Manufacturer="chris5790" InstallerVersion="100" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
+    <Media Id="1" Cabinet="YTMusicDownloader.cab" EmbedCab="yes" />
+    
+    <Directory Id="ProgrammFilesFolder" Name="PFiles" >
+      <Directory Id="INSTALLDIR" Name="YTMusicDownloader" />
+    </Directory>
+
+    <Component Id="MainExecutable" Guid="D1932B35-C845-467B-BD91-560A1B0B96F6" />
+  </Product>
+	<Fragment>
+		<!-- TODO: Put your code here. -->
+	</Fragment>
+</Wix>

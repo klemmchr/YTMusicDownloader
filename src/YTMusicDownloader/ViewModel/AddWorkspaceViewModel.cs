@@ -9,7 +9,7 @@ using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class AddWorkspaceViewModel : ViewModelBase
+    internal class AddWorkspaceViewModel : ViewModelBase
     {
         #region Fields
 

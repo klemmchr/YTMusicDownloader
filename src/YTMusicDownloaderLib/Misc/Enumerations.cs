@@ -13,34 +13,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using System;
 using System.ComponentModel;
 
-namespace YTMusicDownloaderLib.DownloadManager
+namespace YTMusicDownloaderLib.Misc
 {
-    public enum DownloadState
+    public static class Enumerations
     {
-        [Description("")]
-        Unset,
-
-        [Description("Downloaded")]
-        Downloaded,
-
-        [Description("Not downloaded")]
-        NotDownloaded,
-
-        [Description("Needs convertion")]
-        NeedsConvertion,
-
-        [Description("Queued")]
-        Queued,
-
-        [Description("Downloading")]
-        Downloading,
-
-        [Description("Converting")]
-        Converting,
-
-        [Description("Error")]
-        Error
+        #region Methods
+        public static string GetDescription(Enum value)
+        {
+            var type = value.GetType();
+            var memInfo = type.GetMember(value.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute),false);
+            return ((DescriptionAttribute)attributes[0]).Description;
+        }
+        
+        #endregion
     }
 }

@@ -32,6 +32,20 @@ namespace YTMusicDownloaderLib.DownloadManager
         {
             DownloadItemDownloadProgressChanged?.Invoke(this, e);
         }
+
+        public event DownloadItemDownloadStartedEventHandler DownloadItemDownloadStarted;
+
+        public void OnDownloadItemDownloadStarted(EventArgs e)
+        {
+            DownloadItemDownloadStarted?.Invoke(this, e);
+        }
+
+        public event DownloadItemConvertionStartedEventHandler DownloadItemConvertionStarted;
+
+        public void OnDownloadItemConvertionStarted(EventArgs e)
+        {
+            DownloadItemConvertionStarted?.Invoke(this, e);
+        }
         #endregion
 
         #region Properties

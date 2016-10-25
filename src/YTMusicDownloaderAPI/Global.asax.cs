@@ -23,12 +23,16 @@ namespace YTMusicDownloaderAPI
 {
     public class WebApiApplication : HttpApplication
     {
+        public static string ExecutablePath { get; private set; }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            ExecutablePath = Server.MapPath("/");
         }
 
         protected void Session_Start(object sender, EventArgs e)

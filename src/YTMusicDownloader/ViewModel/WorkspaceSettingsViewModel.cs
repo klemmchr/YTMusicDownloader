@@ -27,26 +27,8 @@ using YTMusicDownloaderLib.ITunes;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class WorkspaceSettingsViewModel : ViewModelBase
+    internal class WorkspaceSettingsViewModel : ViewModelBase
     {
-        #region Construction
-
-        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
-        {
-            _workspaceViewModel = workspaceViewModel;
-
-            Playlists = new ObservableImmutableList<string>();
-            _playlists = new List<IITPlaylist>();
-            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
-
-            ResetITunesPlaylists();
-
-            foreach (var format in (DownloadFormat[]) Enum.GetValues(typeof(DownloadFormat)))
-                DownloadFormatOptions.Add(format, format.ToString());
-        }
-
-        #endregion
-
         #region Fields
 
         private readonly WorkspaceViewModel _workspaceViewModel;
@@ -61,6 +43,16 @@ namespace YTMusicDownloader.ViewModel
         public ObservableImmutableList<string> Playlists { get; }
         public Dictionary<DownloadFormat, string> DownloadFormatOptions { get; }
         public IITPlaylist SelectedPlaylist { get; private set; }
+
+        public bool AutoSync
+        {
+            get { return _workspaceViewModel.Workspace.Settings.AutoSync; }
+            set
+            {
+                _workspaceViewModel.Workspace.Settings.AutoSync = value;
+                RaisePropertyChanged(nameof(AutoSync));
+            }
+        }
 
         // ReSharper disable once InconsistentNaming
         public bool ITunesSyncEnabled
@@ -107,6 +99,24 @@ namespace YTMusicDownloader.ViewModel
                     )
                 );
             }
+        }
+
+        #endregion
+
+        #region Construction
+
+        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
+        {
+            _workspaceViewModel = workspaceViewModel;
+
+            Playlists = new ObservableImmutableList<string>();
+            _playlists = new List<IITPlaylist>();
+            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
+
+            ResetITunesPlaylists();
+
+            foreach (var format in (DownloadFormat[])Enum.GetValues(typeof(DownloadFormat)))
+                DownloadFormatOptions.Add(format, format.ToString());
         }
 
         #endregion

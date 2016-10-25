@@ -20,10 +20,12 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 {
     public class PlaylistItemRetreiverCompletedEventArgs: EventArgs
     {
+        public bool Cancelled { get; }
         public List<PlaylistItem> Result { get; }
 
-        public PlaylistItemRetreiverCompletedEventArgs(List<PlaylistItem> result)
+        public PlaylistItemRetreiverCompletedEventArgs(bool cancelled, List<PlaylistItem> result)
         {
+            Cancelled = cancelled;
             Result = result;
         }
     }

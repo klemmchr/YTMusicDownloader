@@ -42,7 +42,7 @@ namespace YTMusicDownloaderAPI.Model
             var request = new RestRequest("/2.0", Method.GET);
             request.AddParameter("method", "track.search");
             request.AddParameter("track", name);
-            request.AddParameter("api_key", Settings.LastFmApiKey);
+            request.AddParameter("api_key", Properties.Settings.LastFmApiKey);
             request.AddParameter("format", "json");
             request.AddParameter("limit", 1);
 
@@ -69,8 +69,8 @@ namespace YTMusicDownloaderAPI.Model
             request.AddParameter("q", $"{information.Artist} {information.Name}");
             request.AddParameter("type", "release");
             request.AddParameter("per_page", 1);
-            request.AddParameter("key", Settings.DiscogsApiKey);
-            request.AddParameter("secret", Settings.DiscogsApiSecret);
+            request.AddParameter("key", Properties.Settings.DiscogsApiKey);
+            request.AddParameter("secret", Properties.Settings.DiscogsApiSecret);
             request.AddHeader("Accept", "application/vnd.discogs.v2.html+json");
 
             var response = client.Execute(request);

@@ -87,6 +87,7 @@
     <Compile Include="DownloadManager\DownloadManager.cs" />
     <Compile Include="Helper\Assembly.cs" />
     <Compile Include="ITunes\ITunesSync.cs" />
+    <Compile Include="Misc\Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RetrieverEngine\PlaylistItem.cs" />
     <Compile Include="RetrieverEngine\PlaylistItemRetreiverCompletedEventArgs.cs" />

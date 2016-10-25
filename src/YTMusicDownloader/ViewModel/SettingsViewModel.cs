@@ -20,7 +20,7 @@ using YTMusicDownloader.Properties;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class SettingsViewModel : ViewModelBase
+    internal class SettingsViewModel : ViewModelBase
     {
         public string ParallelDownloads
         {

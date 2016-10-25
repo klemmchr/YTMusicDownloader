@@ -28,7 +28,7 @@ namespace YTMusicDownloaderAPI.Controllers
         {
             var ip = WebApiApplication.GetClientIp();
 
-            if (!RequestProtection.AddRequest(ip))
+            if (!RequestProtection.AddRequest(ip, RequestType.TrackInfoRequest))
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
 
             try

@@ -21,7 +21,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class PageSelectorViewModel : ViewModelBase
+    internal class PageSelectorViewModel : ViewModelBase
     {
         #region Construction
 

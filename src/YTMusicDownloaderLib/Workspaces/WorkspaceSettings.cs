@@ -13,6 +13,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -41,6 +43,8 @@ namespace YTMusicDownloaderLib.Workspaces
         private DownloadFormat _downloadFormat = DownloadFormat.MP3;
         private bool _iTunesSyncEnabled;
         private string _iTunesSyncPlaylist;
+        private bool _autoSync = true;
+        private DateTime _lastSync;
 
         #endregion
 
@@ -72,6 +76,16 @@ namespace YTMusicDownloaderLib.Workspaces
             set
             {
                 _itemsPerPage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool AutoSync
+        {
+            get { return _autoSync; }
+            set
+            {
+                _autoSync = value;
                 RaisePropertyChanged();
             }
         }
@@ -114,6 +128,16 @@ namespace YTMusicDownloaderLib.Workspaces
             set
             {
                 _iTunesSyncPlaylist = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime LastSync
+        {
+            get { return _lastSync; }
+            set
+            {
+                _lastSync = value;
                 RaisePropertyChanged();
             }
         }

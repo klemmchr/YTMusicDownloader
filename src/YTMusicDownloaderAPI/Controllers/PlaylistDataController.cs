@@ -20,13 +20,16 @@ using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using YTMusicDownloaderAPI.Model;
 
 namespace YTMusicDownloaderAPI.Controllers
 {
     public class PlaylistDataController : ApiController
     {
-        public HttpResponseMessage Get(string playlistId, string pageToken)
+        public HttpResponseMessage Get(string playlistId, string pageToken = "")
         {
+            if (!RequestProtection.AddRequest(WebApiApplication.GetClientIp(), RequestType.PlaylistRequest))
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
             try
             {
                 var client = new RestClient("https://www.googleapis.com");

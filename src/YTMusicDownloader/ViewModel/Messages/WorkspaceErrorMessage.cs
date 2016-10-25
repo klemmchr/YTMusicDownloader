@@ -13,34 +13,29 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System.ComponentModel;
 
-namespace YTMusicDownloaderLib.DownloadManager
+using YTMusicDownloaderLib.Workspaces;
+
+namespace YTMusicDownloader.ViewModel.Messages
 {
-    public enum DownloadState
+    internal class WorkspaceErrorMessage
     {
-        [Description("")]
-        Unset,
+        #region Fields        
+        #endregion
 
-        [Description("Downloaded")]
-        Downloaded,
+        #region Properties
+        public Workspace Workspace { get; }
+        #endregion
 
-        [Description("Not downloaded")]
-        NotDownloaded,
+        #region Construction
+        public WorkspaceErrorMessage(Workspace workspace)
+        {
+            Workspace = workspace;
+        }
+        #endregion
 
-        [Description("Needs convertion")]
-        NeedsConvertion,
-
-        [Description("Queued")]
-        Queued,
-
-        [Description("Downloading")]
-        Downloading,
-
-        [Description("Converting")]
-        Converting,
-
-        [Description("Error")]
-        Error
+        #region Methods
+        #endregion
     }
+
 }

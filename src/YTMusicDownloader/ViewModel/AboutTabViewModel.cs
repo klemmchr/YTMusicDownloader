@@ -5,7 +5,7 @@ using YTMusicDownloaderLib.Helper;
 
 namespace YTMusicDownloader.ViewModel
 {
-    public class AboutTabViewModel: ViewModelBase
+    internal class AboutTabViewModel: ViewModelBase
     {
         public string Version { get; }
 

@@ -72,6 +72,10 @@
       <HintPath>..\packages\MahApps.Metro.1.4.0-ALPHA023\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.1.4.0\lib\net45\MahApps.Metro.IconPacks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -115,6 +119,7 @@
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModel\AboutTabViewModel.cs" />
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
+    <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
     <Compile Include="ViewModel\Converters\BooleanOpacityConverter.cs" />
     <Compile Include="ViewModel\Converters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModel\Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -126,6 +131,7 @@
     <Compile Include="ViewModel\Messages\AddWorkspaceMessage.cs" />
     <Compile Include="ViewModel\Messages\CloseAddWorkspaceFlyoutMessage.cs" />
     <Compile Include="ViewModel\Messages\ShowMessageDialogMessage.cs" />
+    <Compile Include="ViewModel\Messages\WorkspaceErrorMessage.cs" />
     <Compile Include="ViewModel\PageSelectorViewModel.cs" />
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />

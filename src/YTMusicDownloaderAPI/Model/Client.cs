@@ -18,12 +18,13 @@ namespace YTMusicDownloaderAPI.Model
     public class Client
     {
         public string Ip { get; }
-        public int Requests { get; set; }
+        public int CrashReports { get; set; }
+        public int PlaylistRequests { get; set; }
+        public int TrackInfoRequests { get; set; }
 
         public Client(string ip)
         {
             Ip = ip;
-            Requests = 1;
         }
 
         public override int GetHashCode()
