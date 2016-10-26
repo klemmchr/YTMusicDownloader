@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibShared", "YTMusicDownloaderLibShared\YTMusicDownloaderLibShared.csproj", "{A3D1E290-5A41-4D58-9190-71702CD2095A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibTest", "YTDownloaderLibTest\YTMusicDownloaderLibTest.csproj", "{E960DB21-ACC7-4462-8CCC-0EED5386A294}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibTest", "YTMusicDownloaderLibTest\YTMusicDownloaderLibTest.csproj", "{E960DB21-ACC7-4462-8CCC-0EED5386A294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,8 +64,8 @@ Global
 		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Debug|x86.Build.0 = Debug|x86
 		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.ActiveCfg = Release|x86
-		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.Build.0 = Release|x86
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.ActiveCfg = Release|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

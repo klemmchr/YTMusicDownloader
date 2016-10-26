@@ -54,6 +54,10 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Interop.iTunesLib">
+      <HintPath>..\external\Interop.iTunesLib.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.0-ALPHA023\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -203,17 +207,6 @@
       <Project>{4407ef4f-9146-4ffa-b558-1f22d27fe404}</Project>
       <Name>YTMusicDownloaderLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="iTunesLib">
-      <Guid>{9E93C96F-CF0D-43F6-8BA8-B807A3370712}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>13</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
