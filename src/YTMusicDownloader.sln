@@ -11,12 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLib", "YTM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7614CCAB-9216-4774-A9D2-136189DC2D44}"
 	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibShared", "YTMusicDownloaderLibShared\YTMusicDownloaderLibShared.csproj", "{A3D1E290-5A41-4D58-9190-71702CD2095A}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "YTMusicDownloaderInstaller", "YTMusicDownloaderInstaller\YTMusicDownloaderInstaller.wixproj", "{B7259387-1E57-43CA-A14C-72608BCEA486}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibTest", "YTDownloaderLibTest\YTMusicDownloaderLibTest.csproj", "{E960DB21-ACC7-4462-8CCC-0EED5386A294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,12 +57,14 @@ Global
 		{A3D1E290-5A41-4D58-9190-71702CD2095A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3D1E290-5A41-4D58-9190-71702CD2095A}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3D1E290-5A41-4D58-9190-71702CD2095A}.Release|x86.Build.0 = Release|Any CPU
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Debug|x86.ActiveCfg = Debug|x86
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Debug|x86.Build.0 = Debug|x86
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Release|Any CPU.ActiveCfg = Release|x86
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Release|x86.ActiveCfg = Release|x86
-		{B7259387-1E57-43CA-A14C-72608BCEA486}.Release|x86.Build.0 = Release|x86
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Debug|x86.Build.0 = Debug|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.ActiveCfg = Release|Any CPU
+		{E960DB21-ACC7-4462-8CCC-0EED5386A294}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

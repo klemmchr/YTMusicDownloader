@@ -1,0 +1,55 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# Just for troubleshooting
+#init:
+#- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+# version format
+version: 0.1.{build}-alpha
+
+branches:
+  # whitelist
+  only:
+  - master
+
+image: Visual Studio 2015
+
+clone_depth: 10
+
+skip_tags: true
+
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  
+before_build:
+  - nuget restore src\YTMusicDownloader.sln -SolutionDirectory src\
+    
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+platform:
+  - x86
+
+configuration: Release
+
+build:
+  verbosity: normal
+  project: src\YTMusicDownloader.sln
+  
+artifacts:
+  - path: src\YTMusicDownloader\bin\x86\$(configuration)
+    name: YTMusicDownloader_portable_x86
+    type: zip
+
+#test: off

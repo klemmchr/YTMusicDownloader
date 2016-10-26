@@ -34,6 +34,7 @@ using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.DownloadManager;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLib.Workspaces;
+using Enumerable = YTMusicDownloaderLib.Helper.Enumerable;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -582,7 +583,9 @@ namespace YTMusicDownloader.ViewModel
 
             DownloadingAllSongs = true;
             await UpdatePlaylistUrl();
-            DownloadAllSongs();
+
+            if(DownloadingAllSongs)
+                DownloadAllSongs();
         }
 
         /// <summary>
@@ -622,11 +625,8 @@ namespace YTMusicDownloader.ViewModel
                         return;
                     }
 
-                    Workspace.Settings.Items.Clear();
-
-                    foreach (var result in args.Result)
-                        Workspace.Settings.Items.Add(result);
-
+                    Workspace.Settings.Items = new HashSet<PlaylistItem>(Enumerable.Sync(Workspace.Settings.Items.ToList(), args.Result));
+                    
                     UpdateTracks();
 
                     FetchingPlaylist = false;
@@ -659,16 +659,15 @@ namespace YTMusicDownloader.ViewModel
         {
             DisplayedTracksSource.Clear();
             // Get playlist items from the viewmodel collection
-            var tracks = Tracks.Select(t => t.Item);
+            var tracks = Tracks.Select(t => t.Item).ToList();
 
             // Determinite items that should be added and removed
-            var playlistItems = tracks as PlaylistItem[] ?? tracks.ToArray();
+            var playlistItems = tracks.ToArray();
             var addItems = Workspace.Settings.Items.Except(playlistItems).ToList();
             var removeItems = playlistItems.Except(Workspace.Settings.Items).ToList();
 
             // Remove the specified items
             Tracks.RemoveAll(item => removeItems.Contains(item.Item));
-
 
             // Add the new items
             foreach (var item in addItems)
