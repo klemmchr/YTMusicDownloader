@@ -109,6 +109,7 @@ namespace YTMusicDownloader.ViewModel
         {
             _workspaceViewModel = workspaceViewModel;
 
+            /*
             Playlists = new ObservableImmutableList<string>();
             _playlists = new List<IITPlaylist>();
             DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
@@ -117,6 +118,7 @@ namespace YTMusicDownloader.ViewModel
 
             foreach (var format in (DownloadFormat[])Enum.GetValues(typeof(DownloadFormat)))
                 DownloadFormatOptions.Add(format, format.ToString());
+            */
         }
 
         #endregion

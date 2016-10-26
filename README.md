@@ -68,8 +68,10 @@ Every contribution is highly appreciated. Feature requests are appreciated too b
 
 
 ##### About my motivation
-I created this tool because tools out there lack the support to sync whole playlists without the need of download every song again.
-You can image how annoing it is to download each song seperate from your playlist with a web converter or download your whole playlist again because you added some songs to it.
+I created this tool because tools out there lack the support to sync whole playlists without the need to download every song again.
+You can image how annoing it is to download each song seperate from your playlist with a web converter or download your whole playlist again because you added some songs to it,
+especially at a size of 100+ songs.
 
-Some free tools out there also have advertising in them which I perceive as a nuisance factor.
-I wanted to create a free (and open source) tool to offer everybody out there a smart and simple possibility to download their favourite music from YouTube.
+Some free tools out there also have inbuild advertising which I perceive as a nuisance factor.
+I wanted to create a free (and open source) tool to offer everybody out there a smart and simple possibility to download their favourite music from YouTube
+and of course to make (my own) life a whole lot easier.

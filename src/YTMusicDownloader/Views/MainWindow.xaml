@@ -465,7 +465,7 @@
                                           SelectedValue="{Binding Path=SelectedDownloadFormatOption}"
                                           BorderBrush="#E63B32" FontSize="16" />
                             </Grid>
-
+                            <!--
                             <Grid Grid.Row="8">
                                 <Grid.ToolTip>
                                     <TextBlock TextWrapping="Wrap">
@@ -499,6 +499,8 @@
                                           SelectedIndex="{Binding Path=SelectedPlaylistIndex}" BorderBrush="#E63B32"
                                           FontSize="16" />
                             </Grid>
+                            
+                            -->
                         </Grid>
                     </ScrollViewer>
                 </Grid>
