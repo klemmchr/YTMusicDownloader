@@ -50,17 +50,8 @@ build:
 after_build:
   - cmd: >-
     MD "$(TargetDir)bin\"
-
-    MOVE /Y "$(TargetDir)*.dll $(TargetDir)bin\"
-
-    DEL /Q "$(TargetDir)*.xml"
-
+    MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)bin\"
     XCOPY "src\licenses" "$(TargetDir)licenses\" /S /Y
-
-
-    if $(ConfigurationName) == Release (
-        DEL /Q "$(TargetDir)*.pdb"
-    )
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
