@@ -52,4 +52,4 @@ artifacts:
     name: YTMusicDownloader_portable_x86
     type: zip
 
-#test: off
+test: off
