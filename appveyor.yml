@@ -46,6 +46,21 @@ configuration: Release
 build:
   verbosity: normal
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
+  
+after_build:
+  - cmd: >-
+    MD "$(TargetDir)bin\"
+
+    MOVE /Y "$(TargetDir)*.dll $(TargetDir)bin\"
+
+    DEL /Q "$(TargetDir)*.xml"
+
+    XCOPY "src\licenses" "$(TargetDir)licenses\" /S /Y
+
+
+    if $(ConfigurationName) == Release (
+        DEL /Q "$(TargetDir)*.pdb"
+    )
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
