@@ -211,12 +211,13 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>MD $(TargetDir)bin\
-MOVE /Y $(TargetDir)*.dll $(TargetDir)bin\
-DEL /Q $(TargetDir)*.xml
+    <PostBuildEvent>MD "$(TargetDir)bin\"
+MOVE /Y "$(TargetDir)*.dll $(TargetDir)bin\"
+DEL /Q "$(TargetDir)*.xml"
+XCOPY "$(SolutionDir)licenses" "$(TargetDir)\licenses\" /S /Y
 
 if $(ConfigurationName) == Release (
-    DEL /Q $(TargetDir)*.pdb
+    DEL /Q "$(TargetDir)*.pdb"
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
