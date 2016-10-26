@@ -45,7 +45,7 @@ configuration: Release
 
 build:
   verbosity: normal
-  project: src\YTMusicDownloader.sln
+  project: src\YTMusicDownloader\YTMusicDownloader.csproj
   
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
