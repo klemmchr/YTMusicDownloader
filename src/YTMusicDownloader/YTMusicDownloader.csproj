@@ -212,9 +212,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>MD "$(TargetDir)bin\"
-MOVE /Y "$(TargetDir)*.dll $(TargetDir)bin\"
+MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)bin\"
 DEL /Q "$(TargetDir)*.xml"
-XCOPY "$(SolutionDir)licenses" "$(TargetDir)\licenses\" /S /Y
+XCOPY "$(TargetDir)..\..\..\..\licenses" "$(TargetDir)\licenses\" /S /Y
 
 if $(ConfigurationName) == Release (
     DEL /Q "$(TargetDir)*.pdb"
