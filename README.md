@@ -1,13 +1,17 @@
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/master?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader)
 [![Github All Releases](https://img.shields.io/github/downloads/chris579/YTMusicDownloader/total.svg)](https://github.com/chris579/YTMusicDownloader/releases)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/YTMusicDownloader/Lobby)
 
 This tool offers you the possibility to download YouTube videos as a sound file and keep them in sync with your local library.
-Unlike other YouTube converters you can even download complete playlists and sync them without the need to download all songs again when you added new tracks to your playlist.  
+Unlike other YouTube converters you can even download complete playlists and sync them without the need to download all songs again when you added new tracks to your playlist.
 
+**Stable build**  
+[![Build status master](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/master?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader)
+
+**Unstable build**  
+[![Build status](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/development?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader)
 
 ### Features
 - Download complete playlists directly from YouTube
