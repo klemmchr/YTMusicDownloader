@@ -34,7 +34,9 @@ namespace YTMusicDownloader.ViewModel
         private readonly WorkspaceViewModel _workspaceViewModel;
 
         private int _selectedPlaylistIndex;
+#pragma warning disable 649
         private readonly List<IITPlaylist> _playlists;
+#pragma warning restore 649
 
         #endregion
 
