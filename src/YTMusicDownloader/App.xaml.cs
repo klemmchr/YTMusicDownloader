@@ -34,18 +34,20 @@ namespace YTMusicDownloader
 
         public App()
         {
+#if !DEBUG
             try
             {
                 Mutex mutex;
                 if (Mutex.TryOpenExisting("YtMusicDownloader", out mutex))
                     Environment.Exit(0);
+
+                _mutex = new Mutex(false, "YTMusicDownloader");
             }
             catch
             {
-                // ignored
+                Environment.Exit(0);
             }
-
-            _mutex = new Mutex(true, "YTMusicDownloader");
+#endif
 
             ParseCommandLineArgs();
 

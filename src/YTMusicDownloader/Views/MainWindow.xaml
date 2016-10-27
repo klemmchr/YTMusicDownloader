@@ -129,14 +129,20 @@
                                                    Grid.Row="1" Foreground="Red" MinHeight="1" Height="5" />
 
                         <!-- Bottom controls -->
-                        <Button Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Width="110" FontSize="12"
-                                Content="{Binding Path=DownloadingAllSongsText}" Height="32"
-                                Command="{Binding Path=SyncCommand}" />
+                        <Button Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Width="110" Height="38" Command="{Binding Path=SyncCommand}" >
+                            <DockPanel>
+                                <icons:PackIconMaterial Kind="Sync" Margin="0,2,10,0" Rotation="360" Spin="{Binding Path=DownloadingAllSongs}" Flip="Horizontal" SpinDuration="2" Width="20" Height="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Path=DownloadingAllSongsText}" FontSize="15" VerticalAlignment="Center" />
+                            </DockPanel>
+                        </Button>
+                        
+                        <!--
                         <controls:ProgressRing Grid.Row="3" Height="24" Width="25" HorizontalAlignment="Right"
                                                IsActive="{Binding Path=DownloadingAllSongs}"
                                                VerticalAlignment="Top" Margin="0,4,115,0" />
 
-                        <Label Content="Filter by" Grid.Row="4" Foreground="LightSlateGray" VerticalAlignment="Bottom"
+                        -->
+                        <Label Content="Filter by" Grid.Row="4" Foreground="#7D7D7D" VerticalAlignment="Bottom"
                                FontSize="15" />
                         <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140" BorderBrush="#E63B32"
                                   HorizontalAlignment="Left" Margin="65,0,0,0" ItemsSource="{Binding Path=FilterModes}"
@@ -185,13 +191,13 @@
                                             <DataTemplate>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="115" />
+                                                        <ColumnDefinition Width="60" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="32" />
                                                         <ColumnDefinition Width="5" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Label Content="Auto Download: " Grid.Column="0"
+                                                    <Label Content="Sync: " Grid.Column="0"
                                                            VerticalAlignment="Center" HorizontalAlignment="Left"
                                                            Margin="0,2,0,0" />
                                                     <CheckBox Width="20" Height="20" Grid.Column="0"
