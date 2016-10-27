@@ -75,7 +75,7 @@ namespace YTMusicDownloaderLib.DownloadManager
 
                 if (string.IsNullOrEmpty(Item.DownloadUrl))
                 {
-                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true,
+                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false,
                         new InvalidOperationException("Could not retreive download url")));
                     return;
                 }
@@ -91,7 +91,7 @@ namespace YTMusicDownloaderLib.DownloadManager
                     catch (Exception ex)
                     {
                         Logger.Warn(ex, "Error downloading track {0}", Item.VideoId);
-                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
+                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false, ex));
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace YTMusicDownloaderLib.DownloadManager
 
             if (openReadCompletedEventArgs.Cancelled)
             {
-                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, openReadCompletedEventArgs.Error));
+                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, true, openReadCompletedEventArgs.Error));
                 return;
             }
 
@@ -200,7 +200,7 @@ namespace YTMusicDownloaderLib.DownloadManager
             }
             catch (Exception ex)
             {
-                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
+                OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false, ex));
             }
         }
 
@@ -210,7 +210,7 @@ namespace YTMusicDownloaderLib.DownloadManager
             _webClient?.CancelAsync();
             _webClient?.Dispose();
 
-            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true));
+            OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, true));
         }
 
         public override void Dispose()

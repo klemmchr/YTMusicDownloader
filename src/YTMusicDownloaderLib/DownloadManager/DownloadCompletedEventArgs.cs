@@ -20,11 +20,13 @@ namespace YTMusicDownloaderLib.DownloadManager
     public class DownloadCompletedEventArgs: EventArgs
     {
         public bool Cancelled { get; }
+        public bool UserCancelled { get; }
         public Exception Error { get; }
 
-        public DownloadCompletedEventArgs(bool cancelled, Exception error = null)
+        public DownloadCompletedEventArgs(bool cancelled, bool userCancelled = false, Exception error = null)
         {
             Cancelled = cancelled;
+            UserCancelled = userCancelled;
             Error = error;
         }
     }

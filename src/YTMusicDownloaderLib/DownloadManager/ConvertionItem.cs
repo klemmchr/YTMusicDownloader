@@ -58,7 +58,7 @@ namespace YTMusicDownloaderLib.DownloadManager
                     }
                     catch (Exception ex)
                     {
-                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
+                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false, ex));
                     }
                 else if ((oldExtension == ".mp3") && (newExtension == ".m4a"))
                     try
@@ -76,10 +76,10 @@ namespace YTMusicDownloaderLib.DownloadManager
                     }
                     catch (Exception ex)
                     {
-                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, ex));
+                        OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false, ex));
                     }
                 else
-                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true,
+                    OnDownloadItemDownloadCompleted(new DownloadCompletedEventArgs(true, false,
                         new InvalidOperationException("No supported extension")));
             });
         }
