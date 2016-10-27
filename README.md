@@ -58,6 +58,9 @@ This project itself is licensed under the [Apache-2.0](https://opensource.org/li
 The used libraries aren't all licensed under Apache-2.0. You can find information about their licenses down below. With the use of the programm you accept all of them automaticially.
 With your contribution you accept that your work is licensed automaticially under the Apache-2.0 too. However you still have your own copyright.
 
+### Any trouble?
+Head over to the [wiki page](https://github.com/chris579/YTMusicDownloader/wiki).
+
 ___
 
 #### Used libraries
