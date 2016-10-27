@@ -112,13 +112,14 @@ namespace YTMusicDownloader.ViewModel
             /*
             Playlists = new ObservableImmutableList<string>();
             _playlists = new List<IITPlaylist>();
-            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
 
             ResetITunesPlaylists();
+            */
+
+            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
 
             foreach (var format in (DownloadFormat[])Enum.GetValues(typeof(DownloadFormat)))
                 DownloadFormatOptions.Add(format, format.ToString());
-            */
         }
 
         #endregion
@@ -127,8 +128,10 @@ namespace YTMusicDownloader.ViewModel
 
         public void SettingsPageSelected()
         {
+            /*
             if (ITunesSyncEnabled)
                 RefreshITunesPlaylists();
+            */
         }
 
         private void ResetITunesPlaylists()
