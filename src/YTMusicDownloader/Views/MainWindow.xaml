@@ -204,26 +204,12 @@
                                                               VerticalAlignment="Center" HorizontalAlignment="Right"
                                                               IsChecked="{Binding Path=AutoDownload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     <Button Grid.Column="2" VerticalAlignment="Center"
-                                                            HorizontalAlignment="Center" Margin="1" Height="32"
+                                                            HorizontalAlignment="Stretch" Margin="1" Height="32"
                                                             Command="{Binding Path=DownloadCommand}">
                                                         <Grid>
-                                                            <Viewbox
-                                                                Visibility="{Binding Path=Downloading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                                                                <Canvas Width="24" Height="24">
-                                                                    <Path
-                                                                        Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z"
-                                                                        Fill="White" />
-                                                                </Canvas>
-                                                            </Viewbox>
+                                                            <icons:PackIconMaterial Kind="Download" Visibility="{Binding Path=Downloading, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
 
-                                                            <Viewbox
-                                                                Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                                <Canvas Width="24" Height="24">
-                                                                    <Path
-                                                                        Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-                                                                        Fill="White" />
-                                                                </Canvas>
-                                                            </Viewbox>
+                                                            <icons:PackIconMaterial Kind="Close" Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                                         </Grid>
                                                     </Button>
                                                     <controls:MetroProgressBar Grid.ColumnSpan="2" Grid.Column="0"

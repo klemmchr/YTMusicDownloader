@@ -19,6 +19,7 @@ branches:
   # whitelist
   only:
   - master
+  - development
 
 image: Visual Studio 2015
 
