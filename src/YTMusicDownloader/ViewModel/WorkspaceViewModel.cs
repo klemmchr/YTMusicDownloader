@@ -162,7 +162,7 @@ namespace YTMusicDownloader.ViewModel
             {
                 _downloadingAllSongs = value;
                 RaisePropertyChanged(nameof(DownloadingAllSongs));
-                DownloadingAllSongsText = value ? "Cancel sync" : "Sync";
+                DownloadingAllSongsText = value ? "Cancel" : "Sync";
             }
         }
 

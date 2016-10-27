@@ -51,9 +51,9 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 
         public bool RetreiveDownloadUrl()
         {
-            var videos = YouTube.Default.GetAllVideos($"https://www.youtube.com/watch?v={VideoId}");
             try
             {
+                var videos = YouTube.Default.GetAllVideos($"https://www.youtube.com/watch?v={VideoId}");
                 var audios =
                 videos.Where(v => v.AudioFormat == AudioFormat.Aac && v.AdaptiveKind == AdaptiveKind.Audio)
                     .OrderByDescending(v => v.AudioBitrate).ToList();
