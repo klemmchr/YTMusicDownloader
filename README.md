@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/chris579/YTMusicDownloader.png?label=ready&title=Ready)](https://waffle.io/chris579/YTMusicDownloader)
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
