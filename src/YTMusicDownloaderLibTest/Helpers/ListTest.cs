@@ -21,18 +21,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace YTMusicDownloaderLibTest.Helpers
 {
     [TestClass]
-    public class EnumerableTest
+    public class ListTest
     {
         #region Methods
         [TestMethod]
         public void TestSync()
         {
-            var list1 = new List<int> { 3, 4, 5, 6, 7 };
+            var list1 = new List<int> { 7, 6, 5, 4, 3, 2, 1 };
             var list2 = new List<int> { 6, 7, 8, 9 };
-            
-            var syncedList = YTMusicDownloaderLib.Helper.Enumerable.Sync(list1, list2).ToList();
+            var expectedList = new List<int> { 9, 8, 7, 6 };
 
-            Assert.IsTrue(list2.OrderBy(l1 => l1).SequenceEqual(syncedList.OrderBy(l2 => l2)));
+            var syncedList = YTMusicDownloaderLib.Helper.List.Sync(list1, list2).ToList();
+
+            Assert.IsTrue(expectedList.SequenceEqual(syncedList));
         }
         #endregion
     }

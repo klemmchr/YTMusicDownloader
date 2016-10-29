@@ -32,9 +32,9 @@ using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.Helper;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLib.Workspaces;
-using Enumerable = YTMusicDownloaderLib.Helper.Enumerable;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -607,7 +607,7 @@ namespace YTMusicDownloader.ViewModel
                         return;
                     }
 
-                    Workspace.Settings.Items = new HashSet<PlaylistItem>(Enumerable.Sync(Workspace.Settings.Items.ToList(), args.Result));
+                    Workspace.Settings.Items = new HashSet<PlaylistItem>(List.Sync(Workspace.Settings.Items.ToList(), args.Result));
                     
                     UpdateTracks();
 
@@ -619,17 +619,20 @@ namespace YTMusicDownloader.ViewModel
                         CleanupWorkspaceFolder();
                     }
                 };
-
-            try
-            {
-                await Task.Run(() => retreiver.GetPlaylistItems(Workspace.PlaylistId));
-            }
-            catch (Exception ex)
-            {
-                Messenger.Default.Send(new ShowMessageDialogMessage("Failed to load playlist", "It was not possible to load the content of the specified playlist.\nPlease check your internet connection. If this error persists please report this issue."));
-                Logger.Warn(ex, "Failed to retreive playlist items for workspace {0}", Workspace);
-                FetchingPlaylist = false;
-            }
+            
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        retreiver.GetPlaylistItems(Workspace.PlaylistId);
+                    }
+                    catch (Exception ex)
+                    {
+                        Messenger.Default.Send(new ShowMessageDialogMessage("Failed to load playlist", "It was not possible to load the content of the specified playlist.\nPlease check your internet connection. If this error persists please report this issue."));
+                        Logger.Warn(ex, "Failed to retreive playlist items for workspace {0}", Workspace);
+                        FetchingPlaylist = false;
+                    }
+                });
         }
 
         /// <summary>
@@ -651,13 +654,22 @@ namespace YTMusicDownloader.ViewModel
             // Remove the specified items
             Tracks.RemoveAll(item => removeItems.Contains(item.Item));
 
-            // Add the new items
-            foreach (var item in addItems)
-                Tracks.Add(new PlaylistItemViewModel(item, this));
+            if (Tracks.Count == 0)
+            {
+                // Add the new items
+                foreach (var item in addItems)
+                    Tracks.Add(new PlaylistItemViewModel(item, this));
+            }
+            else
+            {
+                // Add the new items
+                foreach (var item in addItems)
+                    Tracks.Insert(0, new PlaylistItemViewModel(item, this));
+            }
+            
 
             var i = 0;
             DownloadedTracks = 0;
-            Workspace.Settings.Items.Clear();
 
             foreach (var track in Tracks)
             {
@@ -665,7 +677,6 @@ namespace YTMusicDownloader.ViewModel
                     DownloadedTracks++;
 
                 track.Index = i++;
-                Workspace.Settings.Items.Add(track.Item);
             }
             Workspace.SaveWorkspaceConfig();
 

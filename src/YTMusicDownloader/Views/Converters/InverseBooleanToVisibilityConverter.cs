@@ -16,23 +16,23 @@
 
 using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
-namespace YTMusicDownloader.ViewModel.Converters
+namespace YTMusicDownloader.Views.Converters
 {
-    internal class PageDisplayConverter : IMultiValueConverter
+    // [ValueConversion(typeof(bool), typeof(System.Windows.Visibility))]
+    internal class InverseBooleanToVisibilityConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var currentPage = values[0].ToString();
-            var maxPages = values[1].ToString();
+            if (targetType != typeof(Visibility))
+                throw new InvalidOperationException("The target must be System.Windows.Visibility");
 
-            if (string.IsNullOrEmpty(currentPage) || string.IsNullOrEmpty(maxPages)) return null;
-
-            return $"{currentPage} of {maxPages}";
+            return !(bool) value ? Visibility.Visible : Visibility.Hidden;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

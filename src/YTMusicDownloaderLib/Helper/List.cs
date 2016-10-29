@@ -19,7 +19,7 @@ using System.Linq;
 
 namespace YTMusicDownloaderLib.Helper
 {
-    public static class Enumerable
+    public static class List
     {
         #region Methods
 
@@ -39,7 +39,10 @@ namespace YTMusicDownloaderLib.Helper
             var addItems = compareList.Except(sourceList);
             var removeItems = sourceList.Except(compareList);
 
-            newList.AddRange(addItems);
+            foreach (var item in addItems)
+            {
+                newList.Insert(0, item);
+            }
             newList.RemoveAll(x => removeItems.Contains(x));
 
             return newList;

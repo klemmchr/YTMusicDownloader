@@ -18,7 +18,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace YTMusicDownloader.ViewModel.Converters
+namespace YTMusicDownloader.Views.Converters
 {
     [ValueConversion(typeof(bool), typeof(bool))]
     internal class BooleanOpacityConverter : IValueConverter

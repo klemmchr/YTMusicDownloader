@@ -110,10 +110,10 @@
     <Compile Include="ViewModel\AboutTabViewModel.cs" />
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
-    <Compile Include="ViewModel\Converters\BooleanOpacityConverter.cs" />
-    <Compile Include="ViewModel\Converters\InverseBooleanConverter.cs" />
-    <Compile Include="ViewModel\Converters\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="ViewModel\Converters\PageDisplayConverter.cs" />
+    <Compile Include="Views\Converters\BooleanOpacityConverter.cs" />
+    <Compile Include="Views\Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\PageDisplayConverter.cs" />
     <Compile Include="ViewModel\Helpers\ObservableCollectionObject.cs" />
     <Compile Include="ViewModel\Helpers\ObservableImmutableDictionary.cs" />
     <Compile Include="ViewModel\Helpers\ObservableImmutableList.cs" />
