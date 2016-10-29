@@ -17,11 +17,8 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.Xml.Schema;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NLog;

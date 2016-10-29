@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:YTMusicDownloader"
              StartupUri="Views/MainWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:conv="clr-namespace:YTMusicDownloader.ViewModel.Converters"
+             xmlns:converters="clr-namespace:YTMusicDownloader.Views.Converters"
              DispatcherUnhandledException="App_OnDispatcherUnhandledException">
     <Application.Resources>
         <ResourceDictionary>
@@ -21,10 +21,10 @@
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"
                                  xmlns:vm="clr-namespace:YTMusicDownloader.ViewModel" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
-            <conv:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-            <conv:BooleanOpacityConverter x:Key="BooleanOpacityConverter" />
-            <conv:PageDisplayConverter x:Key="PageDisplayConverter" />
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:BooleanOpacityConverter x:Key="BooleanOpacityConverter" />
+            <converters:PageDisplayConverter x:Key="PageDisplayConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -108,7 +108,7 @@
     <Compile Include="DownloadManager\IDownloadManagerItem.cs" />
     <Compile Include="DownloadManager\DownloadManager.cs" />
     <Compile Include="Helper\Assembly.cs" />
-    <Compile Include="Helper\Enumerable.cs" />
+    <Compile Include="Helper\List.cs" />
     <Compile Include="ITunes\ITunesSync.cs" />
     <Compile Include="Misc\Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
