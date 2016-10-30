@@ -649,6 +649,7 @@ namespace YTMusicDownloader.ViewModel
             // Determinite items that should be added and removed
             var playlistItems = tracks.ToArray();
             var addItems = Workspace.Settings.Items.Except(playlistItems).ToList();
+
             var removeItems = playlistItems.Except(Workspace.Settings.Items).ToList();
 
             // Remove the specified items
@@ -662,6 +663,7 @@ namespace YTMusicDownloader.ViewModel
             }
             else
             {
+                addItems.Reverse();
                 // Add the new items
                 foreach (var item in addItems)
                     Tracks.Insert(0, new PlaylistItemViewModel(item, this));
