@@ -172,22 +172,27 @@ namespace YTMusicDownloaderLib.DownloadManager
 
                     if (information.Artwork != null)
                     {
-                        byte[] result;
-
-                        using (var client = new WebClient())
+                        using (var ms = new MemoryStream())
                         {
-                            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                            result = client.DownloadData(information.Artwork.Url);
-                        }
-
-                        file.Tag.Pictures = new IPicture[]
-                        {
-                            new Picture(new ByteVector(result))
+                            using (var client = new WebClient())
                             {
-                                Type = PictureType.FrontCover,
-                                Description = "Cover"
+                                client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                                using (var stream = client.OpenRead(information.Artwork.Url))
+                                    stream?.CopyTo(ms);
+
+                                ms.Position = 0;
                             }
-                        };
+
+                            file.Tag.Pictures = new IPicture[]
+                            {
+                                new Picture
+                                {
+                                    Data = ByteVector.FromStream(ms),
+                                    Type = PictureType.FrontCover,
+                                    Description = "Cover"
+                                }
+                            };
+                        }
                     }
                     
                     file.Save();       
