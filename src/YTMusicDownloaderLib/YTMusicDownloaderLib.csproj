@@ -116,7 +116,7 @@
     <Compile Include="RetrieverEngine\PlaylistItemRetreiverCompletedEventArgs.cs" />
     <Compile Include="RetrieverEngine\PlaylistItemRetreiverProgressChangedEventArgs.cs" />
     <Compile Include="RetrieverEngine\PlaylistItemsRetriever.cs" />
-    <Compile Include="TrackInformation\TrackInformationFetcher.cs" />
+    <Compile Include="Tracks\TrackInformationFetcher.cs" />
     <Compile Include="Workspaces\DeleteMode.cs" />
     <Compile Include="Workspaces\Workspace.cs" />
     <Compile Include="Workspaces\WorkspaceManagement.cs" />

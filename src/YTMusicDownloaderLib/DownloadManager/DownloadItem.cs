@@ -22,7 +22,7 @@ using NAudio.Wave;
 using NLog;
 using TagLib;
 using YTMusicDownloaderLib.RetrieverEngine;
-using YTMusicDownloaderLib.TrackInformation;
+using YTMusicDownloaderLib.Tracks;
 using File = System.IO.File;
 
 namespace YTMusicDownloaderLib.DownloadManager
@@ -170,14 +170,14 @@ namespace YTMusicDownloaderLib.DownloadManager
                     file.Tag.AlbumArtists = new[] {information.Artist};
                     file.Tag.Album = information.Album;
 
-                    if (!string.IsNullOrEmpty(information.CoverUrl))
+                    if (information.Artwork != null)
                     {
                         byte[] result;
 
                         using (var client = new WebClient())
                         {
                             client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                            result = client.DownloadData(information.CoverUrl);
+                            result = client.DownloadData(information.Artwork.Url);
                         }
 
                         file.Tag.Pictures = new IPicture[]
