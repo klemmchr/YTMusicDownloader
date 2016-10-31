@@ -9,7 +9,7 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using YTMusicDownloaderAPI.Properties;
-using YTMusicDownloaderLibShared.TrackInformation;
+using YTMusicDownloaderLibShared.Tracks;
 
 namespace YTMusicDownloaderAPI.Model
 {
@@ -30,8 +30,6 @@ namespace YTMusicDownloaderAPI.Model
             GetArtistAndTrack(name, information);
             if (string.IsNullOrEmpty(information.Name) || string.IsNullOrEmpty(information.Artist))
                 return information;
-
-            GetThumbnail(information);
 
             return information;
         }
@@ -58,33 +56,6 @@ namespace YTMusicDownloaderAPI.Model
 
             information.Artist = results[0]["artist"].ToString();
             information.Name = results[0]["name"].ToString();
-        }
-
-        private static void GetThumbnail(TrackInformation information)
-        {
-            // Request search for the track
-            var client = new RestClient("https://api.discogs.com");
-            var request = new RestRequest("/database/search", Method.GET);
-
-            request.AddParameter("q", $"{information.Artist} {information.Name}");
-            request.AddParameter("type", "release");
-            request.AddParameter("per_page", 1);
-            request.AddParameter("key", Properties.Settings.DiscogsApiKey);
-            request.AddParameter("secret", Properties.Settings.DiscogsApiSecret);
-            request.AddHeader("Accept", "application/vnd.discogs.v2.html+json");
-
-            var response = client.Execute(request);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-                throw new WebException();
-
-            var searchResponse = JObject.Parse(response.Content);
-            var searchResults = searchResponse["results"].Children().ToList();
-            if (searchResults.Count == 0)
-                return;
-
-            information.CoverUrl = searchResults[0]["thumb"].ToString();
-            information.Album = searchResults[0]["title"].ToString();
         }
     }
 }
