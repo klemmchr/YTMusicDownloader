@@ -31,7 +31,7 @@ namespace YTMusicDownloaderLib.Tracks
                     return information;
 
                 information = JsonConvert.DeserializeObject<TrackInformation>(result.Content);
-                GetArtwork(information);
+                GetArtworkAndAlbum(information);
             }
             catch
             {
@@ -41,7 +41,7 @@ namespace YTMusicDownloaderLib.Tracks
             return information;
         }
 
-        private static void GetArtwork(TrackInformation information)
+        private static void GetArtworkAndAlbum(TrackInformation information)
         {
             if(string.IsNullOrEmpty(information.Artist) || string.IsNullOrEmpty(information.Name))
                 return;
@@ -63,6 +63,7 @@ namespace YTMusicDownloaderLib.Tracks
                 
                 var artworks = JsonConvert.DeserializeObject<List<Artwork>>(tracks[0]["album"]["images"].ToString());
                 information.Artwork = artworks.OrderByDescending(x => x.Height).ThenByDescending(x => x.Width).ToList()[0];
+                information.Album = tracks[0]["album"]["name"].ToString();
             }
             catch (Exception ex)
             {
