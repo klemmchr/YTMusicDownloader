@@ -14,26 +14,23 @@
     limitations under the License.
 */
 
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace YTMusicDownloaderLibTest.Helpers
 {
     [TestClass]
-    public class ListTest
+    public class Enumerations
     {
+        private enum TestEnum
+        {
+            [System.ComponentModel.Description("Test")]
+            Test
+        }
         #region Methods
         [TestMethod]
-        public void TestSync()
+        public void GetDescriptionSuccess()
         {
-            var list1 = new List<int> { 7, 6, 5, 4, 3, 2, 1 };
-            var list2 = new List<int> { 6, 7, 8, 9 };
-            var expectedList = new List<int> { 9, 8, 7, 6 };
-
-            var syncedList = YTMusicDownloaderLib.Helper.List.Sync(list1, list2).ToList();
-
-            Assert.IsTrue(expectedList.SequenceEqual(syncedList));
+            Assert.IsTrue(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Enumerations.GetDescription(TestEnum.Test)));
         }
         #endregion
     }

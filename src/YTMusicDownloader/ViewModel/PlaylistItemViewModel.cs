@@ -23,7 +23,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NLog;
 using YTMusicDownloaderLib.DownloadManager;
-using YTMusicDownloaderLib.Misc;
+using YTMusicDownloaderLib.Helpers;
 using YTMusicDownloaderLib.RetrieverEngine;
 using DownloadProgressChangedEventArgs = YTMusicDownloaderLib.DownloadManager.DownloadProgressChangedEventArgs;
 

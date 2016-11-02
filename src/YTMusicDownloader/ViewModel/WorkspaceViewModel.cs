@@ -32,7 +32,7 @@ using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.DownloadManager;
-using YTMusicDownloaderLib.Helper;
+using YTMusicDownloaderLib.Helpers;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLib.Workspaces;
 

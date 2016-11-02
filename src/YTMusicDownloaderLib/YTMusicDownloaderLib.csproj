@@ -107,10 +107,10 @@
     <Compile Include="DownloadManager\DownloadState.cs" />
     <Compile Include="DownloadManager\IDownloadManagerItem.cs" />
     <Compile Include="DownloadManager\DownloadManager.cs" />
-    <Compile Include="Helper\Assembly.cs" />
-    <Compile Include="Helper\List.cs" />
+    <Compile Include="Helpers\Assembly.cs" />
+    <Compile Include="Helpers\List.cs" />
     <Compile Include="ITunes\ITunesSync.cs" />
-    <Compile Include="Misc\Enumerations.cs" />
+    <Compile Include="Helpers\Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RetrieverEngine\PlaylistItem.cs" />
     <Compile Include="RetrieverEngine\PlaylistItemRetreiverCompletedEventArgs.cs" />
@@ -131,6 +131,7 @@
       <Name>YTMusicDownloaderLibShared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using YTMusicDownloaderLib.Helper;
+using YTMusicDownloaderLib.Helpers;
 
 namespace YTMusicDownloader.ViewModel
 {
