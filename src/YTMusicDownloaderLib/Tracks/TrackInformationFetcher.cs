@@ -48,22 +48,23 @@ namespace YTMusicDownloaderLib.Tracks
 
             try
             {
-                var client = new RestClient("https://api.spotify.com");
-                var request = new RestRequest("/v1/search");
+                var client = new RestClient("https://itunes.apple.com");
+                var request = new RestRequest("/search");
 
-                request.AddParameter("q", information.ToString());
-                request.AddParameter("type", "track");
+                request.AddParameter("term", information.ToString());
+                request.AddParameter("country", "US");
+                request.AddParameter("media", "music");
                 request.AddParameter("limit", 1);
 
                 var result = client.Execute(request);
                 var parsed = JObject.Parse(result.Content);
-                var tracks = parsed["tracks"]["items"].Children().ToList();
+                var tracks = parsed["results"].Children().ToList();
                 if (tracks.Count == 0)
                     return;
-                
-                var artworks = JsonConvert.DeserializeObject<List<Artwork>>(tracks[0]["album"]["images"].ToString());
-                information.Artwork = artworks.OrderByDescending(x => x.Height).ThenByDescending(x => x.Width).ToList()[0];
-                information.Album = tracks[0]["album"]["name"].ToString();
+
+                var artwork = tracks[0]["artworkUrl100"].ToString();
+                information.CoverUrl = artwork.Replace("100x100", "600x600");
+                information.Album = tracks[0]["trackName"].ToString();
             }
             catch (Exception ex)
             {
