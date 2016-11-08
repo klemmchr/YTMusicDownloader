@@ -654,21 +654,10 @@ namespace YTMusicDownloader.ViewModel
 
             // Remove the specified items
             Tracks.RemoveAll(item => removeItems.Contains(item.Item));
-
-            if (Tracks.Count == 0)
-            {
-                // Add the new items
-                foreach (var item in addItems)
-                    Tracks.Add(new PlaylistItemViewModel(item, this));
-            }
-            else
-            {
-                addItems.Reverse();
-                // Add the new items
-                foreach (var item in addItems)
-                    Tracks.Insert(0, new PlaylistItemViewModel(item, this));
-            }
             
+            // Add the new items
+            foreach (var item in addItems)
+                Tracks.Add(new PlaylistItemViewModel(item, this));            
 
             var i = 0;
             DownloadedTracks = 0;
