@@ -15,6 +15,8 @@
 */
 
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -124,11 +126,16 @@ namespace YTMusicDownloader.ViewModel
                 {
                     _downloadState = value;
                     RaisePropertyChanged(nameof(DownloadText));
+                    RaisePropertyChanged(nameof(Downloaded));
 
                     DownloadText = Enumerations.GetDescription(value);
                 }
             }
         }
+
+        public bool Downloaded => DownloadState == DownloadState.Downloaded;
+
+        public string DownloadDate => Item.DownloadDate.ToString(CultureInfo.InstalledUICulture);
 
         public double DownloadProgress
         {
@@ -186,24 +193,45 @@ namespace YTMusicDownloader.ViewModel
             }
         });
 
+        public RelayCommand OpenUrlCommand => new RelayCommand(() =>
+        {
+            try
+            {
+                Process.Start(Item.Url);
+            }
+            catch
+            {
+                /* ignored */
+            }
+        });
+
+        public RelayCommand OpenTrackLocationCommand => new RelayCommand(OpenTrackLocation);
+
         #endregion
 
         #region Construction
+
         public PlaylistItemViewModel(PlaylistItem item, WorkspaceViewModel workspaceWorkspaceViewModel)
         {
-            if (IsInDesignMode)
-                Downloading = true;
-
             Item = item;
             Title = item.Title;
             _workspaceViewModel = workspaceWorkspaceViewModel;
 
             CheckForTrack();
+
+            if (IsInDesignMode)
+            {
+                UpdateThumbnail();
+                Downloading = true;
+                DownloadProgress = 100;
+                Index = 1;
+            }
         }
 
         #endregion
 
         #region Methods
+
         public int CompareTo(PlaylistItemViewModel other)
         {
             return other == null ? 1 : Index.CompareTo(other.Index);
@@ -328,9 +356,16 @@ namespace YTMusicDownloader.ViewModel
 
             CheckForTrack();
             if (args.Error != null)
+            {
                 DownloadState = DownloadState.Error;
+            }
+            else
+            {
+                Item.DownloadDate = DateTime.Now;
+                RaisePropertyChanged(nameof(DownloadDate));
+            }
 
-            var managerItem = (DownloadManagerItem)sender;
+            var managerItem = (DownloadManagerItem) sender;
             managerItem.DownloadItemDownloadProgressChanged -= DownloadItemOnDownloadItemDownloadProgressChanged;
             managerItem.DownloadItemDownloadCompleted -= DownloadItemOnDownloadItemDownloadCompleted;
             managerItem.DownloadItemDownloadStarted -= DownloadItemOnDownloadItemDownloadStarted;
@@ -353,6 +388,18 @@ namespace YTMusicDownloader.ViewModel
             _downloadItem = null;
             Downloading = false;
             DownloadProgress = 0;
+        }
+
+        private void OpenTrackLocation()
+        {
+            try
+            {
+                Process.Start("explorer.exe", $"/select,\"{GetFilePath()}\"");
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         public override void Cleanup()

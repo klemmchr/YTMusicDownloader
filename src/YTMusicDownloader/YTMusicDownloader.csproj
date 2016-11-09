@@ -115,6 +115,7 @@
     <Compile Include="ViewModel\AboutTabViewModel.cs" />
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
+    <Compile Include="Views\Behaviours\MouseSingleClick.cs" />
     <Compile Include="Views\Converters\BooleanOpacityConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -131,6 +132,13 @@
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\UserControls\PlaylistItem.xaml.cs">
+      <DependentUpon>PlaylistItem.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Styles\Tooltip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PlaylistItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,6 +7,7 @@
                       xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
                       mc:Ignorable="d"
                       Title="YT Music Downloader" Height="800" MinHeight="500" Width="1200" MinWidth="700"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}" WindowTransitionsEnabled="True" GlowBrush="#E63B32" NonActiveGlowBrush="Gray"
@@ -166,6 +167,16 @@
 
                         <!-- Playlist data -->
                         <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5,0,5,0">
+                            <ScrollViewer IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Background="#252525" Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                <ItemsControl ItemsSource="{Binding Path=DisplayedTracks}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type uc:PlaylistItem}">
+                                            <uc:PlaylistItem HorizontalAlignment="Stretch" Margin="10" Height="200"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <!--
                             <DataGrid ItemsSource="{Binding Path=DisplayedTracks}" AutoGenerateColumns="False"
                                       IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
                                       Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" SelectionMode="Single" SelectionUnit="FullRow">
@@ -227,6 +238,7 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            -->
                         </Border>
                     </Grid>
 
@@ -318,6 +330,7 @@
             </TabItem>
 
             <TabItem Header="Settings">
+                <!--
                 <TabControl TabStripPlacement="Left" HorizontalAlignment="Left">
                     <TabItem Header="General settings">
                         
@@ -329,7 +342,7 @@
                         
                     </TabItem>
                 </TabControl>
-                <!-- 
+                -->
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -390,12 +403,13 @@
                                 </Grid>
                             </Grid>
                             
+                            <!--
                             <Grid Margin="0,10,0,0">
-                                Visibility="{Binding Path=ShowAdvancedSettings, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 <Border BorderBrush="LightGray" BorderThickness="0,0,1,0">
                                     <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="Advanced settings" Foreground="#E63B32" FontSize="16"/>
                                 </Border>
                             </Grid>
+                            -->
                         </StackPanel>
                     </ScrollViewer>
 
@@ -477,7 +491,7 @@
                                           SelectedValue="{Binding Path=SelectedDownloadFormatOption}"
                                           BorderBrush="#E63B32" FontSize="16" />
                             </Grid>
-                            
+                            <!--
                             <Grid Grid.Row="8">
                                 <Grid.ToolTip>
                                     <TextBlock TextWrapping="Wrap">
@@ -511,11 +525,10 @@
                                           SelectedIndex="{Binding Path=SelectedPlaylistIndex}" BorderBrush="#E63B32"
                                           FontSize="16" />
                             </Grid>
-                            
+                            -->
                         </Grid>
                     </ScrollViewer>
                 </Grid>
-                -->
             </TabItem>
             <TabItem Header="About">
                 <Grid Margin="10" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}">
