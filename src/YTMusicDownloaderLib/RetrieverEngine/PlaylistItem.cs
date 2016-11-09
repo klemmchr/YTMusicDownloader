@@ -36,7 +36,11 @@ namespace YTMusicDownloaderLib.RetrieverEngine
         [JsonIgnore]
         public string DownloadUrl { get; private set; }
 
+        [JsonIgnore]
+        public string Url { get; }
+
         public bool AutoDownload { get; set; }
+        public DateTime DownloadDate { get; set; }
         #endregion
 
         public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload, bool userDefined = false, string downloadUrl = "")
@@ -47,13 +51,14 @@ namespace YTMusicDownloaderLib.RetrieverEngine
             UserDefined = userDefined;
             DownloadUrl = downloadUrl;
             AutoDownload = autoDownload;
+            Url = $"https://www.youtube.com/watch?v={VideoId}";
         }
 
         public bool RetreiveDownloadUrl()
         {
             try
             {
-                var videos = YouTube.Default.GetAllVideos($"https://www.youtube.com/watch?v={VideoId}");
+                var videos = YouTube.Default.GetAllVideos(Url);
                 var audios =
                 videos.Where(v => v.AudioFormat == AudioFormat.Aac && v.AdaptiveKind == AdaptiveKind.Audio)
                     .OrderByDescending(v => v.AudioBitrate).ToList();

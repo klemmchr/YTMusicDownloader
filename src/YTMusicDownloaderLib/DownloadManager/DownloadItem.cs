@@ -132,7 +132,7 @@ namespace YTMusicDownloaderLib.DownloadManager
                 using (var stream = openReadCompletedEventArgs.Result)
                 using (var fs = File.Create(tmpPath))
                 {
-                    var buffer = new byte[32 * 1024];
+                    var buffer = new byte[81920];
                     int read;
 
                     while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
@@ -167,27 +167,21 @@ namespace YTMusicDownloaderLib.DownloadManager
                 using (var file = TagLib.File.Create(SavePath))
                 {
                     file.Tag.Title = information.Name;
-                    file.Tag.AlbumArtists = new[] {information.Artist};
+                    file.Tag.Performers = new[] {information.Artist};
                     file.Tag.Album = information.Album;
 
-                    if (information.Artwork != null)
+                    if (!string.IsNullOrEmpty(information.CoverUrl))
                     {
-                        using (var ms = new MemoryStream())
+                        using (var client = new WebClient())
                         {
-                            using (var client = new WebClient())
-                            {
-                                client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                                using (var stream = client.OpenRead(information.Artwork.Url))
-                                    stream?.CopyTo(ms);
-
-                                ms.Position = 0;
-                            }
+                            client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                            var data = client.DownloadData(information.CoverUrl);
 
                             file.Tag.Pictures = new IPicture[]
                             {
                                 new Picture
                                 {
-                                    Data = ByteVector.FromStream(ms),
+                                    Data = new ByteVector(data),
                                     Type = PictureType.FrontCover,
                                     Description = "Cover"
                                 }

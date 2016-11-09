@@ -13,28 +13,33 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace YTMusicDownloaderLibTest.Helpers
+namespace YTMusicDownloaderLibTest.Helpers.List
 {
-    [TestClass]
-    public class ListTest
+    internal class TestObject
     {
-        #region Methods
-        [TestMethod]
-        public void TestSync()
+        #region Properties
+        public int Number { get; }
+        #endregion
+
+        #region Construction
+        public TestObject(int number)
         {
-            var list1 = new List<int> { 7, 6, 5, 4, 3, 2, 1 };
-            var list2 = new List<int> { 6, 7, 8, 9 };
-            var expectedList = new List<int> { 9, 8, 7, 6 };
-
-            var syncedList = YTMusicDownloaderLib.Helper.List.Sync(list1, list2).ToList();
-
-            Assert.IsTrue(expectedList.SequenceEqual(syncedList));
+            Number = number;
         }
+        #endregion
+
+        #region Methods
+        public override int GetHashCode()
+        {
+            return Number.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var testObj = obj as TestObject;
+            return testObj != null && testObj.Number == Number;
+        }
+
         #endregion
     }
 }

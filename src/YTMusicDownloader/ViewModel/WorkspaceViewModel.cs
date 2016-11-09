@@ -32,7 +32,7 @@ using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.DownloadManager;
-using YTMusicDownloaderLib.Helper;
+using YTMusicDownloaderLib.Helpers;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLib.Workspaces;
 
@@ -656,21 +656,13 @@ namespace YTMusicDownloader.ViewModel
             Tracks.RemoveAll(item => removeItems.Contains(item.Item));
 
             if (Tracks.Count == 0)
-            {
-                // Add the new items
-                foreach (var item in addItems)
-                    Tracks.Add(new PlaylistItemViewModel(item, this));
-            }
-            else
-            {
                 addItems.Reverse();
-                // Add the new items
-                foreach (var item in addItems)
-                    Tracks.Insert(0, new PlaylistItemViewModel(item, this));
-            }
-            
 
-            var i = 0;
+            // Add the new items
+            foreach (var item in addItems)
+                Tracks.Add(new PlaylistItemViewModel(item, this));            
+
+            var i = 1;
             DownloadedTracks = 0;
 
             foreach (var track in Tracks)

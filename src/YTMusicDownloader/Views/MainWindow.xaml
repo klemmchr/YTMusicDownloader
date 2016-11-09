@@ -7,10 +7,10 @@
                       xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
                       mc:Ignorable="d"
                       Title="YT Music Downloader" Height="800" MinHeight="500" Width="1200" MinWidth="700"
-                      DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      WindowTransitionsEnabled="False" GlowBrush="#E63B32" NonActiveGlowBrush="Gray"
+                      DataContext="{Binding Source={StaticResource Locator}, Path=Main}" WindowTransitionsEnabled="True" GlowBrush="#E63B32" NonActiveGlowBrush="Gray"
                       Icon="../Resources/logo_white.png" ShowIconOnTitleBar="True" SaveWindowPosition="True"
                       dialogs:DialogParticipation.Register="{Binding}">
     <controls:MetroWindow.Flyouts>
@@ -167,6 +167,16 @@
 
                         <!-- Playlist data -->
                         <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5,0,5,0">
+                            <ScrollViewer IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Background="#252525" Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                <ItemsControl ItemsSource="{Binding Path=DisplayedTracks}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type uc:PlaylistItem}">
+                                            <uc:PlaylistItem HorizontalAlignment="Stretch" Margin="10" Height="200"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <!--
                             <DataGrid ItemsSource="{Binding Path=DisplayedTracks}" AutoGenerateColumns="False"
                                       IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
                                       Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" SelectionMode="Single" SelectionUnit="FullRow">
@@ -228,6 +238,7 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            -->
                         </Border>
                     </Grid>
 
@@ -319,6 +330,19 @@
             </TabItem>
 
             <TabItem Header="Settings">
+                <!--
+                <TabControl TabStripPlacement="Left" HorizontalAlignment="Left">
+                    <TabItem Header="General settings">
+                        
+                    </TabItem>
+                    <TabItem Header="Workspace settings">
+                        
+                    </TabItem>
+                    <TabItem Header="Advanced settings">
+                        
+                    </TabItem>
+                </TabControl>
+                -->
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -328,55 +352,65 @@
 
                     <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Hidden"
                                   VerticalScrollBarVisibility="Auto">
-                        <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="10" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                        <StackPanel DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="60" />
+                                    <RowDefinition Height="5" />
+                                    <RowDefinition Height="60" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0">
-                                <Label VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#E63B32"
+                                <Grid Grid.Row="0">
+                                    <Label VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#E63B32"
                                        Content="General Settings" FontSize="26" />
-                                <Border VerticalAlignment="Bottom" Height="2" HorizontalAlignment="Stretch"
+                                    <Border VerticalAlignment="Bottom" Height="2" HorizontalAlignment="Stretch"
                                         Background="LightGray" />
-                            </Grid>
+                                </Grid>
 
-                            <Grid Grid.Row="2">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
+                                <Grid Grid.Row="2">
+                                    <Grid.ToolTip>
+                                        <TextBlock TextWrapping="Wrap">
                                         The maximum of items to receive from a playlist.
                                         <LineBreak />
                                         <LineBreak />
                                         Default: 5000
-                                    </TextBlock>
-                                </Grid.ToolTip>
-                                <Label Content="Maximum Playlist Items" Margin="-5,0,0,0" VerticalAlignment="Top"
+                                        </TextBlock>
+                                    </Grid.ToolTip>
+                                    <Label Content="Maximum Playlist Items" Margin="-5,0,0,0" VerticalAlignment="Top"
                                        FontSize="16" />
-                                <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                                    <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                          Text="{Binding Path=PlaylistReceiveMaximum}" FontSize="16"
                                          BorderBrush="#E63B32" />
-                            </Grid>
+                                </Grid>
 
-                            <Grid Grid.Row="4">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
+                                <Grid Grid.Row="4">
+                                    <Grid.ToolTip>
+                                        <TextBlock TextWrapping="Wrap">
                                         The amount of parallel downloads.
                                         <LineBreak />
                                         <LineBreak />
                                         Default: 4
-                                    </TextBlock>
-                                </Grid.ToolTip>
+                                        </TextBlock>
+                                    </Grid.ToolTip>
 
-                                <Label Content="Parallel Downloads" Margin="-5,0,0,0" VerticalAlignment="Top"
+                                    <Label Content="Parallel Downloads" Margin="-5,0,0,0" VerticalAlignment="Top"
                                        FontSize="16" />
-                                <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                                    <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                          Text="{Binding Path=ParallelDownloads}" FontSize="16" BorderBrush="#E63B32" />
+                                </Grid>
                             </Grid>
-                        </Grid>
+                            
+                            <!--
+                            <Grid Margin="0,10,0,0">
+                                <Border BorderBrush="LightGray" BorderThickness="0,0,1,0">
+                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="Advanced settings" Foreground="#E63B32" FontSize="16"/>
+                                </Border>
+                            </Grid>
+                            -->
+                        </StackPanel>
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Column="2"
@@ -491,7 +525,6 @@
                                           SelectedIndex="{Binding Path=SelectedPlaylistIndex}" BorderBrush="#E63B32"
                                           FontSize="16" />
                             </Grid>
-                            
                             -->
                         </Grid>
                     </ScrollViewer>

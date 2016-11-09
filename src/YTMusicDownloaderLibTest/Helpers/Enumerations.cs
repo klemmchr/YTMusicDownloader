@@ -14,24 +14,23 @@
     limitations under the License.
 */
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace YTMusicDownloaderLibShared.Tracks
+namespace YTMusicDownloaderLibTest.Helpers
 {
-    public class Artwork
+    [TestClass]
+    public class Enumerations
     {
-        #region Properties
-        public string Url { get;}
-        public int Height { get; }
-        public int Width { get; }
-        #endregion
-
-        #region Construction
-        public Artwork(string url, int height, int width)
+        private enum TestEnum
         {
-            Url = url;
-            Height = height;
-            Width = width;
+            [System.ComponentModel.Description("Test")]
+            Test
+        }
+        #region Methods
+        [TestMethod]
+        public void GetDescriptionSuccess()
+        {
+            Assert.IsTrue(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Enumerations.GetDescription(TestEnum.Test)));
         }
         #endregion
     }

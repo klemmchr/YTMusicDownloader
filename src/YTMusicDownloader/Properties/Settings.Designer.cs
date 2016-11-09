@@ -58,5 +58,17 @@ namespace YTMusicDownloader.Properties {
                 this["FirstStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowAdvancedSettings {
+            get {
+                return ((bool)(this["ShowAdvancedSettings"]));
+            }
+            set {
+                this["ShowAdvancedSettings"] = value;
+            }
+        }
     }
 }

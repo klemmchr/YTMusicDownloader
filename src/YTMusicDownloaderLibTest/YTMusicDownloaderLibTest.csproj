@@ -68,7 +68,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\ListTest.cs" />
+    <Compile Include="Helpers\Assembly.cs" />
+    <Compile Include="Helpers\Enumerations.cs" />
+    <Compile Include="Helpers\List\Sync.cs" />
+    <Compile Include="Helpers\List\TestObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

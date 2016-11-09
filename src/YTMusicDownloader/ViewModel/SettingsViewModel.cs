@@ -47,5 +47,15 @@ namespace YTMusicDownloader.ViewModel
                 RaisePropertyChanged(nameof(PlaylistReceiveMaximum));
             }
         }
+
+        public bool ShowAdvancedSettings
+        {
+            get { return Settings.Default.ShowAdvancedSettings; }
+            set
+            {
+                Settings.Default.ShowAdvancedSettings = value;
+                RaisePropertyChanged(nameof(ShowAdvancedSettings));
+            }
+        }
     }
 }

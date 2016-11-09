@@ -14,10 +14,11 @@
     limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace YTMusicDownloaderLib.Helper
+namespace YTMusicDownloaderLib.Helpers
 {
     public static class List
     {
@@ -32,8 +33,14 @@ namespace YTMusicDownloaderLib.Helper
         /// <param name="sourceList">The source list.</param>
         /// <param name="compareList">The compare list.</param>
         /// <returns>A new synchronized list.</returns>
-        public static List<T> Sync<T>(IList<T> sourceList, IList<T> compareList)
+        public static List<T> Sync<T>(IList<T> sourceList, IList<T> compareList) where T: class
         {
+            if(sourceList == null)
+                throw new ArgumentNullException(nameof(sourceList));
+
+            if(compareList == null)
+                throw new ArgumentNullException(nameof(compareList));
+
             var newList = new List<T>(sourceList);
 
             var addItems = compareList.Except(sourceList);

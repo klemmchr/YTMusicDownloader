@@ -17,7 +17,7 @@
 using System;
 using System.ComponentModel;
 
-namespace YTMusicDownloaderLib.Misc
+namespace YTMusicDownloaderLib.Helpers
 {
     public static class Enumerations
     {

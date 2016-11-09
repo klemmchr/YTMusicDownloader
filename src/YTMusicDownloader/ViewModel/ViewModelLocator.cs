@@ -28,10 +28,12 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.ServiceLocation;
 using NLog;
+using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -39,7 +41,7 @@ namespace YTMusicDownloader.ViewModel
     ///     This class contains static references to all the view models in the
     ///     application and provides an entry point for the bindings.
     /// </summary>
-    internal class ViewModelLocator
+    internal class ViewModelLocator: ViewModelBase
     {
         /// <summary>
         ///     Initializes a new instance of the ViewModelLocator class.
@@ -56,11 +58,15 @@ namespace YTMusicDownloader.ViewModel
             SimpleIoc.Default.Register<AboutTabViewModel>();
 
             LogManager.GetCurrentClassLogger().Trace("Registered all view models in view model locator");
+
+            if(ViewModelBase.IsInDesignModeStatic)
+                PlaylistItem = new PlaylistItemViewModel(new YTMusicDownloaderLib.RetrieverEngine.PlaylistItem("6SDloNzDrFg", "Avae - Daydream (feat. Paniz)", "https://i.ytimg.com/vi/6SDloNzDrFg/mqdefault.jpg", true), new WorkspaceViewModel(new Workspace(@"D:\Downloads")));
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
         public AddWorkspaceViewModel AddWorkspace => ServiceLocator.Current.GetInstance<AddWorkspaceViewModel>();
         public AboutTabViewModel AboutTab => ServiceLocator.Current.GetInstance<AboutTabViewModel>();
+        public PlaylistItemViewModel PlaylistItem { get; }
     }
 }
