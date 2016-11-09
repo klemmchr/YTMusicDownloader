@@ -23,7 +23,7 @@ Unlike other YouTube converters you can even download complete playlists and syn
 - Create different workspaces for different kinds of music
 - No 3rd party web dependencies - use this tool from everywhere around the world
 - Simple and easy to use
-- Fast direct downloads from YouTube
+- Fast direct downloads from YouTube (~ 5 seconds for a song with standard length)
 - Different download formats: M4A and MP3
 - Keep your local music library in sync with your YouTube playlists
 - Handle even playlists with 1000+ items
