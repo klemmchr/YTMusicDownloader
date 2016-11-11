@@ -658,9 +658,10 @@ namespace YTMusicDownloader.ViewModel
             if (Tracks.Count == 0)
                 addItems.Reverse();
 
+
             // Add the new items
             foreach (var item in addItems)
-                Tracks.Add(new PlaylistItemViewModel(item, this));            
+                Tracks.Insert(0, new PlaylistItemViewModel(item, this));            
 
             var i = 1;
             DownloadedTracks = 0;
