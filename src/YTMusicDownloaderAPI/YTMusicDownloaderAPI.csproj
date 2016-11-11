@@ -132,7 +132,6 @@
     <Compile Include="Model\BrowserJsonFormatter.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\CrashReport.cs" />
-    <Compile Include="Model\GitHubReporter.cs" />
     <Compile Include="Model\MailReporter.cs" />
     <Compile Include="Model\RequestProtection.cs" />
     <Compile Include="Model\RequestType.cs" />

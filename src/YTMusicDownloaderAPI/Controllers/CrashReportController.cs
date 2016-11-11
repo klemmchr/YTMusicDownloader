@@ -26,16 +26,14 @@ namespace YTMusicDownloaderAPI.Controllers
     {
         // POST api/<controller>
         [HttpPost]
-        public async Task<HttpResponseMessage> Post([FromBody]CrashReport report)
+        public HttpResponseMessage Post([FromBody]CrashReport report)
         {
             var ip = WebApiApplication.GetClientIp();
 
             if (!RequestProtection.AddRequest(ip, RequestType.CrashReport))
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
-
-            var issueId = await GitHubReporter.CreateIssue(ip, report);
-
-            return MailReporter.SendMail(ip, report, issueId) ? Request.CreateResponse(HttpStatusCode.OK, "Success") : Request.CreateResponse(HttpStatusCode.InternalServerError, "Error sending message");
+            
+            return MailReporter.SendMail(ip, report) ? Request.CreateResponse(HttpStatusCode.OK, "Success") : Request.CreateResponse(HttpStatusCode.InternalServerError, "Error sending message");
         }
     }
 }
