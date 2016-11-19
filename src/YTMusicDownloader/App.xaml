@@ -15,9 +15,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-                <ResourceDictionary Source="Views/Styles/Button.xaml" />
-                <ResourceDictionary Source="Views/Styles/Tooltip.xaml" />
-                <ResourceDictionary Source="Views/Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="Views/Templates/Button.xaml" />
+                <ResourceDictionary Source="Views/Templates/Tooltip.xaml" />
+                <ResourceDictionary Source="Views/Templates/TextBox.xaml" />
+                <ResourceDictionary Source="Views/Styles/Dark.xaml" />
+                <ResourceDictionary Source="Views/Templates/TabControl.xaml" />
+                <ResourceDictionary Source="Views/Templates/Label.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"
                                  xmlns:vm="clr-namespace:YTMusicDownloader.ViewModel" />

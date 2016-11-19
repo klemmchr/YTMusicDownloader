@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -30,7 +29,10 @@ namespace YTMusicDownloader
     public partial class App
     {
         private readonly List<string> _arguments = new List<string>();
+
+#if !DEBUG
         private readonly Mutex _mutex;
+#endif
 
         public App()
         {
@@ -51,8 +53,8 @@ namespace YTMusicDownloader
 
             ParseCommandLineArgs();
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+            // Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            // Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
             var logger = LogManager.GetCurrentClassLogger();
 

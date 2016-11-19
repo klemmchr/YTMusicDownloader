@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Diagnostics;
 using System.Net;
@@ -24,6 +25,7 @@ namespace YTMusicDownloaderAPI.Model
     public static class MailReporter
     {
         private static readonly SmtpClient Server;
+
         static MailReporter()
         {
             Server = new SmtpClient(Properties.Settings.SmtpServer)
@@ -36,14 +38,15 @@ namespace YTMusicDownloaderAPI.Model
             };
         }
 
-        
+
         public static bool SendMail(string ip, CrashReport report)
         {
             var sb = new StringBuilder();
-            
+
             sb.AppendLine("Automated crash reporter for app YTMusicDownloader");
             sb.AppendLine();
-            sb.AppendLine("The app crashed unexpectly! An issue in GitHub could not be created. Therefore the relevant information is passed here.");
+            sb.AppendLine(
+                "The app crashed unexpectly! An issue in GitHub could not be created. Therefore the relevant information is passed here.");
             sb.AppendLine();
             sb.Append("IP: ");
             sb.AppendLine(ip);
@@ -60,7 +63,8 @@ namespace YTMusicDownloaderAPI.Model
             sb.AppendLine(report.MachineName);
             sb.AppendLine();
             sb.AppendLine("Exception trace");
-            sb.AppendLine("===================================================================================================");
+            sb.AppendLine(
+                "===================================================================================================");
             sb.AppendLine();
             sb.Append(report.Exception);
 

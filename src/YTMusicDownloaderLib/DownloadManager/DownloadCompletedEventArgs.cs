@@ -13,21 +13,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 
 namespace YTMusicDownloaderLib.DownloadManager
 {
-    public class DownloadCompletedEventArgs: EventArgs
+    public class DownloadCompletedEventArgs : EventArgs
     {
-        public bool Cancelled { get; }
-        public bool UserCancelled { get; }
-        public Exception Error { get; }
-
         public DownloadCompletedEventArgs(bool cancelled, bool userCancelled = false, Exception error = null)
         {
             Cancelled = cancelled;
             UserCancelled = userCancelled;
             Error = error;
         }
+
+        public bool Cancelled { get; }
+        public bool UserCancelled { get; }
+        public Exception Error { get; }
     }
 }

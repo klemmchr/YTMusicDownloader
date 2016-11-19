@@ -13,10 +13,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using YTMusicDownloaderAPI.Model;
 
@@ -26,14 +25,16 @@ namespace YTMusicDownloaderAPI.Controllers
     {
         // POST api/<controller>
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]CrashReport report)
+        public HttpResponseMessage Post([FromBody] CrashReport report)
         {
             var ip = WebApiApplication.GetClientIp();
 
             if (!RequestProtection.AddRequest(ip, RequestType.CrashReport))
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "Usage limit exceeded");
-            
-            return MailReporter.SendMail(ip, report) ? Request.CreateResponse(HttpStatusCode.OK, "Success") : Request.CreateResponse(HttpStatusCode.InternalServerError, "Error sending message");
+
+            return MailReporter.SendMail(ip, report)
+                ? Request.CreateResponse(HttpStatusCode.OK, "Success")
+                : Request.CreateResponse(HttpStatusCode.InternalServerError, "Error sending message");
         }
     }
 }

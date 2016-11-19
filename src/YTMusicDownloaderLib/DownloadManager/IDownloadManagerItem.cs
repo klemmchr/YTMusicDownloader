@@ -19,8 +19,12 @@ using System;
 namespace YTMusicDownloaderLib.DownloadManager
 {
     public delegate void DownloadItemDownloadCompletedEventHandler(object sender, DownloadCompletedEventArgs args);
-    public delegate void DownloadItemDownloadProgressChangedEventHandler(object sender, DownloadProgressChangedEventArgs args);
+
+    public delegate void DownloadItemDownloadProgressChangedEventHandler(
+        object sender, DownloadProgressChangedEventArgs args);
+
     public delegate void DownloadItemDownloadStartedEventHandler(object sender, EventArgs args);
+
     public delegate void DownloadItemConvertionStartedEventHandler(object sender, EventArgs args);
 
     public interface IDownloadManagerItem

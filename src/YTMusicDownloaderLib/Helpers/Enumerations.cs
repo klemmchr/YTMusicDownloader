@@ -22,14 +22,15 @@ namespace YTMusicDownloaderLib.Helpers
     public static class Enumerations
     {
         #region Methods
+
         public static string GetDescription(Enum value)
         {
             var type = value.GetType();
             var memInfo = type.GetMember(value.ToString());
-            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute),false);
-            return ((DescriptionAttribute)attributes[0]).Description;
+            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return ((DescriptionAttribute) attributes[0]).Description;
         }
-        
+
         #endregion
     }
 }

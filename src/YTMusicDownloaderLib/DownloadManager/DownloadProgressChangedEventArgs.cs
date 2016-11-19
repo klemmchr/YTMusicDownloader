@@ -13,24 +13,26 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 
 namespace YTMusicDownloaderLib.DownloadManager
 {
-    public class DownloadProgressChangedEventArgs: EventArgs
+    public class DownloadProgressChangedEventArgs : EventArgs
     {
-        public double ProgressPercentage { get; }
         public DownloadProgressChangedEventArgs(long processedBytes, long totalBytes)
         {
             if (totalBytes == 0)
                 ProgressPercentage = 0;
             else
-                ProgressPercentage = ((processedBytes * 1.0) / (totalBytes * 1.0)) * 100;
+                ProgressPercentage = processedBytes*1.0/(totalBytes*1.0)*100;
         }
 
         public DownloadProgressChangedEventArgs(int progressPercentage)
         {
             ProgressPercentage = progressPercentage;
         }
+
+        public double ProgressPercentage { get; }
     }
 }

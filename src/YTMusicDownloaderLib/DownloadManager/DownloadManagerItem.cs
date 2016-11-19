@@ -13,21 +13,36 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using YTMusicDownloaderLib.RetrieverEngine;
 
 namespace YTMusicDownloaderLib.DownloadManager
 {
-    public abstract class DownloadManagerItem: IDownloadManagerItem, IDisposable
+    public abstract class DownloadManagerItem : IDownloadManagerItem, IDisposable
     {
+        protected DownloadManagerItem(PlaylistItem item)
+        {
+            Item = item;
+        }
+
+        #region Properties
+
+        public PlaylistItem Item { get; }
+
+        #endregion
+
         #region Events
+
         public event DownloadItemDownloadCompletedEventHandler DownloadItemDownloadCompleted;
+
         public void OnDownloadItemDownloadCompleted(DownloadCompletedEventArgs e)
         {
             DownloadItemDownloadCompleted?.Invoke(this, e);
         }
 
         public event DownloadItemDownloadProgressChangedEventHandler DownloadItemDownloadProgressChanged;
+
         public void OnDownloadItemDownloadProgressChanged(DownloadProgressChangedEventArgs e)
         {
             DownloadItemDownloadProgressChanged?.Invoke(this, e);
@@ -46,20 +61,18 @@ namespace YTMusicDownloaderLib.DownloadManager
         {
             DownloadItemConvertionStarted?.Invoke(this, e);
         }
-        #endregion
 
-        #region Properties
-        public PlaylistItem Item { get; }
         #endregion
-
-        protected DownloadManagerItem(PlaylistItem item)
-        {
-            Item = item;
-        }
 
         #region Methods
-        public virtual void StartDownload() { }
-        public virtual void StopDownload() { }
+
+        public virtual void StartDownload()
+        {
+        }
+
+        public virtual void StopDownload()
+        {
+        }
 
         public override int GetHashCode()
         {
@@ -68,7 +81,6 @@ namespace YTMusicDownloaderLib.DownloadManager
 
         public virtual void Dispose()
         {
-            
         }
 
         public override bool Equals(object obj)
@@ -77,6 +89,7 @@ namespace YTMusicDownloaderLib.DownloadManager
 
             return Item.Equals(item?.Item);
         }
+
         #endregion
     }
 }

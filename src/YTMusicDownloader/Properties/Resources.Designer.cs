@@ -22,7 +22,7 @@ namespace YTMusicDownloader.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace YTMusicDownloader.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YTMusicDownloader.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace YTMusicDownloader.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,21 +61,547 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to delete the workspace info aswell?
-        ///This will delete all of your stored information about the playlist settings!.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string MainViewModel_RemoveWorkspace_Description {
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to delete the workspace info aswell?
+        ///This will delete all of your stored information about the playlist settings! Your songs won&apos;t be deleted..
+        /// </summary>
+        public static string MainViewModel_RemoveWorkspace_Description {
             get {
                 return ResourceManager.GetString("MainViewModel_RemoveWorkspace_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove workspace.
+        ///   Looks up a localized string similar to Remove workspace {0}.
         /// </summary>
-        internal static string MainViewModel_RemoveWorkspace_Title {
+        public static string MainViewModel_RemoveWorkspace_Title {
             get {
                 return ResourceManager.GetString("MainViewModel_RemoveWorkspace_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This project is hosted on.
+        /// </summary>
+        public static string MainWindow_About_GitHub {
+            get {
+                return ResourceManager.GetString("MainWindow_About_GitHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GitHub.
+        /// </summary>
+        public static string MainWindow_About_GitHubLinkDescription {
+            get {
+                return ResourceManager.GetString("MainWindow_About_GitHubLinkDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Licensed under the Apache-2.0 license which can be obtained.
+        /// </summary>
+        public static string MainWindow_About_License {
+            get {
+                return ResourceManager.GetString("MainWindow_About_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to here.
+        /// </summary>
+        public static string MainWindow_About_LicenseLinkDescription {
+            get {
+                return ResourceManager.GetString("MainWindow_About_LicenseLinkDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The YouTube Music Downloader was developed in 2016 to create a simple way to download audio from YouTube.
+        ///It offers you a possibility to sync your music playlists from YouTube with your local computer..
+        /// </summary>
+        public static string MainWindow_About_MainContent {
+            get {
+                return ResourceManager.GetString("MainWindow_About_MainContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for using the YouTube Music Downloader!.
+        /// </summary>
+        public static string MainWindow_About_Thanks {
+            get {
+                return ResourceManager.GetString("MainWindow_About_Thanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string MainWindow_About_Version {
+            get {
+                return ResourceManager.GetString("MainWindow_About_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_CancelSyncButtonLabel {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_CancelSyncButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded: {0} Track(s).
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadedTracks {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadedTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Converting.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_Converting {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_Converting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_Downloaded {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_Downloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_Downloading {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_Downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_Error {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs convertion.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_NeedsConvertion {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_NeedsConvertion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not downloaded.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_NotDownloaded {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_NotDownloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queued.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_DownloadState_Queued {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_DownloadState_Queued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter by.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterLabel {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterMode_Downloaded {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterMode_Downloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterMode_Downloading {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterMode_Downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterMode_None {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterMode_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not downloaded.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterMode_NotDownloaded {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterMode_NotDownloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queued.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_FilterMode_Queued {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_FilterMode_Queued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Never.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_LastSyncNever {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_LastSyncNever", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Items per page.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PageView_ItemsPerPage {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PageView_ItemsPerPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page: {0}.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PageView_Page {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PageView_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PageView_PageOf {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PageView_PageOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error loading your playlist.&amp;#x0a;This could be due to a missing internet connection, an invalid playlist id or that the playlist is listed private..
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PlaylistLoadError_Content {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PlaylistLoadError_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading your playlist.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PlaylistLoadError_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PlaylistLoadError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playlist Url.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_PlaylistUrl {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_PlaylistUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The project folder for the workspace {0} was deleted.&amp;#x0a;Please set up the folder and select the workspace again..
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_ProjectFolderError_Content {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_ProjectFolderError_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project folder deleted.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_ProjectFolderError_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_ProjectFolderError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remaining: {0} Track(s).
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_RemainingTracks {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_RemainingTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search....
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_SearchWatermarkDefault {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_SearchWatermarkDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} results.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_SearchWatermarkResults {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_SearchWatermarkResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_SyncButtonLabel {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_SyncButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The sync is completed but {0} download(s) failed during the syncing process.
+        ///This usually happens if you have no internet connection, the song is not available in your country, was removed or is not accessible at all..
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_SyncError_Content {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_SyncError_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors during sync.
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_SyncError_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_SyncError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0} Track(s).
+        /// </summary>
+        public static string MainWindow_CurrentWorkspace_TotalTracks {
+            get {
+                return ResourceManager.GetString("MainWindow_CurrentWorkspace_TotalTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string MainWindow_Headers_About {
+            get {
+                return ResourceManager.GetString("MainWindow_Headers_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MainWindow_Headers_Settings {
+            get {
+                return ResourceManager.GetString("MainWindow_Headers_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workspaces.
+        /// </summary>
+        public static string MainWindow_Headers_Workspace {
+            get {
+                return ResourceManager.GetString("MainWindow_Headers_Workspace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing your user experience....
+        /// </summary>
+        public static string MainWindow_LoadingLabel {
+            get {
+                return ResourceManager.GetString("MainWindow_LoadingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have changed the download format to {0}.
+        ///
+        ///To convert your current tracks to the new format simply just sync your workspace or download them manually again..
+        /// </summary>
+        public static string MainWindow_Settings_DownloadFormatChanged_Content {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_DownloadFormatChanged_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download format changed.
+        /// </summary>
+        public static string MainWindow_Settings_DownloadFormatChanged_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_DownloadFormatChanged_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum playlist items.
+        /// </summary>
+        public static string MainWindow_Settings_General_MaximumPlaylistItems {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_MaximumPlaylistItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parallel downloads.
+        /// </summary>
+        public static string MainWindow_Settings_General_ParallelDownloads {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_ParallelDownloads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto sync on startup.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_AutoSyncOnStartup {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_AutoSyncOnStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete unsynced items.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_Cleanup {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_Cleanup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download format.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_DownloadFormat {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_DownloadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add workspace.
+        /// </summary>
+        public static string MainWindow_Workspaces_AddWorkspace {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_AddWorkspace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last sync: {0}.
+        /// </summary>
+        public static string MainWindow_Workspaces_LastSync {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_LastSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Workspace.
+        /// </summary>
+        public static string MainWindow_Workspaces_RemoveWorkspace {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_RemoveWorkspace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracks: {0}.
+        /// </summary>
+        public static string MainWindow_Workspaces_TrackCount {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_TrackCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The workspace folder seems to be deleted..
+        /// </summary>
+        public static string MainWindow_Workspaces_WorkspaceNotAvailable_Content {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_WorkspaceNotAvailable_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workspace folder not available.
+        /// </summary>
+        public static string MainWindow_Workspaces_WorkspaceNotAvailable_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_WorkspaceNotAvailable_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

@@ -24,8 +24,8 @@ using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NLog;
+using YTMusicDownloader.Properties;
 using YTMusicDownloaderLib.DownloadManager;
-using YTMusicDownloaderLib.Helpers;
 using YTMusicDownloaderLib.RetrieverEngine;
 using DownloadProgressChangedEventArgs = YTMusicDownloaderLib.DownloadManager.DownloadProgressChangedEventArgs;
 
@@ -33,6 +33,27 @@ namespace YTMusicDownloader.ViewModel
 {
     internal class PlaylistItemViewModel : ViewModelBase, IComparable<PlaylistItemViewModel>
     {
+        #region Construction
+
+        public PlaylistItemViewModel(PlaylistItem item, WorkspaceViewModel workspaceWorkspaceViewModel)
+        {
+            Item = item;
+            Title = item.Title;
+            _workspaceViewModel = workspaceWorkspaceViewModel;
+
+            CheckForTrack();
+
+            if (IsInDesignMode)
+            {
+                UpdateThumbnail();
+                Downloading = true;
+                DownloadProgress = 100;
+                Index = 1;
+            }
+        }
+
+        #endregion
+
         #region Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -125,10 +146,43 @@ namespace YTMusicDownloader.ViewModel
                 if (_downloadState != value)
                 {
                     _downloadState = value;
-                    RaisePropertyChanged(nameof(DownloadText));
                     RaisePropertyChanged(nameof(Downloaded));
 
-                    DownloadText = Enumerations.GetDescription(value);
+                    switch (value)
+                    {
+                        case DownloadState.Unset:
+                            DownloadText = "";
+                            break;
+
+                        case DownloadState.Downloaded:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_Downloaded;
+                            break;
+
+                        case DownloadState.NotDownloaded:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_NotDownloaded;
+                            break;
+
+                        case DownloadState.NeedsConvertion:
+                            DownloadText =
+                                Resources.MainWindow_CurrentWorkspace_DownloadState_NeedsConvertion;
+                            break;
+
+                        case DownloadState.Queued:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_Queued;
+                            break;
+
+                        case DownloadState.Downloading:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_Downloading;
+                            break;
+
+                        case DownloadState.Converting:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_Converting;
+                            break;
+
+                        case DownloadState.Error:
+                            DownloadText = Resources.MainWindow_CurrentWorkspace_DownloadState_Error;
+                            break;
+                    }
                 }
             }
         }
@@ -206,27 +260,6 @@ namespace YTMusicDownloader.ViewModel
         });
 
         public RelayCommand OpenTrackLocationCommand => new RelayCommand(OpenTrackLocation);
-
-        #endregion
-
-        #region Construction
-
-        public PlaylistItemViewModel(PlaylistItem item, WorkspaceViewModel workspaceWorkspaceViewModel)
-        {
-            Item = item;
-            Title = item.Title;
-            _workspaceViewModel = workspaceWorkspaceViewModel;
-
-            CheckForTrack();
-
-            if (IsInDesignMode)
-            {
-                UpdateThumbnail();
-                Downloading = true;
-                DownloadProgress = 100;
-                Index = 1;
-            }
-        }
 
         #endregion
 
@@ -420,6 +453,7 @@ namespace YTMusicDownloader.ViewModel
 
             return (vm != null) && (vm.Item == Item);
         }
+
         #endregion
     }
 }

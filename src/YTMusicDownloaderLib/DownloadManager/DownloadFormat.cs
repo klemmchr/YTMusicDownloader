@@ -15,6 +15,7 @@
 */
 
 // ReSharper disable InconsistentNaming
+
 namespace YTMusicDownloaderLib.DownloadManager
 {
     public enum DownloadFormat

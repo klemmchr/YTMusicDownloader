@@ -13,19 +13,20 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 namespace YTMusicDownloaderAPI.Model
 {
     public class Client
     {
-        public string Ip { get; }
-        public int CrashReports { get; set; }
-        public int PlaylistRequests { get; set; }
-        public int TrackInfoRequests { get; set; }
-
         public Client(string ip)
         {
             Ip = ip;
         }
+
+        public string Ip { get; }
+        public int CrashReports { get; set; }
+        public int PlaylistRequests { get; set; }
+        public int TrackInfoRequests { get; set; }
 
         public override int GetHashCode()
         {
@@ -35,7 +36,7 @@ namespace YTMusicDownloaderAPI.Model
         public override bool Equals(object obj)
         {
             var client = obj as Client;
-            return client != null && client.Ip == Ip;
+            return (client != null) && (client.Ip == Ip);
         }
     }
 }

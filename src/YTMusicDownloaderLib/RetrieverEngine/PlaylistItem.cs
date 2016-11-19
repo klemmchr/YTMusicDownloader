@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Linq;
 using Newtonsoft.Json;
@@ -24,26 +25,13 @@ namespace YTMusicDownloaderLib.RetrieverEngine
     public class PlaylistItem
     {
         #region Fields
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
-        #region Properties
-        public string VideoId { get; }
-        public string Title { get; set; }
-        public string ThumbnailUrl { get; }
-        public bool UserDefined { get; }
-
-        [JsonIgnore]
-        public string DownloadUrl { get; private set; }
-
-        [JsonIgnore]
-        public string Url { get; }
-
-        public bool AutoDownload { get; set; }
-        public DateTime DownloadDate { get; set; }
-        #endregion
-
-        public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload, bool userDefined = false, string downloadUrl = "")
+        public PlaylistItem(string videoId, string title, string thumbnailUrl, bool autoDownload,
+            bool userDefined = false, string downloadUrl = "")
         {
             VideoId = videoId;
             Title = title;
@@ -60,8 +48,8 @@ namespace YTMusicDownloaderLib.RetrieverEngine
             {
                 var videos = YouTube.Default.GetAllVideos(Url);
                 var audios =
-                videos.Where(v => v.AudioFormat == AudioFormat.Aac && v.AdaptiveKind == AdaptiveKind.Audio)
-                    .OrderByDescending(v => v.AudioBitrate).ToList();
+                    videos.Where(v => (v.AudioFormat == AudioFormat.Aac) && (v.AdaptiveKind == AdaptiveKind.Audio))
+                        .OrderByDescending(v => v.AudioBitrate).ToList();
                 if (audios.Count == 0)
                     throw new InvalidOperationException("No audio avalaible");
 
@@ -75,7 +63,7 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 
             return false;
         }
-        
+
         public override int GetHashCode()
         {
             return VideoId.GetHashCode();
@@ -84,7 +72,25 @@ namespace YTMusicDownloaderLib.RetrieverEngine
         public override bool Equals(object obj)
         {
             var item = obj as PlaylistItem;
-            return item != null && item.VideoId == VideoId;
+            return (item != null) && (item.VideoId == VideoId);
         }
+
+        #region Properties
+
+        public string VideoId { get; }
+        public string Title { get; set; }
+        public string ThumbnailUrl { get; }
+        public bool UserDefined { get; }
+
+        [JsonIgnore]
+        public string DownloadUrl { get; private set; }
+
+        [JsonIgnore]
+        public string Url { get; }
+
+        public bool AutoDownload { get; set; }
+        public DateTime DownloadDate { get; set; }
+
+        #endregion
     }
 }

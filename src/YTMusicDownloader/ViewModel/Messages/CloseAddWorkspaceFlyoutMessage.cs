@@ -1,6 +1,6 @@
 ﻿namespace YTMusicDownloader.ViewModel.Messages
 {
-    class CloseAddWorkspaceFlyoutMessage
+    internal class CloseAddWorkspaceFlyoutMessage
     {
     }
 }

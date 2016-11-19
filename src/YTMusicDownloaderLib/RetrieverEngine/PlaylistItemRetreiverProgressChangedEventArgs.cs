@@ -13,17 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 
 namespace YTMusicDownloaderLib.RetrieverEngine
 {
-    public class PlaylistItemRetreiverProgressChangedEventArgs: EventArgs
+    public class PlaylistItemRetreiverProgressChangedEventArgs : EventArgs
     {
-        public double Progress { get; }
-
         public PlaylistItemRetreiverProgressChangedEventArgs(int currentItem, int totalItems)
         {
-            Progress = (double) currentItem / totalItems * 100;
+            Progress = (double) currentItem/totalItems*100;
         }
+
+        public double Progress { get; }
     }
 }

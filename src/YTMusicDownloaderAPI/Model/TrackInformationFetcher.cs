@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using Newtonsoft.Json.Linq;
 using RestSharp;
-using YTMusicDownloaderAPI.Properties;
 using YTMusicDownloaderLibShared.Tracks;
 
 namespace YTMusicDownloaderAPI.Model
@@ -16,7 +10,7 @@ namespace YTMusicDownloaderAPI.Model
     public static class TrackInformationFetcher
     {
         /// <summary>
-        /// Gets the track information.
+        ///     Gets the track information.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
@@ -45,7 +39,7 @@ namespace YTMusicDownloaderAPI.Model
             request.AddParameter("limit", 1);
 
             var result = client.Execute(request);
-            if(result.StatusCode != HttpStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.OK)
                 throw new WebException();
 
             var json = JObject.Parse(result.Content);

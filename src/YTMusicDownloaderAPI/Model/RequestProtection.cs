@@ -20,17 +20,16 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Timers;
-using System.Xml.Linq;
 using Newtonsoft.Json;
 
 namespace YTMusicDownloaderAPI.Model
 {
     public static class RequestProtection
     {
-        private static readonly string BlockedClientsPath = Path.Combine(WebApiApplication.ExecutablePath, "blocked.json");
-        private static readonly HashSet<Client> Clients;
+        private static readonly string BlockedClientsPath = Path.Combine(WebApiApplication.ExecutablePath,
+            "blocked.json");
 
-        public static ObservableCollection<Client> BlockedClients { get; private set; }
+        private static readonly HashSet<Client> Clients;
 
         static RequestProtection()
         {
@@ -41,6 +40,8 @@ namespace YTMusicDownloaderAPI.Model
             LoadSettings();
             BlockedClients.CollectionChanged += (sender, args) => SaveSettings();
         }
+
+        public static ObservableCollection<Client> BlockedClients { get; private set; }
 
         private static void LoadSettings()
         {
@@ -82,7 +83,7 @@ namespace YTMusicDownloaderAPI.Model
         {
             var client = Clients.FirstOrDefault(c => c.Ip == ip);
 
-            if(client == null)
+            if (client == null)
             {
                 var newClient = new Client(ip);
                 Clients.Add(newClient);
@@ -107,8 +108,8 @@ namespace YTMusicDownloaderAPI.Model
 
                         if (client.CrashReports > Properties.Settings.Default.MaxCrashReportsPerHour)
                             return false;
-
-                    } break;
+                    }
+                        break;
 
                     case RequestType.PlaylistRequest:
                     {
@@ -121,12 +122,13 @@ namespace YTMusicDownloaderAPI.Model
 
                         if (client.PlaylistRequests > Properties.Settings.Default.MaxPlaylistRequestsPerHour)
                             return false;
-                    } break;
+                    }
+                        break;
 
                     case RequestType.TrackInfoRequest:
                     {
                         client.TrackInfoRequests++;
-                        if (client.TrackInfoRequests > Properties.Settings.Default.MaxTrackInfoRequestsPerHour * 10)
+                        if (client.TrackInfoRequests > Properties.Settings.Default.MaxTrackInfoRequestsPerHour*10)
                         {
                             BlockedClients.Add(client);
                             return false;
@@ -134,8 +136,9 @@ namespace YTMusicDownloaderAPI.Model
 
                         if (client.CrashReports > Properties.Settings.Default.MaxTrackInfoRequestsPerHour)
                             return false;
-                    } break;
-                } 
+                    }
+                        break;
+                }
             }
 
             return true;

@@ -25,6 +25,7 @@ namespace YTMusicDownloaderLibTest.Helpers.List
     public class Sync
     {
         #region Methods
+
         [TestMethod]
         public void SyncSuccess()
         {
@@ -66,6 +67,7 @@ namespace YTMusicDownloaderLibTest.Helpers.List
         {
             YTMusicDownloaderLib.Helpers.List.Sync<TestObject>(null, null);
         }
+
         #endregion
     }
 }

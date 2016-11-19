@@ -13,34 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System.ComponentModel;
 
 namespace YTMusicDownloaderLib.DownloadManager
 {
     public enum DownloadState
     {
-        [Description("")]
         Unset,
-
-        [Description("Downloaded")]
         Downloaded,
-
-        [Description("Not downloaded")]
         NotDownloaded,
-
-        [Description("Needs convertion")]
         NeedsConvertion,
-
-        [Description("Queued")]
         Queued,
-
-        [Description("Downloading")]
         Downloading,
-
-        [Description("Converting")]
         Converting,
-
-        [Description("Error")]
         Error
     }
 }

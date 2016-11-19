@@ -20,6 +20,7 @@ using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using iTunesLib;
+using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.DownloadManager;
@@ -29,6 +30,27 @@ namespace YTMusicDownloader.ViewModel
 {
     internal class WorkspaceSettingsViewModel : ViewModelBase
     {
+        #region Construction
+
+        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
+        {
+            _workspaceViewModel = workspaceViewModel;
+
+            /*
+            Playlists = new ObservableImmutableList<string>();
+            _playlists = new List<IITPlaylist>();
+
+            ResetITunesPlaylists();
+            */
+
+            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
+
+            foreach (var format in (DownloadFormat[]) Enum.GetValues(typeof(DownloadFormat)))
+                DownloadFormatOptions.Add(format, format.ToString());
+        }
+
+        #endregion
+
         #region Fields
 
         private readonly WorkspaceViewModel _workspaceViewModel;
@@ -96,32 +118,10 @@ namespace YTMusicDownloader.ViewModel
 
                 Messenger.Default.Send(
                     new ShowMessageDialogMessage(
-                        "Download format changed",
-                        $"You have changed the download format to {value.ToString().ToLower()}.\n\nTo convert your current tracks to the new format simply just sync your workspace or download them manually again."
-                    )
+                        Resources.MainWindow_Settings_DownloadFormatChanged_Title,
+                        string.Format(Resources.MainWindow_Settings_DownloadFormatChanged_Content, value.ToString().ToLower()))
                 );
             }
-        }
-
-        #endregion
-
-        #region Construction
-
-        public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
-        {
-            _workspaceViewModel = workspaceViewModel;
-
-            /*
-            Playlists = new ObservableImmutableList<string>();
-            _playlists = new List<IITPlaylist>();
-
-            ResetITunesPlaylists();
-            */
-
-            DownloadFormatOptions = new Dictionary<DownloadFormat, string>();
-
-            foreach (var format in (DownloadFormat[])Enum.GetValues(typeof(DownloadFormat)))
-                DownloadFormatOptions.Add(format, format.ToString());
         }
 
         #endregion

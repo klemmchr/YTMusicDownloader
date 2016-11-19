@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -26,26 +27,8 @@ namespace YTMusicDownloaderLib.Workspaces
     [JsonObject(MemberSerialization.OptIn)]
     public class Workspace
     {
-        #region Fields
-        private readonly string _workspaceConfigFile;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Properties
-        [JsonProperty]
-        public string Path { get; }
-
-        [JsonProperty]
-        public string Name { get; set; }
-
-        public WorkspaceSettings Settings { get; private set; }
-        
-        public string PlaylistId { get; private set; }
-
-        public string WorkspacePath { get; }
-        #endregion
-
         #region Construction
+
         [JsonConstructor]
         public Workspace(string path)
         {
@@ -54,15 +37,39 @@ namespace YTMusicDownloaderLib.Workspaces
             _workspaceConfigFile = System.IO.Path.Combine(WorkspacePath, ".workspace.json");
             Name = new DirectoryInfo(path).Name;
 
-            if(!Directory.Exists(WorkspacePath) && !File.Exists(_workspaceConfigFile))
+            if (!Directory.Exists(WorkspacePath) && !File.Exists(_workspaceConfigFile))
                 CreateWorkspaceConfig();
 
             ReadWorkspaceConfig();
         }
-        
+
+        #endregion
+
+        #region Fields
+
+        private readonly string _workspaceConfigFile;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Properties
+
+        [JsonProperty]
+        public string Path { get; }
+
+        [JsonProperty]
+        public string Name { get; set; }
+
+        public WorkspaceSettings Settings { get; private set; }
+
+        public string PlaylistId { get; private set; }
+
+        public string WorkspacePath { get; }
+
         #endregion
 
         #region Methods
+
         private void CreateWorkspaceConfig()
         {
             try
@@ -134,9 +141,11 @@ namespace YTMusicDownloaderLib.Workspaces
                 PlaylistId = null;
             }
         }
+
         #endregion
 
         #region Override
+
         public override string ToString()
         {
             return Name;
@@ -151,8 +160,9 @@ namespace YTMusicDownloaderLib.Workspaces
         {
             var workspace = obj as Workspace;
 
-            return workspace != null && workspace.Path == Path;
+            return (workspace != null) && (workspace.Path == Path);
         }
+
         #endregion
     }
 }
