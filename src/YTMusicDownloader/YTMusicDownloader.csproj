@@ -41,6 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -120,6 +121,7 @@
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModel\AboutTabViewModel.cs" />
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Messages\RemoveWorkspaceMessage.cs" />
     <Compile Include="ViewModel\Messages\SelectWorkspaceMessage.cs" />
     <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
     <Compile Include="Views\Behaviours\MouseSingleClick.cs" />
@@ -148,6 +150,10 @@
     <Page Include="Views\Templates\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Templates\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Templates\Label.xaml">
       <SubType>Designer</SubType>

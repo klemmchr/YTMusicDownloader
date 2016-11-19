@@ -28,6 +28,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MahApps.Metro.Controls.Dialogs;
@@ -64,6 +65,7 @@ namespace YTMusicDownloader.ViewModel
             if (IsInDesignModeStatic)
             {
                 DesignWorkspace = new WorkspaceViewModel(new Workspace(@"D:\Downloads"));
+                Workspaces = new List<WorkspaceViewModel> {DesignWorkspace};
 
                 DesignPlaylistItem = new PlaylistItemViewModel(
                         new PlaylistItem("6SDloNzDrFg", "Avae - Daydream (feat. Paniz)",
@@ -77,5 +79,12 @@ namespace YTMusicDownloader.ViewModel
         public AboutTabViewModel AboutTab => ServiceLocator.Current.GetInstance<AboutTabViewModel>();
         public PlaylistItemViewModel DesignPlaylistItem { get; }
         public WorkspaceViewModel DesignWorkspace { get; }
+        /// <summary>
+        /// Gets the workspaces for design mode.
+        /// </summary>
+        /// <value>
+        /// The workspaces.
+        /// </value>
+        public List<WorkspaceViewModel> Workspaces { get; }
     }
 }

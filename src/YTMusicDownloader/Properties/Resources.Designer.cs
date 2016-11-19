@@ -261,7 +261,7 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing.
+        ///   Looks up a localized string similar to None.
         /// </summary>
         public static string MainWindow_CurrentWorkspace_FilterMode_None {
             get {
@@ -460,15 +460,6 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initializing your user experience....
-        /// </summary>
-        public static string MainWindow_LoadingLabel {
-            get {
-                return ResourceManager.GetString("MainWindow_LoadingLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You have changed the download format to {0}.
         ///
         ///To convert your current tracks to the new format simply just sync your workspace or download them manually again..
@@ -543,11 +534,20 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last sync: {0}.
+        ///   Looks up a localized string similar to Last sync.
         /// </summary>
         public static string MainWindow_Workspaces_LastSync {
             get {
                 return ResourceManager.GetString("MainWindow_Workspaces_LastSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string MainWindow_Workspaces_Location {
+            get {
+                return ResourceManager.GetString("MainWindow_Workspaces_Location", resourceCulture);
             }
         }
         
@@ -561,7 +561,7 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tracks: {0}.
+        ///   Looks up a localized string similar to Tracks.
         /// </summary>
         public static string MainWindow_Workspaces_TrackCount {
             get {

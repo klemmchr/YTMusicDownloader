@@ -129,7 +129,6 @@ namespace YTMusicDownloader.ViewModel
         public ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 
         public RelayCommand AddWorkspaceCommand => new RelayCommand(() => IsAddingWorkspace = true);
-        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(RemoveWorkspace);
 
         #endregion
 
@@ -173,6 +172,14 @@ namespace YTMusicDownloader.ViewModel
                 if (message.WorkspaceViewModel != null)
                 {
                     SelectWorkspace(message.WorkspaceViewModel);
+                }
+            });
+
+            Messenger.Default.Register<RemoveWorkspaceMessage>(this, message =>
+            {
+                if (message.WorkspaceViewModel != null)
+                {
+                    RemoveWorkspace(message.WorkspaceViewModel);
                 }
             });
 
@@ -268,14 +275,8 @@ namespace YTMusicDownloader.ViewModel
             });
         }
 
-        private void RemoveWorkspace()
+        private void RemoveWorkspace(WorkspaceViewModel workspaceViewModel)
         {
-            if ((SelectedWorkspaceIndex > Workspaces.Count - 1) || (SelectedWorkspaceIndex < 0))
-                return;
-
-            if (Workspaces[SelectedWorkspaceIndex] == null)
-                return;
-
             var dialogSettings = new MetroDialogSettings
             {
                 AffirmativeButtonText = Resources.Yes,
@@ -284,7 +285,7 @@ namespace YTMusicDownloader.ViewModel
             };
 
             Messenger.Default.Send(
-                new ShowMessageDialogMessage(string.Format(Resources.MainViewModel_RemoveWorkspace_Title, Workspaces[SelectedWorkspaceIndex].Name),
+                new ShowMessageDialogMessage(string.Format(Resources.MainViewModel_RemoveWorkspace_Title, workspaceViewModel.Name),
                     Resources.MainViewModel_RemoveWorkspace_Description,
                     MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
                     result =>
@@ -296,14 +297,14 @@ namespace YTMusicDownloader.ViewModel
                             ? DeleteMode.DeleteWorkspace
                             : DeleteMode.KeepWorkspace;
 
+                        var workspace = workspaceViewModel.Workspace;
+
                         if ((SelectedWorkspace != null) &&
-                            SelectedWorkspace.Workspace.Equals(Workspaces[SelectedWorkspaceIndex].Workspace))
+                            SelectedWorkspace.Workspace.Equals(workspace))
                             SelectedWorkspace = null;
 
-                        var workspace = Workspaces[SelectedWorkspaceIndex].Workspace;
-
                         WorkspaceManagement.RemoveWorkspace(workspace, deleteMode);
-                        Workspaces.RemoveAt(SelectedWorkspaceIndex);
+                        Workspaces.Remove(workspaceViewModel);
 
                         Logger.Debug("Removed workspace {0} - deleteMode: {1}", workspace.Name, deleteMode);
                     }, dialogSettings));

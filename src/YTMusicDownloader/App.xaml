@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="Views/Styles/Dark.xaml" />
                 <ResourceDictionary Source="Views/Templates/TabControl.xaml" />
                 <ResourceDictionary Source="Views/Templates/Label.xaml" />
+                <ResourceDictionary Source="Views/Templates/CheckBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"
                                  xmlns:vm="clr-namespace:YTMusicDownloader.ViewModel" />

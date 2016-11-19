@@ -183,7 +183,7 @@ It offers you a possibility to sync your music playlists from YouTube with your 
     <value>Downloading</value>
   </data>
   <data name="MainWindow_CurrentWorkspace_FilterMode_None" xml:space="preserve">
-    <value>Nothing</value>
+    <value>None</value>
   </data>
   <data name="MainWindow_CurrentWorkspace_FilterMode_NotDownloaded" xml:space="preserve">
     <value>Not downloaded</value>
@@ -249,9 +249,6 @@ This usually happens if you have no internet connection, the song is not availab
   <data name="MainWindow_Headers_Workspace" xml:space="preserve">
     <value>Workspaces</value>
   </data>
-  <data name="MainWindow_LoadingLabel" xml:space="preserve">
-    <value>Initializing your user experience...</value>
-  </data>
   <data name="MainWindow_Settings_DownloadFormatChanged_Content" xml:space="preserve">
     <value>You have changed the download format to {0}.
 
@@ -279,13 +276,13 @@ To convert your current tracks to the new format simply just sync your workspace
     <value>Add workspace</value>
   </data>
   <data name="MainWindow_Workspaces_LastSync" xml:space="preserve">
-    <value>Last sync: {0}</value>
+    <value>Last sync</value>
   </data>
   <data name="MainWindow_Workspaces_RemoveWorkspace" xml:space="preserve">
     <value>Remove Workspace</value>
   </data>
   <data name="MainWindow_Workspaces_TrackCount" xml:space="preserve">
-    <value>Tracks: {0}</value>
+    <value>Tracks</value>
   </data>
   <data name="MainWindow_Workspaces_WorkspaceNotAvailable_Content" xml:space="preserve">
     <value>The workspace folder seems to be deleted.</value>
@@ -301,5 +298,8 @@ To convert your current tracks to the new format simply just sync your workspace
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
+    <value>Location</value>
   </data>
 </root>

@@ -137,7 +137,8 @@ Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen
     <value>hier abgerufen werden kann</value>
   </data>
   <data name="MainWindow_About_MainContent" xml:space="preserve">
-    <value>Der YouTube Music Downloader wurde 2016 entwickelt um eine einfache und schnelle Möglichkeit zu schaffen um Songs von YouTube herunterzuladen.&#x0a;Es ermöglicht das syncen </value>
+    <value>Der YouTube Music Downloader wurde 2016 entwickelt um eine einfache und schnelle Möglichkeit zu schaffen um Songs von YouTube herunterzuladen.
+Es ermöglicht das syncen </value>
   </data>
   <data name="MainWindow_About_Thanks" xml:space="preserve">
     <value>Danke für das Benutzen des YouTube Music Downloaders!</value>
@@ -230,7 +231,8 @@ Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen
     <value>Sync</value>
   </data>
   <data name="MainWindow_CurrentWorkspace_SyncError_Content" xml:space="preserve">
-    <value>Die Synchronisierung ist abgeschlossen, jedoch konnten {0} Tracks nicht heruntergeladen werden.&#x0a;Dies kann an einer fehlenden Internetverbindung liegen oder wenn der Song nicht verfügbar ist.</value>
+    <value>Die Synchronisierung ist abgeschlossen, jedoch konnten {0} Tracks nicht heruntergeladen werden.
+Dies kann an einer fehlenden Internetverbindung liegen oder wenn der Song nicht verfügbar ist.</value>
   </data>
   <data name="MainWindow_CurrentWorkspace_SyncError_Title" xml:space="preserve">
     <value>Fehler während der Synchronisierung</value>
@@ -247,11 +249,10 @@ Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen
   <data name="MainWindow_Headers_Workspace" xml:space="preserve">
     <value>Workspaces</value>
   </data>
-  <data name="MainWindow_LoadingLabel" xml:space="preserve">
-    <value>Starte Anwendung...</value>
-  </data>
   <data name="MainWindow_Settings_DownloadFormatChanged_Content" xml:space="preserve">
-    <value>Du hast das Download-Format zu {0} geändert.&#x0a;&#x0a;Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lade die Songs manuell herunter.</value>
+    <value>Du hast das Download-Format zu {0} geändert.
+
+Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lade die Songs manuell herunter.</value>
   </data>
   <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
     <value>Download-Format geändert</value>
@@ -275,13 +276,13 @@ Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen
     <value>Workspace hinzufügen</value>
   </data>
   <data name="MainWindow_Workspaces_LastSync" xml:space="preserve">
-    <value>Letzte Synchronisierung: {0}</value>
+    <value>Letzte Synchronisierung</value>
   </data>
   <data name="MainWindow_Workspaces_RemoveWorkspace" xml:space="preserve">
     <value>Workspace entfernen</value>
   </data>
   <data name="MainWindow_Workspaces_TrackCount" xml:space="preserve">
-    <value>Songs: {0}</value>
+    <value>Songs</value>
   </data>
   <data name="MainWindow_Workspaces_WorkspaceNotAvailable_Content" xml:space="preserve">
     <value>Der Workspace-Ordner wurde gelöscht</value>
@@ -297,5 +298,8 @@ Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
+  </data>
+  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
+    <value>Speicherort</value>
   </data>
 </root>

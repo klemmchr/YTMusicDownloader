@@ -6,42 +6,83 @@
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:p="clr-namespace:YTMusicDownloader.Properties"
              xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
-             xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="900" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}">
-    <Border Background="{StaticResource WorkspaceBackgroundBrush}" CornerRadius="4">
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Text="{Binding Path=Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="SemiBold"
-                         Style="{StaticResource TextBoxPlain}" Background="Transparent" />
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
-                </Grid.ColumnDefinitions>
+             d:DesignHeight="200" d:DesignWidth="900" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}" BorderThickness="2" BorderBrush="{StaticResource WorkspaceBorderBrush}" Background="{DynamicResource WorkspaceBackgroundBrush}">
 
-                <StackPanel Grid.Column="0">
-                    <Label ></Label>
-                </StackPanel>
-                
-                <Button Grid.Column="1" HorizontalAlignment="Right" Command="{Binding Path=SelectWorkspaceCommand}" Style="{DynamicResource TriangleButton}" BorderBrush="Red" Background="Red" Height="80" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="150" Margin="1">
-                    <icons:PackIconMaterial Kind="ArrowRight" Opacity="0.5" Foreground="{DynamicResource WorkspaceBackgroundBrush}"/>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" BorderBrush="{DynamicResource AccentBorderBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <TextBox Text="{Binding Path=Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontWeight="SemiBold"
+                        Style="{StaticResource TextBoxPlain}" Background="Transparent" />
+                <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0" Command="{Binding Path=RemoveWorkspaceCommand}" Style="{DynamicResource ButtonWorkspaceDelete}" BorderBrush="Transparent" Opacity="0.7">
+                    <icons:PackIconMaterial Kind="Close" />
                 </Button>
             </Grid>
-            <!-- <StackPanel>
+        </Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="195"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Location -->
+                <Border Background="{DynamicResource WorkspaceLabelBackgroundBrush}" Grid.Column="0" Grid.Row="0">
+                    <Viewbox>
+                        <icons:PackIconMaterial Kind="Folder" Foreground="White" Margin="5"/>
+                    </Viewbox>
+                </Border>
+                <Label Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontSize="16" Content="{x:Static p:Resources.MainWindow_Workspaces_Location}" VerticalAlignment="Stretch" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center"/>
+                <Label Grid.Row="0" Grid.Column="2" FontWeight="SemiBold" FontSize="16" Template="{DynamicResource LabelClickable}" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalAlignment="Center" Margin="0,0,0,0" Content="{Binding Path=Workspace.Path}" Foreground="{DynamicResource WorkspaceLabelContentForegroundBrush}" behaviours:MouseSingleClick.Command="{Binding Path=OpenLocationCommand}">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
                 
-                <Label Content="{Binding Path=Workspace.Path}" Foreground="LightGray" HorizontalAlignment="Left"
-                   Margin="0,0,5,0" />
-                <Label Content="{Binding Path=LastSync}"
-                   ContentStringFormat="{x:Static p:Resources.MainWindow_Workspaces_LastSync}" Margin="0,0,5,0" />
-                <Label Content="{Binding Path=TrackCount}"
-                   ContentStringFormat="{x:Static p:Resources.MainWindow_Workspaces_TrackCount}" />
-               
-            </StackPanel>
-            -->
+                <Border Background="{DynamicResource WorkspaceLabelBackgroundBrush}" Grid.Column="0" Grid.Row="2">
+                    <Viewbox>
+                        <icons:PackIconMaterial Kind="Sync" Foreground="White" Margin="5"/>
+                    </Viewbox>
+                </Border>
+                <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" FontSize="16" Content="{x:Static p:Resources.MainWindow_Workspaces_LastSync}" VerticalAlignment="Stretch" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="2" FontWeight="SemiBold" FontSize="16" Template="{DynamicResource WorkspaceDetailLabel}" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalAlignment="Center" Margin="0,0,85,0" Content="{Binding Path=LastSync}" Foreground="{DynamicResource WorkspaceLabelContentForegroundBrush}"/>
+
+                <!-- Track count -->
+                <Border Background="{DynamicResource WorkspaceLabelBackgroundBrush}" Grid.Column="0" Grid.Row="4">
+                    <Viewbox>
+                        <icons:PackIconMaterial Kind="FileMusic" Foreground="White" Margin="5"/>
+                    </Viewbox>
+                </Border>
+                <Label Grid.Row="4" Grid.Column="1" FontWeight="Bold" FontSize="16" Content="{x:Static p:Resources.MainWindow_Workspaces_TrackCount}" VerticalAlignment="Stretch" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center"/>
+                <Label Grid.Row="4" Grid.Column="2" FontWeight="SemiBold" FontSize="16" Template="{DynamicResource WorkspaceDetailLabel}" Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalAlignment="Center" Margin="0,0,175,0" Content="{Binding Path=TrackCount}" Foreground="{DynamicResource WorkspaceLabelContentForegroundBrush}"/>
+            </Grid>
+
+            <Button Grid.Column="1" HorizontalAlignment="Right" Command="{Binding Path=SelectWorkspaceCommand}" Style="{DynamicResource TriangleButton}" BorderBrush="{DynamicResource AccentBrush}" Background="{DynamicResource AccentBrush}" Height="80" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="150" Margin="1">
+                <icons:PackIconMaterial Kind="PlaylistPlay" Opacity="0.8" Foreground="{DynamicResource WorkspaceBackgroundBrush}" Margin="0,10,0,0"/>
+            </Button>
         </Grid>
-    </Border>
+    </Grid>
 </UserControl>

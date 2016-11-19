@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <SolidColorBrush x:Key="BackendBrush" Color="#181818" />
     <SolidColorBrush x:Key="BackgroundBrush" Color="#121212" />
-    <SolidColorBrush x:Key="WorkspaceBackgroundBrush" Color="#181818" />
+    
     
     <SolidColorBrush x:Key="GlowBorderBrush" Color="#121212" />
     <SolidColorBrush x:Key="TitlebarBrush" Color="#121212" />
@@ -36,6 +36,12 @@
     <SolidColorBrush x:Key="PlaylistItemInnerBorderBrush" Color="#141414" />
     <SolidColorBrush x:Key="PlaylistItemBackgroundBrush" Color="#181818" />
     <SolidColorBrush x:Key="PlaylistItemThumbnailBorderBrush" Color="#282828" />
+    
+    <!-- Workspace -->
+    <SolidColorBrush x:Key="WorkspaceBackgroundBrush" Color="#181818" />
+    <SolidColorBrush x:Key="WorkspaceBorderBrush" Color="#272727" />
+    <SolidColorBrush x:Key="WorkspaceLabelBackgroundBrush" Color="#131114" />
+    <SolidColorBrush x:Key="WorkspaceLabelContentForegroundBrush" Color="#848285" />
     
     <!-- Items control -->
     <SolidColorBrush x:Key="PlaylistItemsListBorderBrush" Color="#363636"/>

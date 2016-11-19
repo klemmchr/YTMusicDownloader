@@ -290,7 +290,7 @@ namespace YTMusicDownloader.ViewModel
         {
             get
             {
-                return Workspace.Settings.LastSync == DateTime.MinValue
+                return Workspace.Settings.LastSync == default(DateTime)
                     ? Resources.MainWindow_CurrentWorkspace_LastSyncNever
                     : Workspace.Settings.LastSync.ToString(CultureInfo.InstalledUICulture);
             }
@@ -343,6 +343,11 @@ namespace YTMusicDownloader.ViewModel
         public RelayCommand SelectWorkspaceCommand => new RelayCommand(() =>
         {
             Messenger.Default.Send(new SelectWorkspaceMessage(this));
+        });
+
+        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(() =>
+        {
+            Messenger.Default.Send(new RemoveWorkspaceMessage(this));
         });
 
         #endregion

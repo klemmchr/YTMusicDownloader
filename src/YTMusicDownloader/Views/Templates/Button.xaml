@@ -17,7 +17,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Border x:Name="Background" Background="{TemplateBinding Background}" />
+                        <Border x:Name="Background" Background="{TemplateBinding Background}"/>
                         <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" Background="{x:Null}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -35,23 +35,13 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush8}" />
+                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.7" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush7}" />
                         </Trigger>
-                        <!--
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="BorderBrush" TargetName="Border"
-                                    Value="{DynamicResource TextBoxBorderBrush}" />
-                            <Setter Property="BorderThickness" TargetName="Border" Value="2" />
-                        </Trigger>
-                        -->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="Gray" />
-                            <!--
-                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.7" />
-                            -->
+                            <Setter Property="Opacity" TargetName="Background" Value="0.7" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -123,54 +113,51 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--
-        <Style.BasedOn>
-            <Style TargetType="{x:Type Button}">
-                <Style.BasedOn>
-                    <Style TargetType="{x:Type ButtonBase}">
-                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-                        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
-                        <Setter Property="BorderThickness" Value="1"/>
-                        <Setter Property="Custom:ControlsHelper.ContentCharacterCasing" Value="Upper"/>
-                        <Setter Property="Custom:ControlsHelper.CornerRadius" Value="3"/>
-                        <Setter Property="FontFamily" Value="{DynamicResource DefaultFont}"/>
-                        <Setter Property="FontSize" Value="{DynamicResource UpperCaseContentFontSize}"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="MinHeight" Value="25"/>
-                        <Setter Property="Padding" Value="5,6"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                                    <Grid>
-                                        <Border x:Name="Background" Background="{TemplateBinding Background}" CornerRadius="{Binding (Custom:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                        <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{x:Null}" CornerRadius="{Binding (Custom:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                        <Border x:Name="DisabledVisualElement" Background="{DynamicResource ControlsDisabledBrush}" CornerRadius="{Binding (Custom:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" IsHitTestVisible="False" Opacity="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                        <Custom:ContentControlEx x:Name="PART_ContentPresenter" ContentCharacterCasing="{Binding (Custom:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush8}"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush7}"/>
-                                        </Trigger>
-                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                            <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
-                                            <Setter Property="BorderThickness" TargetName="Border" Value="2"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Opacity" TargetName="DisabledVisualElement" Value="0.7"/>
-                                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.3"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Style.BasedOn>
-            </Style>
-        </Style.BasedOn>
-        -->
+    </Style>
+    <Style x:Key="ButtonWorkspaceDelete" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" />
+                        <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" Background="{x:Null}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border x:Name="DisabledVisualElement" Background="{DynamicResource ControlsDisabledBrush}"
+                            IsHitTestVisible="False" Opacity="0"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Custom:ContentControlEx x:Name="PART_ContentPresenter"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Padding="{TemplateBinding Padding}" RecognizesAccessKey="True"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Background" Value="Red" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush7}" />
+                        </Trigger>
+                        <!--
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="BorderBrush" TargetName="Border"
+                                    Value="{DynamicResource TextBoxBorderBrush}" />
+                            <Setter Property="BorderThickness" TargetName="Border" Value="2" />
+                        </Trigger>
+                        -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <!--
+                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.7" />
+                            -->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
