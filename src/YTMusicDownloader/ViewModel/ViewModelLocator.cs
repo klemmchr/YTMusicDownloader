@@ -28,6 +28,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -55,7 +56,7 @@ namespace YTMusicDownloader.ViewModel
             SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<GeneralSettingsViewModel>();
             SimpleIoc.Default.Register<AddWorkspaceViewModel>();
             SimpleIoc.Default.Register<AboutTabViewModel>();
             
@@ -70,11 +71,16 @@ namespace YTMusicDownloader.ViewModel
                 DesignPlaylistItem = new PlaylistItemViewModel(
                         new PlaylistItem("6SDloNzDrFg", "Avae - Daydream (feat. Paniz)",
                             "https://i.ytimg.com/vi/6SDloNzDrFg/mqdefault.jpg", true), DesignWorkspace);
+
+                DesignSetting = new SettingViewModel(Properties.Settings.Default, "ParallelDownloads", "Test setting", 
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et", 
+                    10, "Account", 1, 10);
+                DesignSettings = new List<SettingViewModel> {DesignSetting};
             }
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        public GeneralSettingsViewModel GeneralSettings => ServiceLocator.Current.GetInstance<GeneralSettingsViewModel>();
         public AddWorkspaceViewModel AddWorkspace => ServiceLocator.Current.GetInstance<AddWorkspaceViewModel>();
         public AboutTabViewModel AboutTab => ServiceLocator.Current.GetInstance<AboutTabViewModel>();
         public PlaylistItemViewModel DesignPlaylistItem { get; }
@@ -86,5 +92,7 @@ namespace YTMusicDownloader.ViewModel
         /// The workspaces.
         /// </value>
         public List<WorkspaceViewModel> Workspaces { get; }
+        public SettingViewModel DesignSetting { get; }
+        public List<SettingViewModel> DesignSettings { get; }
     }
 }

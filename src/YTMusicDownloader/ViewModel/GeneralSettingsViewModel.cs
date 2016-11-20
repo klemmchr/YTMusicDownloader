@@ -15,13 +15,17 @@
 */
 
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using YTMusicDownloader.Properties;
+using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
-    internal class SettingsViewModel : ViewModelBase
+    internal class GeneralSettingsViewModel : ViewModelBase
     {
+        /*
         public string ParallelDownloads
         {
             get { return Settings.Default.ParallelDownloads.ToString(); }
@@ -56,6 +60,23 @@ namespace YTMusicDownloader.ViewModel
                 Settings.Default.ShowAdvancedSettings = value;
                 RaisePropertyChanged(nameof(ShowAdvancedSettings));
             }
+        }
+        */
+
+        public ObservableCollection<SettingViewModel> Settings { get; }
+
+        public GeneralSettingsViewModel()
+        {
+            Settings = new ObservableCollection<SettingViewModel>();
+            SetupSettings();
+        }
+
+        private void SetupSettings()
+        {
+            var applicationSettings = Properties.Settings.Default;
+
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.ParallelDownloads), Resources.MainWindow_Settings_General_ParallelDownloads_Title, Resources.MainWindow_Settings_General_ParallelDownloads_Description, 2, "Download", 0, 10));
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.PlaylistReceiveMaximum), Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title, Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description, 5000, "PlaylistPlay", 0, 10000));
         }
     }
 }

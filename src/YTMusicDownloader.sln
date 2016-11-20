@@ -90,4 +90,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_AutoCreateNewLanguageFiles = False
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
+	EndGlobalSection
 EndGlobal

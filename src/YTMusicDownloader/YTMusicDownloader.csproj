@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -123,6 +123,8 @@
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Messages\RemoveWorkspaceMessage.cs" />
     <Compile Include="ViewModel\Messages\SelectWorkspaceMessage.cs" />
+    <Compile Include="ViewModel\SettingViewModel.cs" />
+    <Compile Include="ViewModel\WorkspaceSettingsViewModel.cs" />
     <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
     <Compile Include="Views\Behaviours\MouseSingleClick.cs" />
     <Compile Include="Views\Converters\BooleanOpacityConverter.cs" />
@@ -139,10 +141,13 @@
     <Compile Include="ViewModel\Messages\WorkspaceErrorMessage.cs" />
     <Compile Include="ViewModel\PageSelectorViewModel.cs" />
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
-    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\UserControls\PlaylistItem.xaml.cs">
       <DependentUpon>PlaylistItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\Workspace.xaml.cs">
       <DependentUpon>Workspace.xaml</DependentUpon>
@@ -179,7 +184,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\WorkspaceSettingsViewModel.cs" />
+    <Compile Include="ViewModel\WorkspaceSettingsViewMode_old.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -190,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\PlaylistItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\Setting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

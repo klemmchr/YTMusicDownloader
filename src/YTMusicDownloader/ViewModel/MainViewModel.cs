@@ -91,8 +91,11 @@ namespace YTMusicDownloader.ViewModel
                 _selectedTabIndex = value;
                 RaisePropertyChanged(nameof(SelectedTabIndex));
 
+                /*
                 if (value == 2)
                     SelectedWorkspace?.WorkspaceSettingsViewModel.SettingsPageSelected();
+
+                */
             }
         }
 

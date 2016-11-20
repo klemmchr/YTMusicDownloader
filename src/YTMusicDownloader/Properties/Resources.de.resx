@@ -257,10 +257,10 @@ Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lad
   <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
     <value>Download-Format geändert</value>
   </data>
-  <data name="MainWindow_Settings_General_MaximumPlaylistItems" xml:space="preserve">
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Title" xml:space="preserve">
     <value>Maximale Tracks pro Playlist</value>
   </data>
-  <data name="MainWindow_Settings_General_ParallelDownloads" xml:space="preserve">
+  <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
     <value>Parallele Downloads</value>
   </data>
   <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup" xml:space="preserve">
@@ -301,5 +301,20 @@ Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lad
   </data>
   <data name="MainWindow_Workspaces_Location" xml:space="preserve">
     <value>Speicherort</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_General" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="MainWindow_Settings_Default" xml:space="preserve">
+    <value>Standard: {0}</value>
   </data>
 </root>

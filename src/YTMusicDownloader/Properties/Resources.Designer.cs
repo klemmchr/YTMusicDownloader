@@ -460,6 +460,15 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default: {0}.
+        /// </summary>
+        public static string MainWindow_Settings_Default {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have changed the download format to {0}.
         ///
         ///To convert your current tracks to the new format simply just sync your workspace or download them manually again..
@@ -480,20 +489,56 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string MainWindow_Settings_General {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to blah.
+        /// </summary>
+        public static string MainWindow_Settings_General_MaximumPlaylistItems_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_MaximumPlaylistItems_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum playlist items.
         /// </summary>
-        public static string MainWindow_Settings_General_MaximumPlaylistItems {
+        public static string MainWindow_Settings_General_MaximumPlaylistItems_Title {
             get {
-                return ResourceManager.GetString("MainWindow_Settings_General_MaximumPlaylistItems", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Settings_General_MaximumPlaylistItems_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to blah.
+        /// </summary>
+        public static string MainWindow_Settings_General_ParallelDownloads_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_ParallelDownloads_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Parallel downloads.
         /// </summary>
-        public static string MainWindow_Settings_General_ParallelDownloads {
+        public static string MainWindow_Settings_General_ParallelDownloads_Title {
             get {
-                return ResourceManager.GetString("MainWindow_Settings_General_ParallelDownloads", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Settings_General_ParallelDownloads_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workspace.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace", resourceCulture);
             }
         }
         

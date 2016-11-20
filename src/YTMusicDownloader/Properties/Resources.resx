@@ -257,10 +257,10 @@ To convert your current tracks to the new format simply just sync your workspace
   <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
     <value>Download format changed</value>
   </data>
-  <data name="MainWindow_Settings_General_MaximumPlaylistItems" xml:space="preserve">
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Title" xml:space="preserve">
     <value>Maximum playlist items</value>
   </data>
-  <data name="MainWindow_Settings_General_ParallelDownloads" xml:space="preserve">
+  <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
     <value>Parallel downloads</value>
   </data>
   <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup" xml:space="preserve">
@@ -301,5 +301,20 @@ To convert your current tracks to the new format simply just sync your workspace
   </data>
   <data name="MainWindow_Workspaces_Location" xml:space="preserve">
     <value>Location</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="MainWindow_Settings_Default" xml:space="preserve">
+    <value>Default: {0}</value>
   </data>
 </root>
