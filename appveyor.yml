@@ -44,12 +44,6 @@ platform:
 
 configuration: Release
 
-environment:
-	googleApiKey:
-		secure: 1sqrd+xVxGqbjwCDQP198ioHTrMnl8L9wvl6Erm7oqPn4AzG31WT8moEEwbZA3wp
-	lastFmApiKey:
-		secure: qJuAnuE84SJFrpweB5SrhGDy5K9N/mZPrz2n4elgWJ5aczeUGQH/qCU4xVGa1T/i
-
 build:
   verbosity: normal
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
