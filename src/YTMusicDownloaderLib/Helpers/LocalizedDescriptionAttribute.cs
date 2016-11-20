@@ -16,28 +16,30 @@
 
 using System;
 using System.ComponentModel;
+using System.Resources;
 
 namespace YTMusicDownloaderLib.Helpers
 {
-    public static class Enumerations
+    public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
-        #region Methods
-
-        public static string GetDescription(Enum value)
+        private readonly string _resourceKey;
+        private readonly ResourceManager _resource;
+        public LocalizedDescriptionAttribute(string resourceKey, Type resourceType)
         {
-            try
-            {
-                var type = value.GetType();
-                var memInfo = type.GetMember(value.ToString());
-                var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                return ((DescriptionAttribute)attributes[0]).Description;
-            }
-            catch
-            {
-                return value.ToString();
-            }
+            _resource = new ResourceManager(resourceType);
+            _resourceKey = resourceKey;
         }
 
-        #endregion
+        public override string Description
+        {
+            get
+            {
+                string displayName = _resource.GetString(_resourceKey);
+
+                return string.IsNullOrEmpty(displayName)
+                    ? $"[[{_resourceKey}]]"
+                    : displayName;
+            }
+        }
     }
 }

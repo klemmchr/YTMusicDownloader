@@ -25,6 +25,10 @@
     <!-- TextBox -->
     <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#181818" />
     
+    <!-- ToggleButton -->
+    <SolidColorBrush x:Key="ToggleButtonActivatedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ToggleButtonDeactivatedForegroundBrush" Color="#2f2f2f" />
+    
     <!-- 
         ##########################################################################################
                                             Workspace view 
@@ -50,5 +54,10 @@
     <!-- Page selector -->
     <SolidColorBrush x:Key="PageSelectorTopSeperatorBursh" Color="#363636"/>
     <SolidColorBrush x:Key="PageSelectorBackgroundBrush" Color="#282828"/>
+    
+    <!-- Settings -->
+    <SolidColorBrush x:Key="SettingsDeafaultBrush" Color="#7a3636" />
+    <SolidColorBrush x:Key="SettingsControlBackgroundBrush" Color="#151515" />
+    <SolidColorBrush x:Key="SettingsTabSelectedBrush" Color="#89201a" />
 
 </ResourceDictionary>

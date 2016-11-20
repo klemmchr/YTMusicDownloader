@@ -61,11 +61,47 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activate.
+        /// </summary>
+        public static string Activate {
+            get {
+                return ResourceManager.GetString("Activate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activated.
+        /// </summary>
+        public static string Activated {
+            get {
+                return ResourceManager.GetString("Activated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deactivate.
+        /// </summary>
+        public static string Deactivate {
+            get {
+                return ResourceManager.GetString("Deactivate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deactivated.
+        /// </summary>
+        public static string Deactivated {
+            get {
+                return ResourceManager.GetString("Deactivated", resourceCulture);
             }
         }
         
@@ -543,29 +579,56 @@ namespace YTMusicDownloader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to blah.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_AutoSyncOnStartup_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_AutoSyncOnStartup_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto sync on startup.
         /// </summary>
-        public static string MainWindow_Settings_Workspace_AutoSyncOnStartup {
+        public static string MainWindow_Settings_Workspace_AutoSyncOnStartup_Title {
             get {
-                return ResourceManager.GetString("MainWindow_Settings_Workspace_AutoSyncOnStartup", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_AutoSyncOnStartup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to blah.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_Cleanup_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_Cleanup_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Delete unsynced items.
         /// </summary>
-        public static string MainWindow_Settings_Workspace_Cleanup {
+        public static string MainWindow_Settings_Workspace_Cleanup_Title {
             get {
-                return ResourceManager.GetString("MainWindow_Settings_Workspace_Cleanup", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_Cleanup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to blah.
+        /// </summary>
+        public static string MainWindow_Settings_Workspace_DownloadFormat_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_DownloadFormat_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Download format.
         /// </summary>
-        public static string MainWindow_Settings_Workspace_DownloadFormat {
+        public static string MainWindow_Settings_Workspace_DownloadFormat_Title {
             get {
-                return ResourceManager.GetString("MainWindow_Settings_Workspace_DownloadFormat", resourceCulture);
+                return ResourceManager.GetString("MainWindow_Settings_Workspace_DownloadFormat_Title", resourceCulture);
             }
         }
         

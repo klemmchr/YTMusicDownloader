@@ -305,8 +305,8 @@
 
             <TabItem Header="{x:Static p:Resources.MainWindow_Headers_Settings}">
                 <Border Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0">
-                    <TabControl>
-                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_General}" DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettings}">
+                    <TabControl Style="{DynamicResource TabControlSettings}">
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_General}" DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettings}" Style="{DynamicResource TabItemSettings}">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                                 <ItemsControl ItemsSource="{Binding Path=Settings}">
                                     <ItemsControl.ItemsPanel>
@@ -316,15 +316,15 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <ItemContainerTemplate>
-                                            <uc:Setting Width="400" BorderBrush="White" BorderThickness="3" Margin="10"/>
+                                            <uc:Setting Width="400" Margin="10"/>
                                         </ItemContainerTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_Workspace}" DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}">
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_Workspace}" Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{DynamicResource TabItemSettings}">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                                <ItemsControl ItemsSource="{Binding Path=WorkspaceSettingsViewModel.Settings}">
+                                <ItemsControl DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}" ItemsSource="{Binding Path=WorkspaceSettingsViewModel.Settings}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" />
@@ -332,7 +332,7 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <ItemContainerTemplate>
-                                            <uc:Setting Width="400" BorderBrush="White" BorderThickness="3" Margin="10"/>
+                                            <uc:Setting Width="430" BorderBrush="White" BorderThickness="3" Margin="10,10,50,10"/>
                                         </ItemContainerTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

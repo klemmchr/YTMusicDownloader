@@ -18,11 +18,11 @@
                 <Border Margin="0,0,10,0" BorderBrush="{StaticResource PlaylistItemThumbnailBorderBrush}" BorderThickness="2">
                     <Grid Margin="2">
                         <Image Source="{Binding Path=Thumbnail}" />
-                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
-                           Content="{Binding Path=Index}" FontWeight="SemiBold" FontSize="18" />
+                        
+                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding Path=Index}" FontWeight="SemiBold" FontSize="18" Foreground="White"/>
                     </Grid>
                 </Border>
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35" />

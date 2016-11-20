@@ -466,6 +466,12 @@ namespace YTMusicDownloader.ViewModel
                     track.CheckForTrack();
 
                 SearchTextChanged();
+
+                Messenger.Default.Send(
+                    new ShowMessageDialogMessage(
+                        Resources.MainWindow_Settings_DownloadFormatChanged_Title,
+                        string.Format(Resources.MainWindow_Settings_DownloadFormatChanged_Content, Workspace.Settings.DownloadFormat))
+                );
             }
         }
 

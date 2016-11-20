@@ -6,7 +6,7 @@
              xmlns:p="clr-namespace:YTMusicDownloader.Properties"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="400" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignSetting}">
+             d:DesignHeight="800" d:DesignWidth="400" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignSetting}" BorderBrush="{DynamicResource AccentBorderBrush}" BorderThickness="1">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -23,19 +23,23 @@
                 <RowDefinition Height="30*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="10*" />
-                <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="{Binding Path=Title}" TextWrapping="Wrap" Foreground="White" FontSize="32" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0" TextAlignment="Center"/>
-            <TextBlock Grid.Row="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Foreground="White" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Margin="10,0"/>
+            
+            <TextBlock Grid.Row="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Foreground="White" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Margin="10,0"/>    
 
-            <ToggleButton Grid.Row="4" Width="90" Visibility="{Binding Path=IsBool, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            
-            <Viewbox Grid.Row="4" MinHeight="40" MaxHeight="80">
-                <TextBox  Width="90" Visibility="{Binding Path=IsInt, Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding Path=Setting}" TextAlignment="Center" FontSize="16" FontWeight="SemiBold" Margin="0,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />    
-            </Viewbox>
-            
-            <Label Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=DefaultValue}" ContentStringFormat="{x:Static p:Resources.MainWindow_Settings_Default}"/>
+            <StackPanel Grid.Row="4">
+                <Viewbox MinHeight="40" MaxHeight="80">
+                    <Grid>
+                        <ToggleButton Width="90" Visibility="{Binding Path=IsBool, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,2" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource SettingsControlBackgroundBrush}"/>
+                        <TextBox  Width="90" Visibility="{Binding Path=IsInt, Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding Path=Setting}" TextAlignment="Center" FontSize="16" FontWeight="SemiBold" Margin="0,2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{DynamicResource AccentBrush}" Background="{DynamicResource SettingsControlBackgroundBrush}"/>
+                        <ComboBox Width="90" Visibility="{Binding Path=IsEnum, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Path=Options}" SelectedValue="{Binding Path=SelectedOption}" SelectedValuePath="Key" DisplayMemberPath="Value" Margin="0,2" BorderBrush="{DynamicResource AccentBrush}" Background="{DynamicResource SettingsControlBackgroundBrush}"/>
+                    </Grid>
+                </Viewbox>
+
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=DefaultValue}" ContentStringFormat="{x:Static p:Resources.MainWindow_Settings_Default}" Foreground="{DynamicResource SettingsDeafaultBrush}" FontWeight="Bold" FontSize="15"/>
+            </StackPanel>
 
         </Grid>
     </Grid>

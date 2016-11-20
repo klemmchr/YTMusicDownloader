@@ -16,11 +16,17 @@
 
 // ReSharper disable InconsistentNaming
 
+using System.ComponentModel;
+using YTMusicDownloaderLib.Helpers;
+using YTMusicDownloaderLib.Properties;
+
 namespace YTMusicDownloaderLib.DownloadManager
 {
     public enum DownloadFormat
-    {
+    { 
+        [LocalizedDescription(nameof(Resources.DownloadFormat_MP3), typeof(Resources))]
         MP3,
+        [LocalizedDescription(nameof(Resources.DownloadFormat_M4A), typeof(Resources))]
         M4A
     }
 }

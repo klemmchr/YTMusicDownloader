@@ -415,7 +415,7 @@ namespace YTMusicDownloader.ViewModel
             {
                 DownloadState = DownloadState.Error;
             }
-            else
+            else if(!args.Cancelled)
             {
                 Item.DownloadDate = DateTime.Now;
                 RaisePropertyChanged(nameof(DownloadDate));

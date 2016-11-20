@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.IconPacks;
 using Microsoft.Practices.ServiceLocation;
 using NLog;
 using YTMusicDownloaderLib.RetrieverEngine;
@@ -62,7 +63,7 @@ namespace YTMusicDownloader.ViewModel
             
 
             LogManager.GetCurrentClassLogger().Trace("Registered all view models in view model locator");
-
+#if DEBUG
             if (IsInDesignModeStatic)
             {
                 DesignWorkspace = new WorkspaceViewModel(new Workspace(@"D:\Downloads"));
@@ -74,9 +75,10 @@ namespace YTMusicDownloader.ViewModel
 
                 DesignSetting = new SettingViewModel(Properties.Settings.Default, "ParallelDownloads", "Test setting", 
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et", 
-                    10, "Account", 1, 10);
+                    PackIconMaterialKind.Account, 10, 1, 10);
                 DesignSettings = new List<SettingViewModel> {DesignSetting};
             }
+#endif
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

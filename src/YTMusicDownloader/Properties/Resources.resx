@@ -263,14 +263,11 @@ To convert your current tracks to the new format simply just sync your workspace
   <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
     <value>Parallel downloads</value>
   </data>
-  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup" xml:space="preserve">
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Title" xml:space="preserve">
     <value>Auto sync on startup</value>
   </data>
-  <data name="MainWindow_Settings_Workspace_Cleanup" xml:space="preserve">
+  <data name="MainWindow_Settings_Workspace_Cleanup_Title" xml:space="preserve">
     <value>Delete unsynced items</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_DownloadFormat" xml:space="preserve">
-    <value>Download format</value>
   </data>
   <data name="MainWindow_Workspaces_AddWorkspace" xml:space="preserve">
     <value>Add workspace</value>
@@ -316,5 +313,29 @@ To convert your current tracks to the new format simply just sync your workspace
   </data>
   <data name="MainWindow_Settings_Default" xml:space="preserve">
     <value>Default: {0}</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
+    <value>Download format</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
+    <value>blah</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
+    <value>blah</value>
   </data>
 </root>

@@ -15,7 +15,9 @@
 */
 
 using System.Collections.ObjectModel;
+using MahApps.Metro.IconPacks;
 using YTMusicDownloader.Properties;
+using YTMusicDownloaderLib.DownloadManager;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -45,7 +47,10 @@ namespace YTMusicDownloader.ViewModel
         {
             var workspaceSettings = _workspaceViewModel.Workspace.Settings;
 
-            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DeleteNotSyncedItems), Resources.MainWindow_Settings_General_ParallelDownloads_Title, Resources.MainWindow_Settings_General_ParallelDownloads_Description, 2, "Download", 0, 10));
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.AutoSync), Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Title, Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Description, PackIconMaterialKind.Cached, true));
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DeleteNotSyncedItems), Resources.MainWindow_Settings_Workspace_Cleanup_Title, Resources.MainWindow_Settings_Workspace_Cleanup_Description, PackIconMaterialKind.Broom, false));
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DownloadFormat), Resources.MainWindow_Settings_Workspace_DownloadFormat_Title, Resources.MainWindow_Settings_Workspace_DownloadFormat_Description, PackIconMaterialKind.FileMultiple, DownloadFormat.MP3));
+
         }
         #endregion
     }
