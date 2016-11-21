@@ -36,7 +36,7 @@
                              HorizontalAlignment="Left" />
                     <Label Grid.Row="1" Content="{Binding Path=Item.Url}" Foreground="LightGray"
                            behaviours:MouseSingleClick.Command="{Binding Path=OpenUrlCommand}"
-                           HorizontalAlignment="Left" />
+                           HorizontalAlignment="Left" Template="{DynamicResource LabelClickable}" Margin="5,0,0,0"/>
                     <DockPanel Grid.Row="3">
                         <Label Content="{Binding Path=DownloadText}" FontSize="15" Background="Transparent"
                                BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" />
