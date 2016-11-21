@@ -21,17 +21,19 @@ namespace YTMusicDownloaderLibTest.Helpers
     [TestClass]
     public class Enumerations
     {
-        private enum TestEnum
-        {
-            [System.ComponentModel.Description("Test")]
-            Test
-        }
         #region Methods
+
         [TestMethod]
         public void GetDescriptionSuccess()
         {
             Assert.IsTrue(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Enumerations.GetDescription(TestEnum.Test)));
         }
+
         #endregion
+
+        private enum TestEnum
+        {
+            [System.ComponentModel.Description("Test")] Test
+        }
     }
 }

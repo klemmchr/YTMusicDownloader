@@ -20,22 +20,27 @@ namespace YTMusicDownloader.ViewModel.Messages
 {
     internal class WorkspaceErrorMessage
     {
-        #region Fields        
-        #endregion
-
-        #region Properties
-        public Workspace Workspace { get; }
-        #endregion
-
         #region Construction
+
         public WorkspaceErrorMessage(Workspace workspace)
         {
             Workspace = workspace;
         }
+
+        #endregion
+
+        #region Properties
+
+        public Workspace Workspace { get; }
+
+        #endregion
+
+        #region Fields        
+
         #endregion
 
         #region Methods
+
         #endregion
     }
-
 }

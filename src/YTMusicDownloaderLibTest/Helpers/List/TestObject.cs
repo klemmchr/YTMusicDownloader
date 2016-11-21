@@ -13,22 +13,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 namespace YTMusicDownloaderLibTest.Helpers.List
 {
     internal class TestObject
     {
-        #region Properties
-        public int Number { get; }
-        #endregion
-
         #region Construction
+
         public TestObject(int number)
         {
             Number = number;
         }
+
+        #endregion
+
+        #region Properties
+
+        public int Number { get; }
+
         #endregion
 
         #region Methods
+
         public override int GetHashCode()
         {
             return Number.GetHashCode();
@@ -37,7 +43,7 @@ namespace YTMusicDownloaderLibTest.Helpers.List
         public override bool Equals(object obj)
         {
             var testObj = obj as TestObject;
-            return testObj != null && testObj.Number == Number;
+            return (testObj != null) && (testObj.Number == Number);
         }
 
         #endregion

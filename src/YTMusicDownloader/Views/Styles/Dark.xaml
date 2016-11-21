@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="BackendBrush" Color="#181818" />
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#121212" />
+    
+    
+    <SolidColorBrush x:Key="GlowBorderBrush" Color="#121212" />
+    <SolidColorBrush x:Key="TitlebarBrush" Color="#121212" />
+    <SolidColorBrush x:Key="NonActiveTitlebarBrush" Color="#212121" />
+    
+    <SolidColorBrush x:Key="AccentBorderBrush" Color="#363636" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#E63B32"/>
+    
+    <!-- TabControl -->
+    <SolidColorBrush x:Key="TabItemBackgroundBrush" Color="#121212" />
+    
+    <!-- Button -->
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#181818"/>
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="White" />
+    
+    <!-- ComboBox -->
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="#181818" />
+    
+    <!-- TextBox -->
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#181818" />
+    
+    <!-- ToggleButton -->
+    <SolidColorBrush x:Key="ToggleButtonActivatedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ToggleButtonDeactivatedForegroundBrush" Color="#2f2f2f" />
+    
+    <!-- 
+        ##########################################################################################
+                                            Workspace view 
+        ##########################################################################################
+    -->
+    
+    <!-- PlaylistItem -->
+    <SolidColorBrush x:Key="PlaylistItemBorderBrush" Color="#272727" />
+    <SolidColorBrush x:Key="PlaylistItemInnerBorderBrush" Color="#141414" />
+    <SolidColorBrush x:Key="PlaylistItemBackgroundBrush" Color="#181818" />
+    <SolidColorBrush x:Key="PlaylistItemThumbnailBorderBrush" Color="#282828" />
+    
+    <!-- Workspace -->
+    <SolidColorBrush x:Key="WorkspaceBackgroundBrush" Color="#181818" />
+    <SolidColorBrush x:Key="WorkspaceBorderBrush" Color="#272727" />
+    <SolidColorBrush x:Key="WorkspaceLabelBackgroundBrush" Color="#131114" />
+    <SolidColorBrush x:Key="WorkspaceLabelContentForegroundBrush" Color="#848285" />
+    
+    <!-- Items control -->
+    <SolidColorBrush x:Key="PlaylistItemsListBorderBrush" Color="#363636"/>
+    <SolidColorBrush x:Key="PlaylistItemsListBackgroundBrush" Color="#181818" />
+    
+    <!-- Page selector -->
+    <SolidColorBrush x:Key="PageSelectorTopSeperatorBursh" Color="#363636"/>
+    <SolidColorBrush x:Key="PageSelectorBackgroundBrush" Color="#282828"/>
+    
+    <!-- Settings -->
+    <SolidColorBrush x:Key="SettingsDeafaultBrush" Color="#7a3636" />
+    <SolidColorBrush x:Key="SettingsControlBackgroundBrush" Color="#151515" />
+    <SolidColorBrush x:Key="SettingsTabSelectedBrush" Color="#89201a" />
+
+</ResourceDictionary>

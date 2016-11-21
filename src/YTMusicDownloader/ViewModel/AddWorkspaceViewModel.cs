@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -70,6 +68,7 @@ namespace YTMusicDownloader.ViewModel
                 // ignored
             }
         }
+
         #endregion
     }
 }

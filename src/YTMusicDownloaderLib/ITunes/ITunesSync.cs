@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,10 @@ namespace YTMusicDownloaderLib.ITunes
 
         public static List<IITPlaylist> GetAllPlaylists()
         {
-            var list = AppClass.LibrarySource.Playlists.Cast<IITPlaylist>().Where(i => i.Kind == ITPlaylistKind.ITPlaylistKindUser).ToList();
+            var list =
+                AppClass.LibrarySource.Playlists.Cast<IITPlaylist>()
+                    .Where(i => i.Kind == ITPlaylistKind.ITPlaylistKindUser)
+                    .ToList();
             list.RemoveRange(0, 12);
             return list;
         }
@@ -40,33 +44,29 @@ namespace YTMusicDownloaderLib.ITunes
             // return GetAllPlaylists().FirstOrDefault(playlist => playlist.playlistID == id);
         }
 
-    public static void AddTrack(IITPlaylist playlist, PlaylistItem item, string path)
-    {
-        foreach (var track in AppClass.LibraryPlaylist.Tracks.Cast<IITTrack>().ToList())
+        public static void AddTrack(IITPlaylist playlist, PlaylistItem item, string path)
         {
-            if (track.Kind == ITTrackKind.ITTrackKindFile)
-            {
-                var fileTrack = track as IITFileOrCDTrack;
-                if (fileTrack?.Location == path || fileTrack?.Name == item.Title)
-                    return;
-            }
-        }
+            foreach (var track in AppClass.LibraryPlaylist.Tracks.Cast<IITTrack>().ToList())
+                if (track.Kind == ITTrackKind.ITTrackKindFile)
+                {
+                    var fileTrack = track as IITFileOrCDTrack;
+                    if ((fileTrack?.Location == path) || (fileTrack?.Name == item.Title))
+                        return;
+                }
 
-        AppClass.LibraryPlaylist.AddFile(path);
-        // Add new song to playlist here
-    }
+            AppClass.LibraryPlaylist.AddFile(path);
+            // Add new song to playlist here
+        }
 
         public static bool RemoveTrack(IITPlaylist playlist, PlaylistItem item)
         {
             foreach (var track in playlist.Tracks.Cast<IITTrack>().ToList())
-            {
                 if (track.Kind == ITTrackKind.ITTrackKindFile)
                 {
                     var fileTrack = track as IITFileOrCDTrack;
                     if (fileTrack?.Name == item.Title)
                         return true;
                 }
-            }
 
             return false;
         }
@@ -74,14 +74,12 @@ namespace YTMusicDownloaderLib.ITunes
         public static void RemoveOldTracks(IITPlaylist playlist)
         {
             foreach (var track in playlist.Tracks.Cast<IITTrack>().ToList())
-            {
                 if (track.Kind == ITTrackKind.ITTrackKindFile)
                 {
                     var fileTrack = track as IITFileOrCDTrack;
-                    if(string.IsNullOrEmpty(fileTrack?.Location) || !File.Exists(fileTrack.Location))
+                    if (string.IsNullOrEmpty(fileTrack?.Location) || !File.Exists(fileTrack.Location))
                         fileTrack?.Delete();
                 }
-            }
         }
     }
 }

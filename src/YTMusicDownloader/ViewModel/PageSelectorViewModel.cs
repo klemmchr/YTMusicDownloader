@@ -112,6 +112,8 @@ namespace YTMusicDownloader.ViewModel
         public bool PageBackwardEnabled => PageNumber > 1;
         public bool PageForwardEnabled => PageNumber != PageNumberMax;
 
+        #endregion
+
         #region Commands
 
         public RelayCommand FirstPageCommand => new RelayCommand(() =>
@@ -137,8 +139,6 @@ namespace YTMusicDownloader.ViewModel
             PageNumber = Math.Max(--PageNumber, 1);
             _workspaceViewModel.OnPageNumberChanged();
         });
-
-        #endregion
 
         #endregion
     }

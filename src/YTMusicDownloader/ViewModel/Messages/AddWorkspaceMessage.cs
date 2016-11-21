@@ -2,12 +2,13 @@
 
 namespace YTMusicDownloader.ViewModel.Messages
 {
-    class AddWorkspaceMessage
+    internal class AddWorkspaceMessage
     {
-        public Workspace Workspace { get; }
         public AddWorkspaceMessage(Workspace workspace)
         {
             Workspace = workspace;
         }
+
+        public Workspace Workspace { get; }
     }
 }

@@ -15,7 +15,6 @@
 */
 
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -26,6 +25,7 @@ using NLog;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.Workspaces;
+using System.Diagnostics;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -43,9 +43,11 @@ namespace YTMusicDownloader.ViewModel
         private string _selectedWorkspaceName;
         private bool _selectedWorkspaceVisible;
         private int _selectedWorkspaceIndex = -1;
+
         #endregion
 
         #region Properties
+
         public static bool IsReleaseVersion { get; }
 
         public WorkspaceViewModel SelectedWorkspace
@@ -89,8 +91,11 @@ namespace YTMusicDownloader.ViewModel
                 _selectedTabIndex = value;
                 RaisePropertyChanged(nameof(SelectedTabIndex));
 
+                /*
                 if (value == 2)
                     SelectedWorkspace?.WorkspaceSettingsViewModel.SettingsPageSelected();
+
+                */
             }
         }
 
@@ -127,11 +132,11 @@ namespace YTMusicDownloader.ViewModel
         public ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 
         public RelayCommand AddWorkspaceCommand => new RelayCommand(() => IsAddingWorkspace = true);
-        public RelayCommand SelectWorkspaceCommand => new RelayCommand(SelectWorkspace);
-        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(RemoveWorkspace);
+
         #endregion
 
         #region Construction
+
         public MainViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
@@ -150,17 +155,37 @@ namespace YTMusicDownloader.ViewModel
             Messenger.Default.Register<ShowMessageDialogMessage>(this,
                 async message =>
                 {
-                    var result = await _dialogCoordinator.ShowMessageAsync(this, message.Title, message.Content, message.Style, message.Settings);
+                    var result =
+                        await
+                            _dialogCoordinator.ShowMessageAsync(this, message.Title, message.Content, message.Style,
+                                message.Settings);
                     message.Callback?.Invoke(result);
                 });
 
             Messenger.Default.Register<WorkspaceErrorMessage>(this, message =>
             {
-                if(SelectedWorkspace.Workspace.Equals(message.Workspace))
+                if (SelectedWorkspace.Workspace.Equals(message.Workspace))
                     SelectedTabIndex = 0;
 
                 SelectedWorkspace = null;
             });
+
+            Messenger.Default.Register<SelectWorkspaceMessage>(this, message =>
+            {
+                if (message.WorkspaceViewModel != null)
+                {
+                    SelectWorkspace(message.WorkspaceViewModel);
+                }
+            });
+
+            Messenger.Default.Register<RemoveWorkspaceMessage>(this, message =>
+            {
+                if (message.WorkspaceViewModel != null)
+                {
+                    RemoveWorkspace(message.WorkspaceViewModel);
+                }
+            });
+
             Startup();
 
             Logger.Trace("Initialized Main View Model");
@@ -172,11 +197,12 @@ namespace YTMusicDownloader.ViewModel
             IsReleaseVersion = true;
 #endif
         }
+
         #endregion
 
         #region Methods
 
-        public void LoadWorkspaces()
+        public async void LoadWorkspaces()
         {
 #if DEBUG
             var watch = Stopwatch.StartNew();
@@ -184,12 +210,15 @@ namespace YTMusicDownloader.ViewModel
             foreach (var workspace in WorkspaceManagement.Workspaces)
                 Workspaces.Add(new WorkspaceViewModel(workspace));
 
-            Messenger.Default.Register<CloseAddWorkspaceFlyoutMessage>(this, (message) => IsAddingWorkspace = false);
-            Messenger.Default.Register<AddWorkspaceMessage>(this, (message) =>
+            Messenger.Default.Register<CloseAddWorkspaceFlyoutMessage>(this, message => IsAddingWorkspace = false);
+            Messenger.Default.Register<AddWorkspaceMessage>(this, message =>
             {
                 if (message.Workspace != null)
                     Workspaces.Add(new WorkspaceViewModel(message.Workspace));
             });
+
+            foreach (var workspace in Workspaces)
+                await workspace.Init();
 #if DEBUG
             Logger.Trace("Loaded all workspaces: {0} ms", watch.ElapsedMilliseconds);
 #else
@@ -206,6 +235,7 @@ namespace YTMusicDownloader.ViewModel
 
                 IsLoaded = true;
 
+                /*
                 if (!Settings.Default.FirstStartup) return;
 
                 var result = await _dialogCoordinator.ShowMessageAsync(this, "YouTube Music Downloader",
@@ -225,65 +255,62 @@ namespace YTMusicDownloader.ViewModel
 
                 await _dialogCoordinator.ShowMessageAsync(this, "Getting started tour",
                     "This was the small tour to get you started.\n\nHave fun using the YouTube Music Downloader!");
+                    */
             });
         }
 
-        private async void SelectWorkspace()
+        private async void SelectWorkspace(WorkspaceViewModel workspaceViewModel)
         {
             await Task.Run(() =>
             {
-                if (SelectedWorkspaceIndex > Workspaces.Count - 1)
-                    return;
-
-                SelectedWorkspace = Workspaces[SelectedWorkspaceIndex];
+                SelectedWorkspace = workspaceViewModel;
                 if (!Directory.Exists(SelectedWorkspace.Workspace.Path))
                 {
-                    Messenger.Default.Send(new ShowMessageDialogMessage("Workspace folder not available", "The workspace folder seems to be deleted."));
+                    Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Title,
+                        Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Content));
                     return;
                 }
-                SelectedWorkspace.Init();
 
                 SelectedTabIndex = 1;
+                SelectedWorkspace.Load();
 
                 Logger.Debug("Selected workspace {0}", SelectedWorkspace.Workspace.Name);
             });
         }
 
-        private void RemoveWorkspace()
+        private void RemoveWorkspace(WorkspaceViewModel workspaceViewModel)
         {
-            if ((SelectedWorkspaceIndex > Workspaces.Count - 1) || (SelectedWorkspaceIndex < 0))
-                return;
-
-            if (Workspaces[SelectedWorkspaceIndex] == null)
-                return;
-
-            var dialogSettings = new MetroDialogSettings()
+            var dialogSettings = new MetroDialogSettings
             {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No",
-                FirstAuxiliaryButtonText = "Cancel"
+                AffirmativeButtonText = Resources.Yes,
+                NegativeButtonText = Resources.No,
+                FirstAuxiliaryButtonText = Resources.Cancel
             };
 
-            Messenger.Default.Send(new ShowMessageDialogMessage($"Delete workspace {Workspaces[SelectedWorkspaceIndex].Name}", Resources.MainViewModel_RemoveWorkspace_Description, MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
-                result =>
-                {
-                    if (result == MessageDialogResult.FirstAuxiliary)
-                        return;
+            Messenger.Default.Send(
+                new ShowMessageDialogMessage(string.Format(Resources.MainViewModel_RemoveWorkspace_Title, workspaceViewModel.Name),
+                    Resources.MainViewModel_RemoveWorkspace_Description,
+                    MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
+                    result =>
+                    {
+                        if (result == MessageDialogResult.FirstAuxiliary)
+                            return;
 
-                    var deleteMode = result == MessageDialogResult.Affirmative
-                        ? DeleteMode.DeleteWorkspace
-                        : DeleteMode.KeepWorkspace;
+                        var deleteMode = result == MessageDialogResult.Affirmative
+                            ? DeleteMode.DeleteWorkspace
+                            : DeleteMode.KeepWorkspace;
 
-                    if ((SelectedWorkspace != null) && SelectedWorkspace.Workspace.Equals(Workspaces[SelectedWorkspaceIndex].Workspace))
-                        SelectedWorkspace = null;
+                        var workspace = workspaceViewModel.Workspace;
 
-                    var workspace = Workspaces[SelectedWorkspaceIndex].Workspace;
+                        if ((SelectedWorkspace != null) &&
+                            SelectedWorkspace.Workspace.Equals(workspace))
+                            SelectedWorkspace = null;
 
-                    WorkspaceManagement.RemoveWorkspace(workspace, deleteMode);
-                    Workspaces.RemoveAt(SelectedWorkspaceIndex);
+                        WorkspaceManagement.RemoveWorkspace(workspace, deleteMode);
+                        Workspaces.Remove(workspaceViewModel);
 
-                    Logger.Debug("Removed workspace {0} - deleteMode: {1}", workspace.Name, deleteMode);
-                }, dialogSettings));
+                        Logger.Debug("Removed workspace {0} - deleteMode: {1}", workspace.Name, deleteMode);
+                    }, dialogSettings));
         }
 
         #endregion

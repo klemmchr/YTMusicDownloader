@@ -29,6 +29,12 @@ namespace YTMusicDownloader.ViewModel.Helpers
 
         #endregion Constructor
 
+        #region Public Properties
+
+        public LockTypeEnum LockType { get; }
+
+        #endregion Public Properties
+
         #region Private
 
         private bool _lockObjWasTaken;
@@ -36,12 +42,6 @@ namespace YTMusicDownloader.ViewModel.Helpers
         private int _lock; // 0=unlocked		1=locked
 
         #endregion Private
-
-        #region Public Properties
-
-        public LockTypeEnum LockType { get; }
-
-        #endregion Public Properties
 
         #region SpinWait/PumpWait Methods
 

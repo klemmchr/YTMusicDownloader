@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,15 +29,6 @@ namespace YTMusicDownloaderLib.Workspaces
 {
     public static class WorkspaceManagement
     {
-        #region Fields
-        private static readonly string WorkspaceConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YTMusicDownloader", "workspaces.json");
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Properties
-        public static ObservableCollection<Workspace> Workspaces { get; }
-        #endregion
-
         static WorkspaceManagement()
         {
             Workspaces = new ObservableCollection<Workspace>();
@@ -47,6 +39,12 @@ namespace YTMusicDownloaderLib.Workspaces
             new Thread(AutoSave).Start();
         }
 
+        #region Properties
+
+        public static ObservableCollection<Workspace> Workspaces { get; }
+
+        #endregion
+
         private static void AutoSave()
         {
             while (true)
@@ -56,7 +54,8 @@ namespace YTMusicDownloaderLib.Workspaces
             }
         }
 
-        private static void WorkspacesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        private static void WorkspacesOnCollectionChanged(object sender,
+            NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
             Task.Run(() => SaveWorkspaces());
         }
@@ -72,17 +71,15 @@ namespace YTMusicDownloaderLib.Workspaces
             try
             {
                 var content = File.ReadAllText(WorkspaceConfigPath);
-                
+
                 foreach (var workspace in JsonConvert.DeserializeObject<List<Workspace>>(content))
-                {
-                    if(!Workspaces.Contains(workspace) && Directory.Exists(workspace.Path))
+                    if (!Workspaces.Contains(workspace) && Directory.Exists(workspace.Path))
                         Workspaces.Add(workspace);
-                }
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Error reading workspace file {0}", WorkspaceConfigPath);
-            }   
+            }
         }
 
         private static void CreateWorkspaceConfig()
@@ -103,9 +100,7 @@ namespace YTMusicDownloaderLib.Workspaces
             try
             {
                 foreach (var workspace in Workspaces)
-                {
                     workspace.SaveWorkspaceConfig();
-                }
                 var serialized = JsonConvert.SerializeObject(Workspaces.ToList(), Formatting.Indented);
                 File.WriteAllText(WorkspaceConfigPath, serialized);
             }
@@ -137,7 +132,6 @@ namespace YTMusicDownloaderLib.Workspaces
             Workspaces.Remove(workspace);
 
             if (deleteMode == DeleteMode.DeleteWorkspace)
-            {
                 try
                 {
                     Directory.Delete(workspace.WorkspacePath, true);
@@ -146,7 +140,16 @@ namespace YTMusicDownloaderLib.Workspaces
                 {
                     Logger.Error(ex, "Error deleting workspace folder {0}", workspace.WorkspacePath);
                 }
-            }
         }
+
+        #region Fields
+
+        private static readonly string WorkspaceConfigPath =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YTMusicDownloader",
+                "workspaces.json");
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
     }
 }

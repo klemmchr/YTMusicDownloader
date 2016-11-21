@@ -13,20 +13,21 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace YTMusicDownloaderLib.RetrieverEngine
 {
-    public class PlaylistItemRetreiverCompletedEventArgs: EventArgs
+    public class PlaylistItemRetreiverCompletedEventArgs : EventArgs
     {
-        public bool Cancelled { get; }
-        public List<PlaylistItem> Result { get; }
-
         public PlaylistItemRetreiverCompletedEventArgs(bool cancelled, List<PlaylistItem> result)
         {
             Cancelled = cancelled;
             Result = result;
         }
+
+        public bool Cancelled { get; }
+        public List<PlaylistItem> Result { get; }
     }
 }

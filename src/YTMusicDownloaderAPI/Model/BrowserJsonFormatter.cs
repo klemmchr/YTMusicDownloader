@@ -13,7 +13,8 @@ namespace YTMusicDownloaderAPI.Model
             SerializerSettings.Formatting = Formatting.Indented;
         }
 
-        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers,
+            MediaTypeHeaderValue mediaType)
         {
             base.SetDefaultContentHeaders(type, headers, mediaType);
             headers.ContentType = new MediaTypeHeaderValue("application/json");

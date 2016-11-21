@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Newtonsoft.Json.Linq;
 using NLog;
 using RestSharp;
@@ -28,36 +27,9 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 {
     public class PlaylistItemsRetriever
     {
-        #region Events
-
-        public delegate void PlaylistItemsRetrieverProgressChangedEventHandler(
-            object sender, PlaylistItemRetreiverProgressChangedEventArgs e);
-
-        public delegate void PlaylistItemRetreiverCompletedEventHandler(
-            object sender, PlaylistItemRetreiverCompletedEventArgs e);
-
-        public event PlaylistItemsRetrieverProgressChangedEventHandler PlaylistItemsRetrieverProgressChanged;
-        public event PlaylistItemRetreiverCompletedEventHandler PlaylistItemsRetrieverCompleted;
-
-        protected virtual void OnPlaylistItemsRetrieverProgressChanged(PlaylistItemRetreiverProgressChangedEventArgs e)
-        {
-            PlaylistItemsRetrieverProgressChanged?.Invoke(this, e);
-        }
-
-        protected virtual void OnPlaylistItemsRetrieverCompleted(PlaylistItemRetreiverCompletedEventArgs e)
-        {
-            PlaylistItemsRetrieverCompleted?.Invoke(this, e);
-        }
-
-        #endregion
-
         #region Fields
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        #endregion
-
-        #region Properties
-
-        public int PlaylistReceiveMaximum { get; set; }
 
         #endregion
 
@@ -65,6 +37,12 @@ namespace YTMusicDownloaderLib.RetrieverEngine
         {
             PlaylistReceiveMaximum = playlistReceiveMaximum;
         }
+
+        #region Properties
+
+        public int PlaylistReceiveMaximum { get; set; }
+
+        #endregion
 
         public void GetPlaylistItems(string playlistId)
         {
@@ -90,7 +68,8 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        OnPlaylistItemsRetrieverCompleted(new PlaylistItemRetreiverCompletedEventArgs(true, playlistItems));
+                        OnPlaylistItemsRetrieverCompleted(new PlaylistItemRetreiverCompletedEventArgs(true,
+                            playlistItems));
                         return;
                     }
 
@@ -100,7 +79,6 @@ namespace YTMusicDownloaderLib.RetrieverEngine
                         totalResults = int.Parse(parsedRequest["pageInfo"]["totalResults"].ToString());
 
                     foreach (var current in parsedRequest["items"].Children().ToList())
-                    {
                         try
                         {
                             var title = Regex.Replace(current["snippet"]["title"].ToString(), @"[\\/<>\|:""*?]", "");
@@ -109,13 +87,13 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 
                             playlistItems.Add(new PlaylistItem(videoId, title, thumbnailUrl, true));
 
-                            OnPlaylistItemsRetrieverProgressChanged(new PlaylistItemRetreiverProgressChangedEventArgs(playlistItems.Count, totalResults));
+                            OnPlaylistItemsRetrieverProgressChanged(
+                                new PlaylistItemRetreiverProgressChangedEventArgs(playlistItems.Count, totalResults));
                         }
                         catch (Exception)
                         {
                             // ignore
                         }
-                    }
 
                     if (playlistItems.Count >= PlaylistReceiveMaximum) break;
                 }
@@ -130,5 +108,28 @@ namespace YTMusicDownloaderLib.RetrieverEngine
 
             OnPlaylistItemsRetrieverCompleted(new PlaylistItemRetreiverCompletedEventArgs(true, playlistItems));
         }
+
+        #region Events
+
+        public delegate void PlaylistItemsRetrieverProgressChangedEventHandler(
+            object sender, PlaylistItemRetreiverProgressChangedEventArgs e);
+
+        public delegate void PlaylistItemRetreiverCompletedEventHandler(
+            object sender, PlaylistItemRetreiverCompletedEventArgs e);
+
+        public event PlaylistItemsRetrieverProgressChangedEventHandler PlaylistItemsRetrieverProgressChanged;
+        public event PlaylistItemRetreiverCompletedEventHandler PlaylistItemsRetrieverCompleted;
+
+        protected virtual void OnPlaylistItemsRetrieverProgressChanged(PlaylistItemRetreiverProgressChangedEventArgs e)
+        {
+            PlaylistItemsRetrieverProgressChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnPlaylistItemsRetrieverCompleted(PlaylistItemRetreiverCompletedEventArgs e)
+        {
+            PlaylistItemsRetrieverCompleted?.Invoke(this, e);
+        }
+
+        #endregion
     }
 }

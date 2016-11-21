@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 using RestSharp;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLibShared.Tracks;
-using NLog;
-using RestSharp.Extensions.MonoHttp;
 
 namespace YTMusicDownloaderLib.Tracks
 {
@@ -43,7 +41,7 @@ namespace YTMusicDownloaderLib.Tracks
 
         private static void GetArtworkAndAlbum(TrackInformation information)
         {
-            if(string.IsNullOrEmpty(information.Artist) || string.IsNullOrEmpty(information.Name))
+            if (string.IsNullOrEmpty(information.Artist) || string.IsNullOrEmpty(information.Name))
                 return;
 
             try

@@ -7,16 +7,21 @@
                       xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:p="clr-namespace:YTMusicDownloader.Properties"
                       xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
                       mc:Ignorable="d"
-                      Title="YT Music Downloader" Height="800" MinHeight="500" Width="1200" MinWidth="700"
-                      DataContext="{Binding Source={StaticResource Locator}, Path=Main}" WindowTransitionsEnabled="True" GlowBrush="#E63B32" NonActiveGlowBrush="Gray"
-                      Icon="../Resources/logo_white.png" ShowIconOnTitleBar="True" SaveWindowPosition="True"
-                      dialogs:DialogParticipation.Register="{Binding}">
+                      Title="YT Music Downloader" Height="800" MinHeight="800" Width="1200" MinWidth="1200"
+                      DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+                      WindowTransitionsEnabled="False" GlowBrush="{DynamicResource GlowBorderBrush}" NonActiveGlowBrush="Gray"
+                      Icon="../Resources/logo_white.ico" ShowIconOnTitleBar="True" SaveWindowPosition="True"
+                      dialogs:DialogParticipation.Register="{Binding}" Background="{StaticResource BackendBrush}" WindowTitleBrush="{StaticResource BackendBrush}" NonActiveWindowTitleBrush="{StaticResource BackendBrush}" >
     <controls:MetroWindow.Flyouts>
-        <controls:FlyoutsControl Name="AddWorkspaceFlyout" DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
-            <controls:Flyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True" IsOpen="{Binding Source={StaticResource Locator}, Path=Main.IsAddingWorkspace}" CloseCommand="{Binding Path=CloseCommand}">
-                <Grid Margin="10">
+        <controls:FlyoutsControl Name="AddWorkspaceFlyout"
+                                 DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
+            <controls:Flyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True"
+                             IsOpen="{Binding Source={StaticResource Locator}, Path=Main.IsAddingWorkspace}"
+                             CloseCommand="{Binding Path=CloseCommand}">
+                <Grid Height="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="10" />
@@ -24,46 +29,54 @@
                         <ColumnDefinition Width="40" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" BorderBrush="#E63B32" Height="20" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True" controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}"/>
-                    <Button Grid.Column="2" Content="Select folder" FontSize="12" Width="120" VerticalAlignment="Center" HorizontalAlignment="Stretch" Command="{Binding Path=SelectFolderCommand}"/>
-                    <Button Grid.Column="4" Content="Add" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}"/>
+                    <TextBox Grid.Column="0" FontSize="14" VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True"
+                             controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}" />
+                    <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}" Width="120"
+                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                            Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}"/>
+                    <Button Grid.Column="4" Content="Add" FontSize="14" VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}" />
                 </Grid>
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 
     <Grid>
-        <Border Background="#252525" Visibility="{Binding Path=IsInDesignMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}" Margin="5">
-            <TabItem Header="Workspaces">
-                <Grid Margin="5">
+        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}" Padding="0">
+            <TabItem Header="{x:Static p:Resources.MainWindow_Headers_Workspace}">
+                <Grid Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="220" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="1" Margin="20,30,20,0">
+                    <StackPanel Grid.Column="1" Margin="20,20,20,0">
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="50"
-                            Command="{Binding Path=AddWorkspaceCommand}" FontSize="15">
+                                Command="{Binding Path=AddWorkspaceCommand}" FontSize="15">
                             <DockPanel>
-                                <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                                <TextBlock Text="Add workspace" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
-                            </DockPanel>
-                        </Button>
-                        
-                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="50"
-                            Margin="0,20,0,0"
-                            Command="{Binding Path=RemoveWorkspaceCommand}" FontSize="15">
-                            <DockPanel>
-                                <icons:PackIconMaterial Kind="Minus" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                                <TextBlock Text="Remove workspace" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                                <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left" Margin="0,0,10,0" />
+                                <TextBlock Text="{x:Static p:Resources.MainWindow_Workspaces_AddWorkspace}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" />
                             </DockPanel>
                         </Button>
                     </StackPanel>
-
+                    <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0" Grid.Column="0" Margin="0,20,0,0">
+                        <ScrollViewer  VerticalScrollBarVisibility="Hidden"
+                                      HorizontalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Path=Workspaces}" d:DataContext="{Binding Source={StaticResource Locator}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <uc:Workspace Margin="10" HorizontalAlignment="Stretch" Height="200" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                    <!--
                     <DataGrid ItemsSource="{Binding Path=Workspaces}" AutoGenerateColumns="False" Grid.Column="0"
-                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}" SelectionMode="Single" SelectionUnit="FullRow" behaviours:MouseDoubleClick.Command="{Binding Path=SelectWorkspaceCommand}" RowHeight="50">
+                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}" SelectionMode="Single" SelectionUnit="FullRow" behaviours:MouseDoubleClick.Command="{Binding Path=SelectWorkspaceCommand}" RowHeight="50" Background="{StaticResource BackgroundBrush}" >
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5">
@@ -89,18 +102,29 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    -->
+
                 </Grid>
             </TabItem>
 
             <TabItem Header="{Binding Path=SelectedWorkspaceName}"
-                     Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}">
+                     Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}" Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="45" />
                     </Grid.RowDefinitions>
-                    
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Source={StaticResource Locator}, Path=IsInDesignModeStatic}" Value="True">
+                                    <Setter Property="DataContext" Value="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
                     <Grid Grid.Row="0" Margin="5,0,5,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0" />
@@ -110,11 +134,11 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <!-- Top controls -->
-                        <Button Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="140" Content="Manage sources" FontSize="15" Height="40"/>
-                        <Label Content="Playlist Url" VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"
-                               Grid.Row="1" Foreground="#E63B32" FontWeight="SemiBold" FontSize="17" />
+                        <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PlaylistUrl}"
+                               VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"
+                               Grid.Row="1" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" FontSize="17" Margin="-5,5,0,0"/>
                         <TextBox VerticalAlignment="Top" Margin="0,35,0,0" Grid.Row="1"
-                                 Text="{Binding Path=PlaylistUrl}" Height="30" FontSize="13" BorderBrush="#E63B32"
+                                 Text="{Binding Path=PlaylistUrl}" Height="30" FontSize="13"
                                  AcceptsReturn="False" AcceptsTab="False" IsUndoEnabled="False" MaxLines="1"
                                  controls:TextBoxHelper.ClearTextButton="True" />
                         <!-- 
@@ -126,466 +150,252 @@
                         <controls:MetroProgressBar VerticalAlignment="Bottom"
                                                    Value="{Binding Path=PlaylistFetchProgress}"
                                                    Visibility="{Binding Path=FetchingPlaylist, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                   Grid.Row="1" Foreground="Red" MinHeight="1" Height="5" />
+                                                   Grid.Row="1" Foreground="{DynamicResource AccentBrush}" MinHeight="1" Height="5" />
 
                         <!-- Bottom controls -->
-                        <Button Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Width="110" Height="38" Command="{Binding Path=SyncCommand}" >
+                        <Button Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Width="140"
+                                Height="38" Command="{Binding Path=SyncCommand}" BorderBrush="{DynamicResource AccentBrush}">
                             <DockPanel>
-                                <icons:PackIconMaterial Kind="Sync" Margin="0,2,10,0" Rotation="360" Spin="{Binding Path=DownloadingAllSongs}" Flip="Horizontal" SpinDuration="2" Width="20" Height="20" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Path=DownloadingAllSongsText}" FontSize="15" VerticalAlignment="Center" />
+                                <icons:PackIconMaterial Kind="Sync" Margin="0,2,10,0" Rotation="360"
+                                                        Spin="{Binding Path=DownloadingAllSongs}" Flip="Horizontal"
+                                                        SpinDuration="2" Width="20" Height="20"
+                                                        VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Path=DownloadingAllSongsText}" FontSize="15"
+                                           VerticalAlignment="Center" />
                             </DockPanel>
                         </Button>
-                        
+
                         <!--
                         <controls:ProgressRing Grid.Row="3" Height="24" Width="25" HorizontalAlignment="Right"
                                                IsActive="{Binding Path=DownloadingAllSongs}"
                                                VerticalAlignment="Top" Margin="0,4,115,0" />
 
                         -->
-                        <Label Content="Filter by" Grid.Row="4" Foreground="#7D7D7D" VerticalAlignment="Bottom"
+                        <!--
+                        <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_FilterLabel}" Grid.Row="4"
+                               Foreground="#7D7D7D" VerticalAlignment="Bottom"
                                FontSize="15" />
-                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140" BorderBrush="#E63B32"
-                                  HorizontalAlignment="Left" Margin="65,0,0,0" ItemsSource="{Binding Path=FilterModes}"
+                        -->
+                        
+                        <icons:PackIconMaterial Grid.Row="4" Kind="SortVariant" Foreground="White" Height="25" Width="25" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        
+                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140" BorderBrush="{DynamicResource AccentBorderBrush}"
+                                  HorizontalAlignment="Left" Margin="30,0,0,0" ItemsSource="{Binding Path=FilterModes}"
                                   SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Path=SelectedFilterMode}" FontSize="14" />
+                                  SelectedValue="{Binding Path=SelectedFilterMode}" FontSize="14" Background="{DynamicResource ComboBoxBackgroundBrush}"/>
 
                         <TextBox Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="250"
                                  controls:TextBoxHelper.Watermark="{Binding Path=SearchTextboxWatermark}"
                                  AcceptsReturn="False" AcceptsTab="False" IsUndoEnabled="False" MaxLines="1"
                                  TextWrapping="NoWrap" controls:TextBoxHelper.UseFloatingWatermark="True"
                                  controls:TextBoxHelper.ClearTextButton="True"
-                                 Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                 BorderBrush="#E63B32" />
+                                 Text="{Binding Path=SearchText, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
 
-                    <Grid Grid.Row="1">
-                        <Border Margin="5,0,5,0" Background="#252525" VerticalAlignment="Stretch"
+                    <Grid Grid.Row="1" Margin="5,0,5,2">
+                        <Border Background="#252525" VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Visibility="{Binding Path=Initializing, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <controls:ProgressRing IsActive="{Binding Path=Initializing}" />
                         </Border>
 
                         <!-- Playlist data -->
-                        <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5,0,5,0">
-                            <ScrollViewer IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Background="#252525" Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                        <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0">
+                            <ScrollViewer
+                                IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
+                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
+                                Background="{StaticResource PlaylistItemBackgroundBrush}"
+                                Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <ItemsControl ItemsSource="{Binding Path=DisplayedTracks}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type uc:PlaylistItem}">
-                                            <uc:PlaylistItem HorizontalAlignment="Stretch" Margin="10" Height="200"/>
+                                            <uc:PlaylistItem HorizontalAlignment="Stretch" Margin="10" Height="200" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
-                            <!--
-                            <DataGrid ItemsSource="{Binding Path=DisplayedTracks}" AutoGenerateColumns="False"
-                                      IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
-                                      Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}" SelectionMode="Single" SelectionUnit="FullRow">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn MaxWidth="200" Width="120">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding Path=Thumbnail}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="ID" Width="40" Binding="{Binding Path=Index}"
-                                                        IsReadOnly="True" />
-                                    <DataGridTextColumn Header="Video Title" Width="6*" Binding="{Binding Path=Title}"
-                                                        FontWeight="SemiBold" FontSize="14"
-                                                        IsReadOnly="{Binding Path=Downloading}" />
-                                    <DataGridTextColumn Header="Status" Width="125"
-                                                        Binding="{Binding Path=DownloadText}" IsReadOnly="True"
-                                                        FontWeight="SemiBold" />
-                                    <DataGridTemplateColumn Width="5*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="60" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="32" />
-                                                        <ColumnDefinition Width="5" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <Label Content="Sync: " Grid.Column="0"
-                                                           VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                           Margin="0,2,0,0" />
-                                                    <CheckBox Width="20" Height="20" Grid.Column="0"
-                                                              VerticalAlignment="Center" HorizontalAlignment="Right"
-                                                              IsChecked="{Binding Path=AutoDownload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                    <Button Grid.Column="2" VerticalAlignment="Center"
-                                                            HorizontalAlignment="Stretch" Margin="1" Height="32"
-                                                            Command="{Binding Path=DownloadCommand}">
-                                                        <Grid>
-                                                            <icons:PackIconMaterial Kind="Download" Visibility="{Binding Path=Downloading, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
-
-                                                            <icons:PackIconMaterial Kind="Close" Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                                        </Grid>
-                                                    </Button>
-                                                    <controls:MetroProgressBar Grid.ColumnSpan="2" Grid.Column="0"
-                                                                               Value="{Binding Path=DownloadProgress}"
-                                                                               Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                                               Foreground="#E63B32"
-                                                                               Background="Transparent" Height="3"
-                                                                               VerticalAlignment="Bottom"
-                                                                               HorizontalAlignment="Stretch"
-                                                                               Margin="5,0,5,0"
-                                                                               IsIndeterminate="{Binding Path=DownloadPending}"
-                                                                               MinHeight="1" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            -->
                         </Border>
                     </Grid>
 
-                    <!-- Source management
-                    <Border Grid.Row="0" Grid.RowSpan="2" Background="#252525" Margin="10,50,10,100" BorderBrush="#E63B32" BorderThickness="1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="60"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Source management" FontSize="25" Foreground="#E63B32" VerticalAlignment="Center" Margin="10,0"/>
-                        </Grid>
-                    </Border>
-                    -->
-                    
                     <!-- Page selector -->
-                    <Grid Margin="5,5,5,0" Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="1" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="1" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="2*" />
-                        </Grid.ColumnDefinitions>
+                    <Border Grid.Row="2" Background="{StaticResource PageSelectorBackgroundBrush}" BorderThickness="0,2,0,0" BorderBrush="#363636">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="1" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="1" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0" Content="{Binding Path=TrackCount}"
-                               ContentStringFormat="Total: {0} Track(s)" VerticalAlignment="Center"
+                            <Label Grid.Column="0" Content="{Binding Path=TrackCount}"
+                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_TotalTracks}" VerticalAlignment="Center"
                                HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
-                        <Grid Grid.Column="1" Background="White" VerticalAlignment="Center" Height="20" />
-                        <Label Grid.Column="2" Content="{Binding Path=DownloadedTracks}"
-                               ContentStringFormat="Downloaded: {0} Track(s)" VerticalAlignment="Center"
+                            <Grid Grid.Column="1" Background="White" VerticalAlignment="Center" Height="20" />
+                            <Label Grid.Column="2" Content="{Binding Path=DownloadedTracks}"
+                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_DownloadedTracks}" VerticalAlignment="Center"
                                HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
-                        <Grid Grid.Column="3" Background="White" VerticalAlignment="Center" Height="20"
+                            <Grid Grid.Column="3" Background="White" VerticalAlignment="Center" Height="20"
                               Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <Label Grid.Column="4" Content="{Binding Path=DownloadItemsRemaining}"
-                               ContentStringFormat="Remaining: {0} Track(s)" VerticalAlignment="Center"
+                            <Label Grid.Column="4" Content="{Binding Path=DownloadItemsRemaining}"
+                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_RemainingTracks}" VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}"
                                FontWeight="Bold" FontSize="12" />
 
-                        <Grid Grid.Column="6" DataContext="{Binding Path=PageSelectorViewModel}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="20" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="50" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="6" DataContext="{Binding Path=PageSelectorViewModel}" Margin="5,0,5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="1" Margin="1" Height="30" Command="{Binding Path=FirstPageCommand}"
+                                <Button Grid.Column="1" Margin="1" Height="30" Command="{Binding Path=FirstPageCommand}"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{icons:PackIconMaterial SkipBackward, Width=12, Height=12}"/>
+                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Content="{icons:PackIconMaterial SkipBackward, Width=12, Height=12}" />
 
-                            <Button Grid.Column="2" Margin="1" Height="30" Command="{Binding Path=PageBackwardCommand}"
+                                <Button Grid.Column="2" Margin="1" Height="30" Command="{Binding Path=PageBackwardCommand}"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{icons:PackIconMaterial SkipPrevious, Height=10, Width=10}"/>
+                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Content="{icons:PackIconMaterial SkipPrevious, Height=10, Width=10}" />
 
-                            <Label ContentStringFormat="Page: {0}" Grid.Column="3" VerticalAlignment="Center"
-                                   HorizontalAlignment="Center" FontWeight="Bold" FontSize="12">
-                                <Label.Content>
-                                    <MultiBinding Converter="{StaticResource PageDisplayConverter}">
-                                        <Binding Path="PageNumber" />
-                                        <Binding Path="PageNumberMax" />
-                                    </MultiBinding>
-                                </Label.Content>
-                            </Label>
+                                <Label
+                                ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_Page}"
+                                Grid.Column="3" VerticalAlignment="Center"
+                                HorizontalAlignment="Center" FontWeight="Bold" FontSize="12">
+                                    <Label.Content>
+                                        <MultiBinding Converter="{StaticResource PageDisplayConverter}">
+                                            <Binding Path="PageNumber" />
+                                            <Binding Path="PageNumberMax" />
+                                        </MultiBinding>
+                                    </Label.Content>
+                                </Label>
 
-                            <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="1"
+                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="1"
                                     Height="30" Command="{Binding Path=PageForwardCommand}"
-                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{icons:PackIconMaterial SkipNext, Height=10, Width=10}" />
-                            <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5" Margin="1"
+                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Content="{icons:PackIconMaterial SkipNext, Height=10, Width=10}" />
+                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5" Margin="1"
                                     Height="30" Command="{Binding Path=LastPageCommand}"
-                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Content="{icons:PackIconMaterial SkipForward, Height=12, Width=12}"/>
+                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Content="{icons:PackIconMaterial SkipForward, Height=12, Width=12}" />
 
-                            <Label Content="Items per Page" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_ItemsPerPage}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Right"
                                    Grid.Column="7" Height="28" FontWeight="Bold" FontSize="12" />
-                            <ComboBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="8"
+                                <ComboBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="8" Background="{DynamicResource ComboBoxBackgroundBrush}"
+                                      BorderBrush="{DynamicResource AccentBorderBrush}"
                                       ItemsSource="{Binding Path=ItemsPerPageOptions}"
-                                      SelectedItem="{Binding Path=ItemsPerPage}" BorderBrush="#E63B32" />
+                                      SelectedItem="{Binding Path=ItemsPerPage}" />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Border>
+                    
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Settings">
-                <!--
-                <TabControl TabStripPlacement="Left" HorizontalAlignment="Left">
-                    <TabItem Header="General settings">
-                        
-                    </TabItem>
-                    <TabItem Header="Workspace settings">
-                        
-                    </TabItem>
-                    <TabItem Header="Advanced settings">
-                        
-                    </TabItem>
-                </TabControl>
-                -->
-                <Grid Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Hidden"
-                                  VerticalScrollBarVisibility="Auto">
-                        <StackPanel DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50" />
-                                    <RowDefinition Height="10" />
-                                    <RowDefinition Height="60" />
-                                    <RowDefinition Height="5" />
-                                    <RowDefinition Height="60" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Label VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#E63B32"
-                                       Content="General Settings" FontSize="26" />
-                                    <Border VerticalAlignment="Bottom" Height="2" HorizontalAlignment="Stretch"
-                                        Background="LightGray" />
-                                </Grid>
-
-                                <Grid Grid.Row="2">
-                                    <Grid.ToolTip>
-                                        <TextBlock TextWrapping="Wrap">
-                                        The maximum of items to receive from a playlist.
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: 5000
-                                        </TextBlock>
-                                    </Grid.ToolTip>
-                                    <Label Content="Maximum Playlist Items" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                    <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                                         Text="{Binding Path=PlaylistReceiveMaximum}" FontSize="16"
-                                         BorderBrush="#E63B32" />
-                                </Grid>
-
-                                <Grid Grid.Row="4">
-                                    <Grid.ToolTip>
-                                        <TextBlock TextWrapping="Wrap">
-                                        The amount of parallel downloads.
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: 4
-                                        </TextBlock>
-                                    </Grid.ToolTip>
-
-                                    <Label Content="Parallel Downloads" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                    <TextBox VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                                         Text="{Binding Path=ParallelDownloads}" FontSize="16" BorderBrush="#E63B32" />
-                                </Grid>
-                            </Grid>
-                            
-                            <!--
-                            <Grid Margin="0,10,0,0">
-                                <Border BorderBrush="LightGray" BorderThickness="0,0,1,0">
-                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="Advanced settings" Foreground="#E63B32" FontSize="16"/>
-                                </Border>
-                            </Grid>
-                            -->
-                        </StackPanel>
-                    </ScrollViewer>
-
-                    <ScrollViewer Grid.Column="2"
-                                  Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                        <Grid
-                            DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace.WorkspaceSettingsViewModel}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="10" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Grid Grid.Row="0">
-                                <Label VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#e96159"
-                                       Content="Workspace Settings" FontSize="26" />
-                                <Border VerticalAlignment="Bottom" Height="2" HorizontalAlignment="Stretch"
-                                        Background="LightGray" />
-                            </Grid>
-
-                            <Grid Grid.Row="2">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Should this workspace be synced on startup?
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: On
-                                    </TextBlock>
-                                </Grid.ToolTip>
-
-                                <Label Content="Auto sync on startup" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                <controls:ToggleSwitch VerticalAlignment="Bottom"
-                                                       IsChecked="{Binding Path=AutoSync}"
-                                                       BorderBrush="#E63B32" />
-                            </Grid>
-
-                            <Grid Grid.Row="4">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Should downloaded tracks which are not in your playlist be deleted? This routine is only occuring if you have loaded a playlist.
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: Off
-                                    </TextBlock>
-                                </Grid.ToolTip>
-
-                                <Label Content="Delete unsynced items" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                <controls:ToggleSwitch VerticalAlignment="Bottom"
-                                                       IsChecked="{Binding Path=DeleteNotSyncedItems}"
-                                                       BorderBrush="#E63B32" />
-                            </Grid>
-
-                            <Grid Grid.Row="6">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Should downloaded tracks which are not in your playlist be deleted? This routine is only occuring if you have loaded a playlist.
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: Off
-                                    </TextBlock>
-                                </Grid.ToolTip>
-
-                                <Label Content="Download format" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                <ComboBox VerticalAlignment="Bottom" Height="29" SelectedValuePath="Key"
-                                          DisplayMemberPath="Value" ItemsSource="{Binding Path=DownloadFormatOptions}"
-                                          SelectedValue="{Binding Path=SelectedDownloadFormatOption}"
-                                          BorderBrush="#E63B32" FontSize="16" />
-                            </Grid>
-                            <!--
-                            <Grid Grid.Row="8">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Should downloaded tracks be synced with iTunes?
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: Off
-                                    </TextBlock>
-                                </Grid.ToolTip>
-
-                                <Label Content="Enable iTunes sync" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                <controls:ToggleSwitch VerticalAlignment="Bottom"
-                                                       IsChecked="{Binding Path=ITunesSyncEnabled}"
-                                                       BorderBrush="#E63B32" />
-                            </Grid>
-
-                            <Grid Grid.Row="10">
-                                <Grid.ToolTip>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Select a playlist of your iTunes library to sync your downloaded tracks with.
-                                        <LineBreak />
-                                        <LineBreak />
-                                        Default: Disabled
-                                    </TextBlock>
-                                </Grid.ToolTip>
-
-                                <Label Content="iTunes Playlist sync" Margin="-5,0,0,0" VerticalAlignment="Top"
-                                       FontSize="16" />
-                                <ComboBox VerticalAlignment="Bottom" Height="29" ItemsSource="{Binding Path=Playlists}"
-                                          SelectedIndex="{Binding Path=SelectedPlaylistIndex}" BorderBrush="#E63B32"
-                                          FontSize="16" />
-                            </Grid>
-                            -->
-                        </Grid>
-                    </ScrollViewer>
-                </Grid>
+            <TabItem Header="{x:Static p:Resources.MainWindow_Headers_Settings}">
+                <Border Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0">
+                    <TabControl Style="{DynamicResource TabControlSettings}">
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_General}" DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettings}" Style="{DynamicResource TabItemSettings}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                <ItemsControl ItemsSource="{Binding Path=Settings}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <ItemContainerTemplate>
+                                            <uc:Setting Width="400" Margin="10"/>
+                                        </ItemContainerTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_Workspace}" Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{DynamicResource TabItemSettings}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                <ItemsControl DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}" ItemsSource="{Binding Path=WorkspaceSettingsViewModel.Settings}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <ItemContainerTemplate>
+                                            <uc:Setting Width="430" BorderBrush="White" BorderThickness="3" Margin="10,10,50,10"/>
+                                        </ItemContainerTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+                </Border>
             </TabItem>
-            <TabItem Header="About">
-                <Grid Margin="10" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}">
+            <TabItem Header="{x:Static p:Resources.MainWindow_Headers_About}">
+                <Grid Margin="0,-1,0,0" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}" Background="{DynamicResource BackgroundBrush}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="580"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="580" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="400"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="400" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Source="../Resources/logo_white.ico" Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                        <TextBlock Grid.Row="0" Text="YouTube Music Downloader" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="38" FontWeight="SemiBold"/>
+                        <Image Grid.Row="0" Source="../Resources/logo_white.ico" Width="80" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" />
+                        <TextBlock Grid.Row="0" Text="YouTube Music Downloader" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right" FontSize="38" FontWeight="SemiBold" />
 
                         <Grid Grid.Row="1" Margin="10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="90"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="90" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" ContentStringFormat="Version {0}" Content="{Binding Path=Version}" VerticalAlignment="Top" FontSize="15"/>
+                            <Label Grid.Row="0" ContentStringFormat="{x:Static p:Resources.MainWindow_About_Version}" Content="{Binding Path=Version}"
+                                   VerticalAlignment="Top" FontSize="15" />
 
-                            <TextBlock Grid.Row="2" FontSize="14" Margin="5" TextWrapping="Wrap">
-                                The YouTube Music Downloader was developed in 2016 to create a simple way to download audio from YouTube.<LineBreak />
-                                It offers you a possibility to sync your music playlists from YouTube with your local computer.
-                            </TextBlock>
+                            <TextBlock Grid.Row="2" FontSize="14" Margin="5" TextWrapping="Wrap" Text="{x:Static p:Resources.MainWindow_About_MainContent}"/>
 
-                            <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold">
-                                Thank you for using the YouTube Music Downloader!
-                            </TextBlock>
+                            <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       FontSize="20" FontWeight="SemiBold" Text="{x:Static p:Resources.MainWindow_About_Thanks}"/>
 
                             <Label Grid.Row="4">
                                 <TextBlock FontSize="15">
-                                    Licensed under the Apache-2.0 license which can be obtained
-                                    <Hyperlink Foreground="#E63B32" Command="{Binding Path=OpenLicenseCommand}">
+                                    <TextBlock Text="{x:Static p:Resources.MainWindow_About_License}" />
+                                    <Hyperlink Foreground="{DynamicResource AccentBrush}" Command="{Binding Path=OpenLicenseCommand}">
                                         <Hyperlink.Inlines>
-                                            <Run Text="here" />
+                                            <Run Text="{x:Static p:Resources.MainWindow_About_LicenseLinkDescription}" />
                                         </Hyperlink.Inlines>
                                     </Hyperlink>
                                 </TextBlock>
                             </Label>
                             <Label Grid.Row="5">
                                 <TextBlock FontSize="15">
-                                    This project is hosted on
-                                    <Hyperlink Foreground="#E63B32" Command="{Binding Path=OpenGitHubCommand}">
+                                    <TextBlock Text="{x:Static p:Resources.MainWindow_About_GitHub}"/>
+                                    <Hyperlink Foreground="{DynamicResource AccentBrush}" Command="{Binding Path=OpenGitHubCommand}">
                                         <Hyperlink.Inlines>
-                                            <Run Text="GitHub" />
+                                            <Run Text="{x:Static p:Resources.MainWindow_About_GitHubLinkDescription}" />
                                         </Hyperlink.Inlines>
                                     </Hyperlink>
                                 </TextBlock>
@@ -596,15 +406,16 @@
             </TabItem>
         </TabControl>
 
-        <Border Background="#252525" Opacity="1" x:Name="LoadingScreen">
+        <Border Background="{DynamicResource BackendBrush}" Opacity="1" x:Name="LoadingScreen">
             <Border.Style>
                 <Style>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=IsLoaded}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard >
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:2"/>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0"
+                                                         Duration="0:0:1" BeginTime="0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
@@ -613,7 +424,7 @@
                             <Setter Property="Border.Visibility" Value="Hidden" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=IsInDesignModeStatic}" Value="True">
-                            <Setter Property="Border.Visibility" Value="Hidden"></Setter>
+                            <Setter Property="Border.Visibility" Value="Hidden" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -621,29 +432,27 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="600"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="400" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Column="1" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120"/>
-                        <RowDefinition Height="130"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="120" />
+                        <RowDefinition Height="130" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Image Source="../Resources/logo_white.ico" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100"/>
-                        <Label Content="YouTube Music Downloader" FontSize="38" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                        <Image Source="../Resources/logo_white.ico" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" Width="100" />
+                        <Label Content="YouTube Music Downloader" FontSize="38" VerticalAlignment="Center"
+                               HorizontalAlignment="Center" FontWeight="SemiBold" />
                     </DockPanel>
-                    <Grid Grid.Row="2">
-                        <Label Content="Initializing your user experience..." VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="23" Foreground="#E63B32" FontWeight="SemiBold"/>
-                        <controls:ProgressRing VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                    </Grid>
                 </Grid>
             </Grid>
         </Border>

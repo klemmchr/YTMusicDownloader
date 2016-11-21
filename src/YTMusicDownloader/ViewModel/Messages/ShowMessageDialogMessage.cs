@@ -22,23 +22,24 @@ namespace YTMusicDownloader.ViewModel.Messages
     {
         public delegate void ShowMessageDialogResultCallback(MessageDialogResult result);
 
-        public string Title { get; }
-        public string Content { get; }
-        public MessageDialogStyle Style { get; } = MessageDialogStyle.Affirmative;
-        public ShowMessageDialogResultCallback Callback { get; }
-        public MetroDialogSettings Settings { get; }
-
         public ShowMessageDialogMessage(string title, string content)
         {
             Title = title;
             Content = content;
         }
 
-        public ShowMessageDialogMessage(string title, string content, MessageDialogStyle style, ShowMessageDialogResultCallback callback, MetroDialogSettings settings = null): this(title, content)
+        public ShowMessageDialogMessage(string title, string content, MessageDialogStyle style,
+            ShowMessageDialogResultCallback callback, MetroDialogSettings settings = null) : this(title, content)
         {
             Style = style;
             Callback = callback;
             Settings = settings;
         }
+
+        public string Title { get; }
+        public string Content { get; }
+        public MessageDialogStyle Style { get; } = MessageDialogStyle.Affirmative;
+        public ShowMessageDialogResultCallback Callback { get; }
+        public MetroDialogSettings Settings { get; }
     }
 }

@@ -40,15 +40,57 @@ namespace YTMusicDownloader.ViewModel
 {
     public enum FilterMode
     {
-        [Description("Nothing")] None,
-        [Description("Downloaded")] Downloaded,
-        [Description("Not downloaded")] NotDownloaded,
-        [Description("Downloading")] Downloading,
-        [Description("Queued")] Queued
+        None,
+        Downloaded,
+        NotDownloaded,
+        Downloading,
+        Queued
     }
 
     internal class WorkspaceViewModel : ViewModelBase
     {
+        #region Construction        
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="WorkspaceViewModel" /> class.
+        /// </summary>
+        /// <param name="workspace">The workspace for the view model.</param>
+        public WorkspaceViewModel(Workspace workspace)
+        {
+            Workspace = workspace;
+            Name = Workspace.Name;
+            PlaylistUrl = workspace.Settings.PlaylistUrl;
+            DownloadingAllSongsText = Resources.MainWindow_CurrentWorkspace_SyncButtonLabel;
+            SearchTextboxWatermark = Resources.MainWindow_CurrentWorkspace_SearchWatermarkDefault;
+
+            Tracks = new ObservableImmutableList<PlaylistItemViewModel>();
+            Tracks.CollectionChanged += TracksOnCollectionChanged;
+            DisplayedTracks = new ObservableImmutableList<PlaylistItemViewModel>();
+            PageSelectorViewModel = new PageSelectorViewModel(this);
+            DownloadManager = new DownloadManager(Settings.Default.ParallelDownloads);
+            WorkspaceSettingsViewModel = new WorkspaceSettingsViewModel(this);
+            DisplayedTracksSource = new List<PlaylistItemViewModel>();
+            Workspace.Settings.PropertyChanged += SettingsOnPropertyChanged;
+            FilterModes = new Dictionary<FilterMode, string>();
+            Settings.Default.PropertyChanged += ApplicationSettingsOnPropertyChanged;
+
+            _watcher = new FileSystemWatcher
+            {
+                Path = Workspace.Path,
+                NotifyFilter = NotifyFilters.FileName,
+                Filter = "*.*"
+            };
+
+            _watcher.Created += WatcherOnCreated;
+            _watcher.Deleted += WatcherOnDeleted;
+            _watcher.Renamed += WatcherOnRenamed;
+            _watcher.Error += WatcherOnError;
+
+            SetupFilter();
+        }
+
+        #endregion
+
         #region Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -67,6 +109,7 @@ namespace YTMusicDownloader.ViewModel
         private FilterMode _selectedFilterMode;
         private bool _searchTextChangeInProgress;
         private int _downloadErrors;
+
         #endregion
 
         #region Properties
@@ -75,7 +118,6 @@ namespace YTMusicDownloader.ViewModel
         public DownloadManager DownloadManager { get; }
         public PageSelectorViewModel PageSelectorViewModel { get; }
         public WorkspaceSettingsViewModel WorkspaceSettingsViewModel { get; }
-
 
         public ObservableImmutableList<PlaylistItemViewModel> Tracks { get; }
         public ObservableImmutableList<PlaylistItemViewModel> DisplayedTracks { get; }
@@ -162,7 +204,9 @@ namespace YTMusicDownloader.ViewModel
             {
                 _downloadingAllSongs = value;
                 RaisePropertyChanged(nameof(DownloadingAllSongs));
-                DownloadingAllSongsText = value ? "Cancel" : "Sync";
+                DownloadingAllSongsText = value
+                    ? Resources.MainWindow_CurrentWorkspace_CancelSyncButtonLabel
+                    : Resources.MainWindow_CurrentWorkspace_SyncButtonLabel;
             }
         }
 
@@ -244,7 +288,12 @@ namespace YTMusicDownloader.ViewModel
 
         public string LastSync
         {
-            get { return Workspace.Settings.LastSync == DateTime.MinValue? "Never" :Workspace.Settings.LastSync.ToString(CultureInfo.InstalledUICulture); }
+            get
+            {
+                return Workspace.Settings.LastSync == default(DateTime)
+                    ? Resources.MainWindow_CurrentWorkspace_LastSyncNever
+                    : Workspace.Settings.LastSync.ToString(CultureInfo.InstalledUICulture);
+            }
             set
             {
                 Workspace.Settings.LastSync = Convert.ToDateTime(value);
@@ -256,9 +305,17 @@ namespace YTMusicDownloader.ViewModel
         ///     Gets the update playlist Url command.
         /// </summary>
         public RelayCommand UpdatePlaylistUrlCommand => new RelayCommand(async () => await UpdatePlaylistUrl());
+
         public RelayCommand OpenLocationCommand => new RelayCommand(() =>
         {
-            try { Process.Start(Workspace.Path);} catch { /* ignore */ }
+            try
+            {
+                Process.Start(Workspace.Path);
+            }
+            catch
+            {
+                /* ignore */
+            }
         });
 
         public RelayCommand SyncCommand => new RelayCommand(() =>
@@ -282,47 +339,17 @@ namespace YTMusicDownloader.ViewModel
             else
                 DownloadAllSongs();
         });
-        #endregion
 
-        #region Construction        
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="WorkspaceViewModel" /> class.
-        /// </summary>
-        /// <param name="workspace">The workspace for the view model.</param>
-        public WorkspaceViewModel(Workspace workspace)
+        public RelayCommand SelectWorkspaceCommand => new RelayCommand(() =>
         {
-            Workspace = workspace;
-            Name = Workspace.Name;
-            PlaylistUrl = workspace.Settings.PlaylistUrl;
-            DownloadingAllSongsText = "Sync";
-            SearchTextboxWatermark = "Search ...";
+            Messenger.Default.Send(new SelectWorkspaceMessage(this));
+        });
 
-            Tracks = new ObservableImmutableList<PlaylistItemViewModel>();
-            Tracks.CollectionChanged += TracksOnCollectionChanged;
-            DisplayedTracks = new ObservableImmutableList<PlaylistItemViewModel>();
-            PageSelectorViewModel = new PageSelectorViewModel(this);
-            DownloadManager = new DownloadManager(Settings.Default.ParallelDownloads);
-            WorkspaceSettingsViewModel = new WorkspaceSettingsViewModel(this);
-            DisplayedTracksSource = new List<PlaylistItemViewModel>();
-            Workspace.Settings.PropertyChanged += SettingsOnPropertyChanged;
-            FilterModes = new Dictionary<FilterMode, string>();
-            Settings.Default.PropertyChanged += ApplicationSettingsOnPropertyChanged;
+        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(() =>
+        {
+            Messenger.Default.Send(new RemoveWorkspaceMessage(this));
+        });
 
-            _watcher = new FileSystemWatcher
-            {
-                Path = Workspace.Path,
-                NotifyFilter = NotifyFilters.FileName,
-                Filter = "*.*"
-            };
-
-            _watcher.Created += WatcherOnCreated;
-            _watcher.Deleted += WatcherOnDeleted;
-            _watcher.Renamed += WatcherOnRenamed;
-            _watcher.Error += WatcherOnError;
-
-            SetupFilter();
-        }
         #endregion
 
         #region Methods        
@@ -331,9 +358,9 @@ namespace YTMusicDownloader.ViewModel
         ///     Inits the workspace loading.
         ///     Called when the workspace was selected for the first time.
         /// </summary>
-        public void Init()
+        public async Task Init()
         {
-            new Thread(() =>
+            await Task.Run(() =>
             {
 #if DEBUG
                 var watch = Stopwatch.StartNew();
@@ -347,7 +374,13 @@ namespace YTMusicDownloader.ViewModel
                 Logger.Trace("Initialized workspace view model for workspace {0}.", Workspace);
 #endif
                 _watcher.EnableRaisingEvents = true;
+            });
+        }
 
+        public async void Load()
+        {
+            await Task.Run(() =>
+            {
                 if (Workspace.Settings.AutoSync && !_initialized)
                 {
                     Thread.Sleep(1000);
@@ -355,18 +388,34 @@ namespace YTMusicDownloader.ViewModel
                 }
 
                 _initialized = true;
-            }).Start();
+            });
         }
 
         private void SetupFilter()
         {
-            foreach (var mode in Enum.GetNames(typeof(FilterMode)))
-            {
-                var attributes = typeof(FilterMode).GetMember(mode)[0].GetCustomAttributes(
-                    typeof(DescriptionAttribute), false);
-                FilterModes.Add((FilterMode) Enum.Parse(typeof(FilterMode), mode),
-                    ((DescriptionAttribute) attributes[0]).Description);
-            }
+            foreach (FilterMode mode in Enum.GetValues(typeof(FilterMode)))
+                switch (mode)
+                {
+                    case FilterMode.None:
+                        FilterModes.Add(mode, Resources.MainWindow_CurrentWorkspace_FilterMode_None);
+                        break;
+
+                    case FilterMode.Downloaded:
+                        FilterModes.Add(mode, Resources.MainWindow_CurrentWorkspace_FilterMode_Downloaded);
+                        break;
+
+                    case FilterMode.NotDownloaded:
+                        FilterModes.Add(mode, Resources.MainWindow_CurrentWorkspace_FilterMode_NotDownloaded);
+                        break;
+
+                    case FilterMode.Downloading:
+                        FilterModes.Add(mode, Resources.MainWindow_CurrentWorkspace_FilterMode_Downloading);
+                        break;
+
+                    case FilterMode.Queued:
+                        FilterModes.Add(mode, Resources.MainWindow_CurrentWorkspace_FilterMode_Queued);
+                        break;
+                }
 
             SelectedFilterMode = FilterMode.None;
         }
@@ -417,6 +466,12 @@ namespace YTMusicDownloader.ViewModel
                     track.CheckForTrack();
 
                 SearchTextChanged();
+
+                Messenger.Default.Send(
+                    new ShowMessageDialogMessage(
+                        Resources.MainWindow_Settings_DownloadFormatChanged_Title,
+                        string.Format(Resources.MainWindow_Settings_DownloadFormatChanged_Content, Workspace.Settings.DownloadFormat))
+                );
             }
         }
 
@@ -540,7 +595,8 @@ namespace YTMusicDownloader.ViewModel
 
         private void WatcherOnError(object sender, ErrorEventArgs errorEventArgs)
         {
-            Messenger.Default.Send(new ShowMessageDialogMessage("Project folder deleted", $"The project folder for the workspace {Workspace.Name} was deleted.\nPlease set up the folder and select the workspace again."));
+            Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Title,
+                string.Format(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Content, Workspace.Name)));
             Messenger.Default.Send(new WorkspaceErrorMessage(Workspace));
         }
 
@@ -560,13 +616,13 @@ namespace YTMusicDownloader.ViewModel
 
         private async void Sync()
         {
-            if(string.IsNullOrEmpty(PlaylistUrl))
+            if (string.IsNullOrEmpty(PlaylistUrl))
                 return;
 
             DownloadingAllSongs = true;
             await UpdatePlaylistUrl();
 
-            if(DownloadingAllSongs)
+            if (DownloadingAllSongs)
                 DownloadAllSongs();
         }
 
@@ -602,13 +658,15 @@ namespace YTMusicDownloader.ViewModel
                 {
                     if (args.Cancelled)
                     {
-                        Messenger.Default.Send(new ShowMessageDialogMessage("Error loading your playlist", "There was an error loading your playlist.\nThis could be due to a missing internet connection, an invalid playlist id or if the playlist is listed as \"Private\"."));
+                        Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Title,
+                            Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Content));
                         FetchingPlaylist = false;
                         return;
                     }
 
-                    Workspace.Settings.Items = new HashSet<PlaylistItem>(List.Sync(Workspace.Settings.Items.ToList(), args.Result));
-                    
+                    Workspace.Settings.Items =
+                        new HashSet<PlaylistItem>(List.Sync(Workspace.Settings.Items.ToList(), args.Result));
+
                     UpdateTracks();
 
                     FetchingPlaylist = false;
@@ -619,20 +677,12 @@ namespace YTMusicDownloader.ViewModel
                         CleanupWorkspaceFolder();
                     }
                 };
-            
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        retreiver.GetPlaylistItems(Workspace.PlaylistId);
-                    }
-                    catch (Exception ex)
-                    {
-                        Messenger.Default.Send(new ShowMessageDialogMessage("Failed to load playlist", "It was not possible to load the content of the specified playlist.\nPlease check your internet connection. If this error persists please report this issue."));
-                        Logger.Warn(ex, "Failed to retreive playlist items for workspace {0}", Workspace);
-                        FetchingPlaylist = false;
-                    }
-                });
+
+            await Task.Run(() =>
+            {
+                retreiver.GetPlaylistItems(Workspace.PlaylistId);
+             
+            });
         }
 
         /// <summary>
@@ -661,7 +711,7 @@ namespace YTMusicDownloader.ViewModel
 
             // Add the new items
             foreach (var item in addItems)
-                Tracks.Insert(0, new PlaylistItemViewModel(item, this));            
+                Tracks.Insert(0, new PlaylistItemViewModel(item, this));
 
             var i = 1;
             DownloadedTracks = 0;
@@ -737,7 +787,12 @@ namespace YTMusicDownloader.ViewModel
             }
 
             if (DownloadItemsRemaining <= 0)
+            {
                 DownloadingAllSongs = false;
+                Workspace.Settings.LastSync = DateTime.Now;
+                RaisePropertyChanged(nameof(LastSync));
+            }
+                
         }
 
         internal void HandlerOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
@@ -754,8 +809,9 @@ namespace YTMusicDownloader.ViewModel
                 RaisePropertyChanged(nameof(LastSync));
 
                 DownloadingAllSongs = false;
-                if(_downloadErrors > 0)
-                    Messenger.Default.Send(new ShowMessageDialogMessage("Errors during sync", "The sync is completed but some downloads failed during the syncing process.\nThis usually happens if you have no internet connection, the song is not available in your country, was removed or is not accessible at all."));
+                if (_downloadErrors > 0)
+                    Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_SyncError_Title,
+                        string.Format(Resources.MainWindow_CurrentWorkspace_SyncError_Content, _downloadErrors)));
 
                 _downloadErrors = 0;
             }
@@ -789,7 +845,7 @@ namespace YTMusicDownloader.ViewModel
             var refreshPageView = false;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                SearchTextboxWatermark = "Search ...";
+                SearchTextboxWatermark = Resources.MainWindow_CurrentWorkspace_SearchWatermarkDefault;
                 if (DisplayedTracksSource.Count != Tracks.Count)
                 {
                     DisplayedTracksSource.Clear();
@@ -803,7 +859,7 @@ namespace YTMusicDownloader.ViewModel
                 DisplayedTracksSource.Clear();
                 DisplayedTracksSource.AddRange(results);
 
-                SearchTextboxWatermark = $"{results.Count} results";
+                SearchTextboxWatermark = string.Format(Resources.MainWindow_CurrentWorkspace_SearchWatermarkResults, results.Count);
 
                 refreshPageView = true;
             }
@@ -824,23 +880,29 @@ namespace YTMusicDownloader.ViewModel
                 case FilterMode.Downloaded:
                 {
                     DisplayedTracksSource.RemoveAll(x => x.DownloadState != DownloadState.Downloaded);
-                } break;
+                }
+                    break;
 
                 case FilterMode.NotDownloaded:
                 {
                     DisplayedTracksSource.RemoveAll(x => x.DownloadState == DownloadState.Downloaded);
-                } break;
+                }
+                    break;
 
                 case FilterMode.Downloading:
                 {
-                    DisplayedTracksSource.RemoveAll(x => x.DownloadState != DownloadState.Downloading && x.DownloadState != DownloadState.Converting);
-                } break;
+                    DisplayedTracksSource.RemoveAll(
+                        x =>
+                            (x.DownloadState != DownloadState.Downloading) &&
+                            (x.DownloadState != DownloadState.Converting));
+                }
+                    break;
 
                 case FilterMode.Queued:
                 {
                     DisplayedTracksSource.RemoveAll(x => x.DownloadState != DownloadState.Queued);
                 }
-                break;
+                    break;
             }
         }
 

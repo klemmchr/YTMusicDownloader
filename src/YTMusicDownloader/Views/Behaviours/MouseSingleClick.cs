@@ -23,16 +23,16 @@ namespace YTMusicDownloader.Views.Behaviours
     internal class MouseSingleClick
     {
         public static DependencyProperty CommandProperty =
-                DependencyProperty.RegisterAttached("Command",
+            DependencyProperty.RegisterAttached("Command",
                 typeof(ICommand),
-                typeof(Behaviours.MouseSingleClick),
+                typeof(MouseSingleClick),
                 new UIPropertyMetadata(CommandChanged));
 
         public static DependencyProperty CommandParameterProperty =
             DependencyProperty.RegisterAttached("CommandParameter",
-                                                typeof(object),
-                                                typeof(Behaviours.MouseSingleClick),
-                                                new UIPropertyMetadata(null));
+                typeof(object),
+                typeof(MouseSingleClick),
+                new UIPropertyMetadata(null));
 
         public static void SetCommand(DependencyObject target, ICommand value)
         {
@@ -43,30 +43,26 @@ namespace YTMusicDownloader.Views.Behaviours
         {
             target.SetValue(CommandParameterProperty, value);
         }
+
         public static object GetCommandParameter(DependencyObject target)
         {
             return target.GetValue(CommandParameterProperty);
         }
+
         private static void CommandChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
         {
             var control = target as Control;
             if (control != null)
-            {
                 if ((e.NewValue != null) && (e.OldValue == null))
-                {
                     control.MouseLeftButtonUp += OnMouseSingleClick;
-                }
                 else if ((e.NewValue == null) && (e.OldValue != null))
-                {
-                    control.MouseDoubleClick -= OnMouseSingleClick;
-                }
-            }
+                    control.MouseLeftButtonUp -= OnMouseSingleClick;
         }
 
         private static void OnMouseSingleClick(object sender, RoutedEventArgs e)
         {
             var control = sender as Control;
-            var command = (ICommand)control.GetValue(CommandProperty);
+            var command = (ICommand) control.GetValue(CommandProperty);
             var commandParameter = control.GetValue(CommandParameterProperty);
             command.Execute(commandParameter);
         }

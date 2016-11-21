@@ -17,6 +17,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using YTMusicDownloader.Properties;
 
 namespace YTMusicDownloader.Views.Converters
 {
@@ -29,7 +30,7 @@ namespace YTMusicDownloader.Views.Converters
 
             if (string.IsNullOrEmpty(currentPage) || string.IsNullOrEmpty(maxPages)) return null;
 
-            return $"{currentPage} of {maxPages}";
+            return $"{currentPage} {Resources.MainWindow_CurrentWorkspace_PageView_PageOf} {maxPages}";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

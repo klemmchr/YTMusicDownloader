@@ -29,6 +29,7 @@ namespace YTMusicDownloaderLibTest.Helpers
         {
             Contract.Assert(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Assembly.GetAssemblyVersion()));
         }
+
         #endregion
     }
 }

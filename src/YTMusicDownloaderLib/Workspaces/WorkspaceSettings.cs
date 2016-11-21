@@ -25,17 +25,21 @@ using YTMusicDownloaderLib.RetrieverEngine;
 namespace YTMusicDownloaderLib.Workspaces
 {
     [JsonObject(MemberSerialization.OptOut)]
-    public class WorkspaceSettings: INotifyPropertyChanged
+    public class WorkspaceSettings : INotifyPropertyChanged
     {
         #region NotifyPropertyChangedEvent
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
 
         #region Fields
+
         private string _playlistUrl;
         private HashSet<PlaylistItem> _items = new HashSet<PlaylistItem>();
         private int _itemsPerPage = 10;
@@ -141,6 +145,7 @@ namespace YTMusicDownloaderLib.Workspaces
                 RaisePropertyChanged();
             }
         }
+
         #endregion
     }
 }

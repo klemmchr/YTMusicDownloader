@@ -25,20 +25,20 @@ namespace YTMusicDownloaderLib.Helpers
         #region Methods
 
         /// <summary>
-        /// Synchronizes the specified source list with the specified compare list.
-        /// Removes the elements from the source list which are not in the compare list.
-        /// Adds the elements to the source list which are not in the source list but in the compare list.
+        ///     Synchronizes the specified source list with the specified compare list.
+        ///     Removes the elements from the source list which are not in the compare list.
+        ///     Adds the elements to the source list which are not in the source list but in the compare list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sourceList">The source list.</param>
         /// <param name="compareList">The compare list.</param>
         /// <returns>A new synchronized list.</returns>
-        public static List<T> Sync<T>(IList<T> sourceList, IList<T> compareList) where T: class
+        public static List<T> Sync<T>(IList<T> sourceList, IList<T> compareList) where T : class
         {
-            if(sourceList == null)
+            if (sourceList == null)
                 throw new ArgumentNullException(nameof(sourceList));
 
-            if(compareList == null)
+            if (compareList == null)
                 throw new ArgumentNullException(nameof(compareList));
 
             var newList = new List<T>(sourceList);
@@ -47,13 +47,12 @@ namespace YTMusicDownloaderLib.Helpers
             var removeItems = sourceList.Except(compareList);
 
             foreach (var item in addItems)
-            {
                 newList.Insert(0, item);
-            }
             newList.RemoveAll(x => removeItems.Contains(x));
 
             return newList;
         }
+
         #endregion
     }
 }
