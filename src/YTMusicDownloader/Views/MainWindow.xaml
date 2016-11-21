@@ -32,8 +32,8 @@
                     <TextBox Grid.Column="0" FontSize="14" VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True"
                              controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}" />
-                    <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}" Width="120"
-                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                    <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
                             Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}"/>
                     <Button Grid.Column="4" Content="Add" FontSize="14" VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}" />
