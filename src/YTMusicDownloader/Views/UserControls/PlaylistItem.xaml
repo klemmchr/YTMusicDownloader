@@ -7,7 +7,10 @@
              xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="900" BorderThickness="2" BorderBrush="{StaticResource PlaylistItemBorderBrush}" Background="{StaticResource PlaylistItemInnerBorderBrush}" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignPlaylistItem}">
+             d:DesignHeight="200" d:DesignWidth="900" BorderThickness="2"
+             BorderBrush="{StaticResource PlaylistItemBorderBrush}"
+             Background="{StaticResource PlaylistItemInnerBorderBrush}"
+             d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignPlaylistItem}">
     <Border Background="{StaticResource PlaylistItemBackgroundBrush}" Margin="1">
         <Grid Margin="10">
             <Grid.RowDefinitions>
@@ -15,11 +18,13 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
             <DockPanel>
-                <Border Margin="0,0,10,0" BorderBrush="{StaticResource PlaylistItemThumbnailBorderBrush}" BorderThickness="2">
+                <Border Margin="0,0,10,0" BorderBrush="{StaticResource PlaylistItemThumbnailBorderBrush}"
+                        BorderThickness="2">
                     <Grid Margin="2">
                         <Image Source="{Binding Path=Thumbnail}" />
-                        
-                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding Path=Index}" FontWeight="SemiBold" FontSize="18" Foreground="White"/>
+
+                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding Path=Index}"
+                               FontWeight="SemiBold" FontSize="18" Foreground="White" />
                     </Grid>
                 </Border>
 
@@ -36,7 +41,7 @@
                              HorizontalAlignment="Left" />
                     <Label Grid.Row="1" Content="{Binding Path=Item.Url}" Foreground="LightGray"
                            behaviours:MouseSingleClick.Command="{Binding Path=OpenUrlCommand}"
-                           HorizontalAlignment="Left" Template="{DynamicResource LabelClickable}" Margin="5,0,0,0"/>
+                           HorizontalAlignment="Left" Template="{DynamicResource LabelClickable}" Margin="5,0,0,0" />
                     <DockPanel Grid.Row="3">
                         <Label Content="{Binding Path=DownloadText}" FontSize="15" Background="Transparent"
                                BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -79,8 +84,14 @@
                                   IsChecked="{Binding Path=AutoDownload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </DockPanel>
 
-                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=DownloadCommand}" Visibility="{Binding Path=Downloading, Converter={StaticResource InverseBooleanToVisibilityConverter}}" BorderThickness="0" Background="{DynamicResource AccentBrush}" controls:ButtonHelper.CornerRadius="4" Content="{icons:PackIconMaterial Download}"/>
-                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=DownloadCommand}" Content="{icons:PackIconMaterial Close}" Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}" BorderThickness="0" Background="{DynamicResource AccentBrush}" />
+                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=DownloadCommand}"
+                            Visibility="{Binding Path=Downloading, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                            BorderThickness="0" Background="{DynamicResource AccentBrush}"
+                            controls:ButtonHelper.CornerRadius="4" Content="{icons:PackIconMaterial Download}" />
+                    <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=DownloadCommand}"
+                            Content="{icons:PackIconMaterial Close}"
+                            Visibility="{Binding Path=Downloading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            BorderThickness="0" Background="{DynamicResource AccentBrush}" />
                 </Grid>
 
                 <controls:MetroProgressBar Grid.Row="2" MinHeight="0" Value="{Binding Path=DownloadProgress}"

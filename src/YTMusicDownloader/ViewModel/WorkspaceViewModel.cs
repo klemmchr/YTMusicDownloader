@@ -340,15 +340,11 @@ namespace YTMusicDownloader.ViewModel
                 DownloadAllSongs();
         });
 
-        public RelayCommand SelectWorkspaceCommand => new RelayCommand(() =>
-        {
-            Messenger.Default.Send(new SelectWorkspaceMessage(this));
-        });
+        public RelayCommand SelectWorkspaceCommand
+            => new RelayCommand(() => { Messenger.Default.Send(new SelectWorkspaceMessage(this)); });
 
-        public RelayCommand RemoveWorkspaceCommand => new RelayCommand(() =>
-        {
-            Messenger.Default.Send(new RemoveWorkspaceMessage(this));
-        });
+        public RelayCommand RemoveWorkspaceCommand
+            => new RelayCommand(() => { Messenger.Default.Send(new RemoveWorkspaceMessage(this)); });
 
         #endregion
 
@@ -470,7 +466,8 @@ namespace YTMusicDownloader.ViewModel
                 Messenger.Default.Send(
                     new ShowMessageDialogMessage(
                         Resources.MainWindow_Settings_DownloadFormatChanged_Title,
-                        string.Format(Resources.MainWindow_Settings_DownloadFormatChanged_Content, Workspace.Settings.DownloadFormat))
+                        string.Format(Resources.MainWindow_Settings_DownloadFormatChanged_Content,
+                            Workspace.Settings.DownloadFormat))
                 );
             }
         }
@@ -595,8 +592,9 @@ namespace YTMusicDownloader.ViewModel
 
         private void WatcherOnError(object sender, ErrorEventArgs errorEventArgs)
         {
-            Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Title,
-                string.Format(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Content, Workspace.Name)));
+            Messenger.Default.Send(
+                new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Title,
+                    string.Format(Resources.MainWindow_CurrentWorkspace_ProjectFolderError_Content, Workspace.Name)));
             Messenger.Default.Send(new WorkspaceErrorMessage(Workspace));
         }
 
@@ -658,8 +656,9 @@ namespace YTMusicDownloader.ViewModel
                 {
                     if (args.Cancelled)
                     {
-                        Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Title,
-                            Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Content));
+                        Messenger.Default.Send(
+                            new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Title,
+                                Resources.MainWindow_CurrentWorkspace_PlaylistLoadError_Content));
                         FetchingPlaylist = false;
                         return;
                     }
@@ -678,11 +677,7 @@ namespace YTMusicDownloader.ViewModel
                     }
                 };
 
-            await Task.Run(() =>
-            {
-                retreiver.GetPlaylistItems(Workspace.PlaylistId);
-             
-            });
+            await Task.Run(() => { retreiver.GetPlaylistItems(Workspace.PlaylistId); });
         }
 
         /// <summary>
@@ -792,7 +787,6 @@ namespace YTMusicDownloader.ViewModel
                 Workspace.Settings.LastSync = DateTime.Now;
                 RaisePropertyChanged(nameof(LastSync));
             }
-                
         }
 
         internal void HandlerOnDownloadItemDownloadCompleted(object sender, DownloadCompletedEventArgs args)
@@ -810,8 +804,9 @@ namespace YTMusicDownloader.ViewModel
 
                 DownloadingAllSongs = false;
                 if (_downloadErrors > 0)
-                    Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_SyncError_Title,
-                        string.Format(Resources.MainWindow_CurrentWorkspace_SyncError_Content, _downloadErrors)));
+                    Messenger.Default.Send(
+                        new ShowMessageDialogMessage(Resources.MainWindow_CurrentWorkspace_SyncError_Title,
+                            string.Format(Resources.MainWindow_CurrentWorkspace_SyncError_Content, _downloadErrors)));
 
                 _downloadErrors = 0;
             }
@@ -859,7 +854,8 @@ namespace YTMusicDownloader.ViewModel
                 DisplayedTracksSource.Clear();
                 DisplayedTracksSource.AddRange(results);
 
-                SearchTextboxWatermark = string.Format(Resources.MainWindow_CurrentWorkspace_SearchWatermarkResults, results.Count);
+                SearchTextboxWatermark = string.Format(Resources.MainWindow_CurrentWorkspace_SearchWatermarkResults,
+                    results.Count);
 
                 refreshPageView = true;
             }

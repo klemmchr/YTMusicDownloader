@@ -13,20 +13,24 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 namespace YTMusicDownloader.ViewModel.Messages
 {
     internal class SelectWorkspaceMessage
     {
-
-        #region Properties
-        public WorkspaceViewModel WorkspaceViewModel { get; }
-        #endregion
-
         #region Construction
+
         public SelectWorkspaceMessage(WorkspaceViewModel workspaceViewModel)
         {
             WorkspaceViewModel = workspaceViewModel;
         }
+
+        #endregion
+
+        #region Properties
+
+        public WorkspaceViewModel WorkspaceViewModel { get; }
+
         #endregion
     }
 }

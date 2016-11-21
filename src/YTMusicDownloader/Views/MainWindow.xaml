@@ -12,9 +12,12 @@
                       mc:Ignorable="d"
                       Title="YT Music Downloader" Height="800" MinHeight="800" Width="1200" MinWidth="1200"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      WindowTransitionsEnabled="False" GlowBrush="{DynamicResource GlowBorderBrush}" NonActiveGlowBrush="Gray"
+                      WindowTransitionsEnabled="False" GlowBrush="{DynamicResource GlowBorderBrush}"
+                      NonActiveGlowBrush="Gray"
                       Icon="../Resources/logo_white.ico" ShowIconOnTitleBar="True" SaveWindowPosition="True"
-                      dialogs:DialogParticipation.Register="{Binding}" Background="{StaticResource BackendBrush}" WindowTitleBrush="{StaticResource BackendBrush}" NonActiveWindowTitleBrush="{StaticResource BackendBrush}" >
+                      dialogs:DialogParticipation.Register="{Binding}" Background="{StaticResource BackendBrush}"
+                      WindowTitleBrush="{StaticResource BackendBrush}"
+                      NonActiveWindowTitleBrush="{StaticResource BackendBrush}">
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl Name="AddWorkspaceFlyout"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
@@ -34,7 +37,7 @@
                              controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}" />
                     <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}"
                             VerticalAlignment="Center" HorizontalAlignment="Left"
-                            Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}"/>
+                            Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}" />
                     <Button Grid.Column="4" Content="Add" FontSize="14" VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}" />
                 </Grid>
@@ -62,10 +65,12 @@
                             </DockPanel>
                         </Button>
                     </StackPanel>
-                    <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0" Grid.Column="0" Margin="0,20,0,0">
-                        <ScrollViewer  VerticalScrollBarVisibility="Hidden"
+                    <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0"
+                            Grid.Column="0" Margin="0,20,0,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden"
                                       HorizontalScrollBarVisibility="Auto">
-                            <ItemsControl ItemsSource="{Binding Path=Workspaces}" d:DataContext="{Binding Source={StaticResource Locator}}">
+                            <ItemsControl ItemsSource="{Binding Path=Workspaces}"
+                                          d:DataContext="{Binding Source={StaticResource Locator}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <uc:Workspace Margin="10" HorizontalAlignment="Stretch" Height="200" />
@@ -108,8 +113,10 @@
             </TabItem>
 
             <TabItem Header="{Binding Path=SelectedWorkspaceName}"
-                     Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}" Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0" d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}">
+                     Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}"
+                      Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0"
+                      d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200" />
                         <RowDefinition Height="*" />
@@ -118,8 +125,11 @@
                     <Grid.Style>
                         <Style TargetType="{x:Type Grid}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Source={StaticResource Locator}, Path=IsInDesignModeStatic}" Value="True">
-                                    <Setter Property="DataContext" Value="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}" />
+                                <DataTrigger
+                                    Binding="{Binding Source={StaticResource Locator}, Path=IsInDesignModeStatic}"
+                                    Value="True">
+                                    <Setter Property="DataContext"
+                                            Value="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -136,7 +146,8 @@
                         <!-- Top controls -->
                         <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PlaylistUrl}"
                                VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"
-                               Grid.Row="1" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" FontSize="17" Margin="-5,5,0,0"/>
+                               Grid.Row="1" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold"
+                               FontSize="17" Margin="-5,5,0,0" />
                         <TextBox VerticalAlignment="Top" Margin="0,35,0,0" Grid.Row="1"
                                  Text="{Binding Path=PlaylistUrl}" Height="30" FontSize="13"
                                  AcceptsReturn="False" AcceptsTab="False" IsUndoEnabled="False" MaxLines="1"
@@ -150,11 +161,13 @@
                         <controls:MetroProgressBar VerticalAlignment="Bottom"
                                                    Value="{Binding Path=PlaylistFetchProgress}"
                                                    Visibility="{Binding Path=FetchingPlaylist, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                   Grid.Row="1" Foreground="{DynamicResource AccentBrush}" MinHeight="1" Height="5" />
+                                                   Grid.Row="1" Foreground="{DynamicResource AccentBrush}"
+                                                   MinHeight="1" Height="5" />
 
                         <!-- Bottom controls -->
                         <Button Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Width="140"
-                                Height="38" Command="{Binding Path=SyncCommand}" BorderBrush="{DynamicResource AccentBrush}">
+                                Height="38" Command="{Binding Path=SyncCommand}"
+                                BorderBrush="{DynamicResource AccentBrush}">
                             <DockPanel>
                                 <icons:PackIconMaterial Kind="Sync" Margin="0,2,10,0" Rotation="360"
                                                         Spin="{Binding Path=DownloadingAllSongs}" Flip="Horizontal"
@@ -176,13 +189,16 @@
                                Foreground="#7D7D7D" VerticalAlignment="Bottom"
                                FontSize="15" />
                         -->
-                        
-                        <icons:PackIconMaterial Grid.Row="4" Kind="SortVariant" Foreground="White" Height="25" Width="25" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        
-                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140" BorderBrush="{DynamicResource AccentBorderBrush}"
+
+                        <icons:PackIconMaterial Grid.Row="4" Kind="SortVariant" Foreground="White" Height="25"
+                                                Width="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+
+                        <ComboBox Grid.Row="4" VerticalAlignment="Bottom" Width="140"
+                                  BorderBrush="{DynamicResource AccentBorderBrush}"
                                   HorizontalAlignment="Left" Margin="30,0,0,0" ItemsSource="{Binding Path=FilterModes}"
                                   SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Path=SelectedFilterMode}" FontSize="14" Background="{DynamicResource ComboBoxBackgroundBrush}"/>
+                                  SelectedValue="{Binding Path=SelectedFilterMode}" FontSize="14"
+                                  Background="{DynamicResource ComboBoxBackgroundBrush}" />
 
                         <TextBox Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="250"
                                  controls:TextBoxHelper.Watermark="{Binding Path=SearchTextboxWatermark}"
@@ -218,7 +234,8 @@
                     </Grid>
 
                     <!-- Page selector -->
-                    <Border Grid.Row="2" Background="{StaticResource PageSelectorBackgroundBrush}" BorderThickness="0,2,0,0" BorderBrush="#363636">
+                    <Border Grid.Row="2" Background="{StaticResource PageSelectorBackgroundBrush}"
+                            BorderThickness="0,2,0,0" BorderBrush="#363636">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120" />
@@ -231,19 +248,22 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" Content="{Binding Path=TrackCount}"
-                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_TotalTracks}" VerticalAlignment="Center"
-                               HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
+                                   ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_TotalTracks}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
                             <Grid Grid.Column="1" Background="White" VerticalAlignment="Center" Height="20" />
                             <Label Grid.Column="2" Content="{Binding Path=DownloadedTracks}"
-                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_DownloadedTracks}" VerticalAlignment="Center"
-                               HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
+                                   ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_DownloadedTracks}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" />
                             <Grid Grid.Column="3" Background="White" VerticalAlignment="Center" Height="20"
-                              Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                  Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <Label Grid.Column="4" Content="{Binding Path=DownloadItemsRemaining}"
-                               ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_RemainingTracks}" VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}"
-                               FontWeight="Bold" FontSize="12" />
+                                   ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_RemainingTracks}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Visibility="{Binding Path=DownloadingAllSongs, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                   FontWeight="Bold" FontSize="12" />
 
                             <Grid Grid.Column="6" DataContext="{Binding Path=PageSelectorViewModel}" Margin="5,0,5,0">
                                 <Grid.ColumnDefinitions>
@@ -258,20 +278,22 @@
                                     <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Grid.Column="1" Margin="1" Height="30" Command="{Binding Path=FirstPageCommand}"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    Content="{icons:PackIconMaterial SkipBackward, Width=12, Height=12}" />
+                                <Button Grid.Column="1" Margin="1" Height="30"
+                                        Command="{Binding Path=FirstPageCommand}"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Content="{icons:PackIconMaterial SkipBackward, Width=12, Height=12}" />
 
-                                <Button Grid.Column="2" Margin="1" Height="30" Command="{Binding Path=PageBackwardCommand}"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    Content="{icons:PackIconMaterial SkipPrevious, Height=10, Width=10}" />
+                                <Button Grid.Column="2" Margin="1" Height="30"
+                                        Command="{Binding Path=PageBackwardCommand}"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding Path=PageBackwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Content="{icons:PackIconMaterial SkipPrevious, Height=10, Width=10}" />
 
                                 <Label
-                                ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_Page}"
-                                Grid.Column="3" VerticalAlignment="Center"
-                                HorizontalAlignment="Center" FontWeight="Bold" FontSize="12">
+                                    ContentStringFormat="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_Page}"
+                                    Grid.Column="3" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" FontWeight="Bold" FontSize="12">
                                     <Label.Content>
                                         <MultiBinding Converter="{StaticResource PageDisplayConverter}">
                                             <Binding Path="PageNumber" />
@@ -280,33 +302,39 @@
                                     </Label.Content>
                                 </Label>
 
-                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4" Margin="1"
-                                    Height="30" Command="{Binding Path=PageForwardCommand}"
-                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    Content="{icons:PackIconMaterial SkipNext, Height=10, Width=10}" />
-                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5" Margin="1"
-                                    Height="30" Command="{Binding Path=LastPageCommand}"
-                                    Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    Content="{icons:PackIconMaterial SkipForward, Height=12, Width=12}" />
+                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="4"
+                                        Margin="1"
+                                        Height="30" Command="{Binding Path=PageForwardCommand}"
+                                        Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Content="{icons:PackIconMaterial SkipNext, Height=10, Width=10}" />
+                                <Button VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="5"
+                                        Margin="1"
+                                        Height="30" Command="{Binding Path=LastPageCommand}"
+                                        Visibility="{Binding Path=PageForwardEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Content="{icons:PackIconMaterial SkipForward, Height=12, Width=12}" />
 
-                                <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_ItemsPerPage}"
-                                   VerticalAlignment="Center" HorizontalAlignment="Right"
-                                   Grid.Column="7" Height="28" FontWeight="Bold" FontSize="12" />
-                                <ComboBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="8" Background="{DynamicResource ComboBoxBackgroundBrush}"
-                                      BorderBrush="{DynamicResource AccentBorderBrush}"
-                                      ItemsSource="{Binding Path=ItemsPerPageOptions}"
-                                      SelectedItem="{Binding Path=ItemsPerPage}" />
+                                <Label
+                                    Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PageView_ItemsPerPage}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Grid.Column="7" Height="28" FontWeight="Bold" FontSize="12" />
+                                <ComboBox VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="8"
+                                          Background="{DynamicResource ComboBoxBackgroundBrush}"
+                                          BorderBrush="{DynamicResource AccentBorderBrush}"
+                                          ItemsSource="{Binding Path=ItemsPerPageOptions}"
+                                          SelectedItem="{Binding Path=ItemsPerPage}" />
                             </Grid>
                         </Grid>
                     </Border>
-                    
+
                 </Grid>
             </TabItem>
 
             <TabItem Header="{x:Static p:Resources.MainWindow_Headers_Settings}">
                 <Border Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0">
                     <TabControl Style="{DynamicResource TabControlSettings}">
-                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_General}" DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettings}" Style="{DynamicResource TabItemSettings}">
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_General}"
+                                 DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettings}"
+                                 Style="{DynamicResource TabItemSettings}">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                                 <ItemsControl ItemsSource="{Binding Path=Settings}">
                                     <ItemsControl.ItemsPanel>
@@ -316,15 +344,19 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <ItemContainerTemplate>
-                                            <uc:Setting Width="400" Margin="10"/>
+                                            <uc:Setting Width="400" Margin="10" />
                                         </ItemContainerTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
                         </TabItem>
-                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_Workspace}" Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{DynamicResource TabItemSettings}">
+                        <TabItem Header="{x:Static p:Resources.MainWindow_Settings_Workspace}"
+                                 Visibility="{Binding Path=SelectedWorkspaceVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 Style="{DynamicResource TabItemSettings}">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                                <ItemsControl DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}" ItemsSource="{Binding Path=WorkspaceSettingsViewModel.Settings}">
+                                <ItemsControl
+                                    DataContext="{Binding Source={StaticResource Locator}, Path=Main.SelectedWorkspace}"
+                                    ItemsSource="{Binding Path=WorkspaceSettingsViewModel.Settings}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" />
@@ -332,7 +364,8 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <ItemContainerTemplate>
-                                            <uc:Setting Width="430" BorderBrush="White" BorderThickness="3" Margin="10,10,50,10"/>
+                                            <uc:Setting Width="430" BorderBrush="White" BorderThickness="3"
+                                                        Margin="10,10,50,10" />
                                         </ItemContainerTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -342,7 +375,8 @@
                 </Border>
             </TabItem>
             <TabItem Header="{x:Static p:Resources.MainWindow_Headers_About}">
-                <Grid Margin="0,-1,0,0" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}" Background="{DynamicResource BackgroundBrush}">
+                <Grid Margin="0,-1,0,0" DataContext="{Binding Source={StaticResource Locator}, Path=AboutTab}"
+                      Background="{DynamicResource BackgroundBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="580" />
@@ -372,18 +406,22 @@
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" ContentStringFormat="{x:Static p:Resources.MainWindow_About_Version}" Content="{Binding Path=Version}"
+                            <Label Grid.Row="0" ContentStringFormat="{x:Static p:Resources.MainWindow_About_Version}"
+                                   Content="{Binding Path=Version}"
                                    VerticalAlignment="Top" FontSize="15" />
 
-                            <TextBlock Grid.Row="2" FontSize="14" Margin="5" TextWrapping="Wrap" Text="{x:Static p:Resources.MainWindow_About_MainContent}"/>
+                            <TextBlock Grid.Row="2" FontSize="14" Margin="5" TextWrapping="Wrap"
+                                       Text="{x:Static p:Resources.MainWindow_About_MainContent}" />
 
                             <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                       FontSize="20" FontWeight="SemiBold" Text="{x:Static p:Resources.MainWindow_About_Thanks}"/>
+                                       FontSize="20" FontWeight="SemiBold"
+                                       Text="{x:Static p:Resources.MainWindow_About_Thanks}" />
 
                             <Label Grid.Row="4">
                                 <TextBlock FontSize="15">
                                     <TextBlock Text="{x:Static p:Resources.MainWindow_About_License}" />
-                                    <Hyperlink Foreground="{DynamicResource AccentBrush}" Command="{Binding Path=OpenLicenseCommand}">
+                                    <Hyperlink Foreground="{DynamicResource AccentBrush}"
+                                               Command="{Binding Path=OpenLicenseCommand}">
                                         <Hyperlink.Inlines>
                                             <Run Text="{x:Static p:Resources.MainWindow_About_LicenseLinkDescription}" />
                                         </Hyperlink.Inlines>
@@ -392,8 +430,9 @@
                             </Label>
                             <Label Grid.Row="5">
                                 <TextBlock FontSize="15">
-                                    <TextBlock Text="{x:Static p:Resources.MainWindow_About_GitHub}"/>
-                                    <Hyperlink Foreground="{DynamicResource AccentBrush}" Command="{Binding Path=OpenGitHubCommand}">
+                                    <TextBlock Text="{x:Static p:Resources.MainWindow_About_GitHub}" />
+                                    <Hyperlink Foreground="{DynamicResource AccentBrush}"
+                                               Command="{Binding Path=OpenGitHubCommand}">
                                         <Hyperlink.Inlines>
                                             <Run Text="{x:Static p:Resources.MainWindow_About_GitHubLinkDescription}" />
                                         </Hyperlink.Inlines>

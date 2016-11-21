@@ -26,13 +26,11 @@ namespace YTMusicDownloader.ViewModel
         #region Fields 
 
         private readonly WorkspaceViewModel _workspaceViewModel;
-        #endregion
 
-        #region Properties
-        public ObservableCollection<SettingViewModel> Settings { get; }
         #endregion
 
         #region Construction
+
         public WorkspaceSettingsViewModel(WorkspaceViewModel workspaceViewModel)
         {
             _workspaceViewModel = workspaceViewModel;
@@ -40,18 +38,33 @@ namespace YTMusicDownloader.ViewModel
             Settings = new ObservableCollection<SettingViewModel>();
             SetupSettings();
         }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<SettingViewModel> Settings { get; }
+
         #endregion
 
         #region Methods
+
         private void SetupSettings()
         {
             var workspaceSettings = _workspaceViewModel.Workspace.Settings;
 
-            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.AutoSync), Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Title, Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Description, PackIconMaterialKind.Cached, true));
-            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DeleteNotSyncedItems), Resources.MainWindow_Settings_Workspace_Cleanup_Title, Resources.MainWindow_Settings_Workspace_Cleanup_Description, PackIconMaterialKind.Broom, false));
-            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DownloadFormat), Resources.MainWindow_Settings_Workspace_DownloadFormat_Title, Resources.MainWindow_Settings_Workspace_DownloadFormat_Description, PackIconMaterialKind.FileMultiple, DownloadFormat.MP3));
-
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.AutoSync),
+                Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Title,
+                Resources.MainWindow_Settings_Workspace_AutoSyncOnStartup_Description, PackIconMaterialKind.Cached, true));
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DeleteNotSyncedItems),
+                Resources.MainWindow_Settings_Workspace_Cleanup_Title,
+                Resources.MainWindow_Settings_Workspace_Cleanup_Description, PackIconMaterialKind.Broom, false));
+            Settings.Add(new SettingViewModel(workspaceSettings, nameof(workspaceSettings.DownloadFormat),
+                Resources.MainWindow_Settings_Workspace_DownloadFormat_Title,
+                Resources.MainWindow_Settings_Workspace_DownloadFormat_Description, PackIconMaterialKind.FileMultiple,
+                DownloadFormat.MP3));
         }
+
         #endregion
     }
 }

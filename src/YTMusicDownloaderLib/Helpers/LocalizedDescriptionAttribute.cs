@@ -22,8 +22,9 @@ namespace YTMusicDownloaderLib.Helpers
 {
     public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
-        private readonly string _resourceKey;
         private readonly ResourceManager _resource;
+        private readonly string _resourceKey;
+
         public LocalizedDescriptionAttribute(string resourceKey, Type resourceType)
         {
             _resource = new ResourceManager(resourceType);
@@ -34,7 +35,7 @@ namespace YTMusicDownloaderLib.Helpers
         {
             get
             {
-                string displayName = _resource.GetString(_resourceKey);
+                var displayName = _resource.GetString(_resourceKey);
 
                 return string.IsNullOrEmpty(displayName)
                     ? $"[[{_resourceKey}]]"

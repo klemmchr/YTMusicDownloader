@@ -15,10 +15,7 @@
 */
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using MahApps.Metro.IconPacks;
 using YTMusicDownloader.Properties;
@@ -28,6 +25,55 @@ namespace YTMusicDownloader.ViewModel
 {
     internal class SettingViewModel : ViewModelBase
     {
+        #region Construction        
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SettingViewModel" /> class.
+        /// </summary>
+        /// <param name="settingSource">The setting source.</param>
+        /// <param name="property">The property name of the setting.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="icon">The icon.</param>
+        /// <param name="minValue">The minimum value.</param>
+        /// <param name="maxValue">The maximum value.</param>
+        /// <exception cref="ArgumentException">
+        ///     maxValue has to be higher or equal than minValue
+        ///     or
+        ///     minValue has to be lower or equal than minValue
+        /// </exception>
+        public SettingViewModel(object settingSource, string property, string title, string description,
+            PackIconMaterialKind icon, object defaultValue, int minValue = 0, int maxValue = 0)
+        {
+            if (maxValue < minValue)
+                throw new ArgumentException($"{nameof(maxValue)} has to be higher or equal than {nameof(minValue)}");
+
+            if (minValue > maxValue)
+                throw new ArgumentException($"{nameof(minValue)} has to be lower or equal than {nameof(maxValue)}");
+
+            if (settingSource.GetType().GetProperty(property).GetValue(settingSource, null).GetType() !=
+                defaultValue.GetType())
+                throw new ArgumentException("Default type and settings type have to be equal");
+
+            _defaultValue = defaultValue;
+            _settingSource = settingSource;
+            _property = property;
+            Title = title;
+            Description = description;
+            Icon = icon;
+
+            _minValue = minValue;
+            _maxValue = maxValue;
+
+            Options = new Dictionary<Enum, string>();
+
+            SetupEnum();
+            SetDefaultValue();
+        }
+
+        #endregion
+
         #region Fields        
 
         private readonly object _settingSource;
@@ -35,18 +81,18 @@ namespace YTMusicDownloader.ViewModel
         private readonly int _minValue;
         private readonly int _maxValue;
         private Enum _selectedOption;
-        private object _defaultValue;
+        private readonly object _defaultValue;
 
         #endregion
 
         #region Properties        
 
         /// <summary>
-        /// Gets or sets the setting.
-        /// This is the property holding the refernce to the setting itself vía reflection.
+        ///     Gets or sets the setting.
+        ///     This is the property holding the refernce to the setting itself vía reflection.
         /// </summary>
         /// <value>
-        /// The setting.
+        ///     The setting.
         /// </value>
         public object Setting
         {
@@ -76,74 +122,74 @@ namespace YTMusicDownloader.ViewModel
         }
 
         /// <summary>
-        /// Gets a value indicating whether the setting type is of type int.
+        ///     Gets a value indicating whether the setting type is of type int.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the setting is of type int; otherwise, <c>false</c>.
+        ///     <c>true</c> if the setting is of type int; otherwise, <c>false</c>.
         /// </value>
         public bool IsInt => Setting is int;
 
         /// <summary>
-        /// Gets a value indicating whether the setting is of type bool.
+        ///     Gets a value indicating whether the setting is of type bool.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the setting is of type bool; otherwise, <c>false</c>.
+        ///     <c>true</c> if the setting is of type bool; otherwise, <c>false</c>.
         /// </value>
         public bool IsBool => Setting is bool;
 
         /// <summary>
-        /// Gets a value indicating whether the setting is of type enum.
+        ///     Gets a value indicating whether the setting is of type enum.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is of type enum ; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is of type enum ; otherwise, <c>false</c>.
         /// </value>
         public bool IsEnum => Setting is Enum;
 
         /// <summary>
-        /// Gets the title of the setting.
+        ///     Gets the title of the setting.
         /// </summary>
         /// <value>
-        /// The title.
+        ///     The title.
         /// </value>
         public string Title { get; }
 
         /// <summary>
-        /// Gets the description of the setting.
+        ///     Gets the description of the setting.
         /// </summary>
         /// <value>
-        /// The description.
+        ///     The description.
         /// </value>
         public string Description { get; }
 
         /// <summary>
-        /// Gets the default value of the setting.
+        ///     Gets the default value of the setting.
         /// </summary>
         /// <value>
-        /// The default value.
+        ///     The default value.
         /// </value>
         public string DefaultValue { get; private set; }
 
         /// <summary>
-        /// Gets the icon.
+        ///     Gets the icon.
         /// </summary>
         /// <value>
-        /// The icon.
+        ///     The icon.
         /// </value>
         public PackIconMaterialKind Icon { get; }
 
         /// <summary>
-        /// Gets the options (just for enum settings).
+        ///     Gets the options (just for enum settings).
         /// </summary>
         /// <value>
-        /// The options.
+        ///     The options.
         /// </value>
         public Dictionary<Enum, string> Options { get; }
 
         /// <summary>
-        /// Gets or sets the selected option (just for enum settings).
+        ///     Gets or sets the selected option (just for enum settings).
         /// </summary>
         /// <value>
-        /// The selected option.
+        ///     The selected option.
         /// </value>
         public Enum SelectedOption
         {
@@ -158,70 +204,20 @@ namespace YTMusicDownloader.ViewModel
 
         #endregion
 
-        #region Construction        
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SettingViewModel"/> class.
-        /// </summary>
-        /// <param name="settingSource">The setting source.</param>
-        /// <param name="property">The property name of the setting.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <param name="icon">The icon.</param>
-        /// <param name="minValue">The minimum value.</param>
-        /// <param name="maxValue">The maximum value.</param>
-        /// <exception cref="ArgumentException">
-        /// maxValue has to be higher or equal than minValue
-        /// or
-        /// minValue has to be lower or equal than minValue
-        /// </exception>
-        public SettingViewModel(object settingSource, string property, string title, string description,
-            PackIconMaterialKind icon, object defaultValue, int minValue = 0, int maxValue = 0)
-        {
-            if (maxValue < minValue)
-                throw new ArgumentException($"{nameof(maxValue)} has to be higher or equal than {nameof(minValue)}");
-
-            if (minValue > maxValue)
-                throw new ArgumentException($"{nameof(minValue)} has to be lower or equal than {nameof(maxValue)}");
-
-            if (settingSource.GetType().GetProperty(property).GetValue(settingSource, null).GetType() != defaultValue.GetType())
-                throw new ArgumentException("Default type and settings type have to be equal");
-
-            _defaultValue = defaultValue;
-            _settingSource = settingSource;
-            _property = property;
-            Title = title;
-            Description = description;
-            Icon = icon;
-
-            _minValue = minValue;
-            _maxValue = maxValue;
-
-            Options = new Dictionary<Enum, string>();
-
-            SetupEnum();
-            SetDefaultValue();
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
-        /// Setups the options for enum types.
+        ///     Setups the options for enum types.
         /// </summary>
         private void SetupEnum()
         {
             if (!IsEnum)
                 return;
-            
+
             try
             {
                 foreach (Enum value in Enum.GetValues(Setting.GetType()))
-                {
                     Options.Add(value, Enumerations.GetDescription(value));
-                }
 
                 SelectedOption = Setting as Enum;
             }
@@ -238,7 +234,6 @@ namespace YTMusicDownloader.ViewModel
             else if (IsBool)
                 DefaultValue = (bool) _defaultValue ? Resources.Activated : Resources.Deactivated;
             else if (IsEnum)
-            {
                 try
                 {
                     DefaultValue = Enumerations.GetDescription((Enum) _defaultValue);
@@ -247,8 +242,8 @@ namespace YTMusicDownloader.ViewModel
                 {
                     // ignored
                 }
-            }
         }
+
         #endregion
     }
 }

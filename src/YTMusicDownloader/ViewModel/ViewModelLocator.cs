@@ -28,7 +28,6 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using System;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -36,6 +35,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
 using Microsoft.Practices.ServiceLocation;
 using NLog;
+using YTMusicDownloader.Properties;
 using YTMusicDownloaderLib.RetrieverEngine;
 using YTMusicDownloaderLib.Workspaces;
 
@@ -60,7 +60,7 @@ namespace YTMusicDownloader.ViewModel
             SimpleIoc.Default.Register<GeneralSettingsViewModel>();
             SimpleIoc.Default.Register<AddWorkspaceViewModel>();
             SimpleIoc.Default.Register<AboutTabViewModel>();
-            
+
 
             LogManager.GetCurrentClassLogger().Trace("Registered all view models in view model locator");
 #if DEBUG
@@ -70,11 +70,11 @@ namespace YTMusicDownloader.ViewModel
                 Workspaces = new List<WorkspaceViewModel> {DesignWorkspace};
 
                 DesignPlaylistItem = new PlaylistItemViewModel(
-                        new PlaylistItem("6SDloNzDrFg", "Avae - Daydream (feat. Paniz)",
-                            "https://i.ytimg.com/vi/6SDloNzDrFg/mqdefault.jpg", true), DesignWorkspace);
+                    new PlaylistItem("6SDloNzDrFg", "Avae - Daydream (feat. Paniz)",
+                        "https://i.ytimg.com/vi/6SDloNzDrFg/mqdefault.jpg", true), DesignWorkspace);
 
-                DesignSetting = new SettingViewModel(Properties.Settings.Default, "ParallelDownloads", "Test setting", 
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et", 
+                DesignSetting = new SettingViewModel(Settings.Default, "ParallelDownloads", "Test setting",
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et",
                     PackIconMaterialKind.Account, 10, 1, 10);
                 DesignSettings = new List<SettingViewModel> {DesignSetting};
             }
@@ -82,18 +82,23 @@ namespace YTMusicDownloader.ViewModel
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public GeneralSettingsViewModel GeneralSettings => ServiceLocator.Current.GetInstance<GeneralSettingsViewModel>();
+
+        public GeneralSettingsViewModel GeneralSettings
+            => ServiceLocator.Current.GetInstance<GeneralSettingsViewModel>();
+
         public AddWorkspaceViewModel AddWorkspace => ServiceLocator.Current.GetInstance<AddWorkspaceViewModel>();
         public AboutTabViewModel AboutTab => ServiceLocator.Current.GetInstance<AboutTabViewModel>();
         public PlaylistItemViewModel DesignPlaylistItem { get; }
         public WorkspaceViewModel DesignWorkspace { get; }
+
         /// <summary>
-        /// Gets the workspaces for design mode.
+        ///     Gets the workspaces for design mode.
         /// </summary>
         /// <value>
-        /// The workspaces.
+        ///     The workspaces.
         /// </value>
         public List<WorkspaceViewModel> Workspaces { get; }
+
         public SettingViewModel DesignSetting { get; }
         public List<SettingViewModel> DesignSettings { get; }
     }

@@ -30,7 +30,7 @@ namespace YTMusicDownloaderLib.Helpers
                 var type = value.GetType();
                 var memInfo = type.GetMember(value.ToString());
                 var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                return ((DescriptionAttribute)attributes[0]).Description;
+                return ((DescriptionAttribute) attributes[0]).Description;
             }
             catch
             {

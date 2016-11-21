@@ -6,24 +6,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Border Name="Border" Margin="0,2,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="65" CornerRadius="8,8,0,0">
-                        <TextBlock Name="Header" Text="{TemplateBinding Header}" FontSize="36" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15, 5"/>
+                    <Border Name="Border" Margin="0,2,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Height="65" CornerRadius="8,8,0,0">
+                        <TextBlock Name="Header" Text="{TemplateBinding Header}" FontSize="36"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15, 5" />
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" TargetName="Border"/>
+                            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" TargetName="Border" />
                             <Setter Property="Foreground" Value="White" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource BackendBrush}" TargetName="Border"/>
+                            <Setter Property="Background" Value="{DynamicResource BackendBrush}" TargetName="Border" />
                             <Setter Property="Foreground" Value="Gray" />
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
-                                <Condition Property="IsMouseOver" Value="True" SourceName="Border"/>
+                                <Condition Property="IsMouseOver" Value="True" SourceName="Border" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Foreground" Value="LightGray" TargetName="Header" />
@@ -49,27 +51,29 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Border x:Name="Border" Margin="10,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="65">
+                    <Border x:Name="Border" Margin="10,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Height="65">
                         <Viewbox Margin="10">
-                            <TextBlock x:Name="Header" Text="{TemplateBinding Header}" FontSize="36" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="Header" Text="{TemplateBinding Header}" FontSize="36"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Viewbox>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource BackendBrush}" TargetName="Border"/>
+                            <Setter Property="Background" Value="{DynamicResource BackendBrush}" TargetName="Border" />
                             <Setter Property="Foreground" Value="{DynamicResource SettingsTabSelectedBrush}" />
-                            
+
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter Property="Background" Value="Transparent" TargetName="Border"/>
+                            <Setter Property="Background" Value="Transparent" TargetName="Border" />
                             <Setter Property="Foreground" Value="Gray" />
                         </Trigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
-                                <Condition Property="IsMouseOver" Value="True" SourceName="Border"/>
+                                <Condition Property="IsMouseOver" Value="True" SourceName="Border" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground" Value="LightGray" TargetName="Header" />
                         </MultiTrigger>

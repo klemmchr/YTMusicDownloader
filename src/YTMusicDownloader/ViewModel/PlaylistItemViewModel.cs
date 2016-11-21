@@ -194,12 +194,10 @@ namespace YTMusicDownloader.ViewModel
             get
             {
                 if (Item.DownloadDate == default(DateTime))
-                {
                     return "";
-                }
                 return Item.DownloadDate.ToString(CultureInfo.InstalledUICulture);
             }
-        } 
+        }
 
         public double DownloadProgress
         {
@@ -315,7 +313,6 @@ namespace YTMusicDownloader.ViewModel
                         {
                             Logger.Warn(ex, "Error fetching file creation time for file {0}", GetFilePath());
                         }
-                        
                     }
                 }
             }
@@ -415,7 +412,7 @@ namespace YTMusicDownloader.ViewModel
             {
                 DownloadState = DownloadState.Error;
             }
-            else if(!args.Cancelled)
+            else if (!args.Cancelled)
             {
                 Item.DownloadDate = DateTime.Now;
                 RaisePropertyChanged(nameof(DownloadDate));

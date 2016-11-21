@@ -14,32 +14,35 @@
     limitations under the License.
 */
 
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using GalaSoft.MvvmLight;
 using MahApps.Metro.IconPacks;
 using YTMusicDownloader.Properties;
-using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.ViewModel
 {
     internal class GeneralSettingsViewModel : ViewModelBase
     {
-        public ObservableCollection<SettingViewModel> Settings { get; }
-
         public GeneralSettingsViewModel()
         {
             Settings = new ObservableCollection<SettingViewModel>();
             SetupSettings();
         }
 
+        public ObservableCollection<SettingViewModel> Settings { get; }
+
         private void SetupSettings()
         {
             var applicationSettings = Properties.Settings.Default;
 
-            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.ParallelDownloads), Resources.MainWindow_Settings_General_ParallelDownloads_Title, Resources.MainWindow_Settings_General_ParallelDownloads_Description, PackIconMaterialKind.Download, 2, 1, 10));
-            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.PlaylistReceiveMaximum), Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title, Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description, PackIconMaterialKind.SortAscending, 5000, 1, 10000));
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.ParallelDownloads),
+                Resources.MainWindow_Settings_General_ParallelDownloads_Title,
+                Resources.MainWindow_Settings_General_ParallelDownloads_Description, PackIconMaterialKind.Download, 2, 1,
+                10));
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.PlaylistReceiveMaximum),
+                Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title,
+                Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description,
+                PackIconMaterialKind.SortAscending, 5000, 1, 10000));
         }
     }
 }

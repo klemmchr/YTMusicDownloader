@@ -25,7 +25,10 @@ using NLog;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.Workspaces;
+#if DEBUG
 using System.Diagnostics;
+
+#endif
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -173,17 +176,13 @@ namespace YTMusicDownloader.ViewModel
             Messenger.Default.Register<SelectWorkspaceMessage>(this, message =>
             {
                 if (message.WorkspaceViewModel != null)
-                {
                     SelectWorkspace(message.WorkspaceViewModel);
-                }
             });
 
             Messenger.Default.Register<RemoveWorkspaceMessage>(this, message =>
             {
                 if (message.WorkspaceViewModel != null)
-                {
                     RemoveWorkspace(message.WorkspaceViewModel);
-                }
             });
 
             Startup();
@@ -266,8 +265,9 @@ namespace YTMusicDownloader.ViewModel
                 SelectedWorkspace = workspaceViewModel;
                 if (!Directory.Exists(SelectedWorkspace.Workspace.Path))
                 {
-                    Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Title,
-                        Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Content));
+                    Messenger.Default.Send(
+                        new ShowMessageDialogMessage(Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Title,
+                            Resources.MainWindow_Workspaces_WorkspaceNotAvailable_Content));
                     return;
                 }
 
@@ -288,7 +288,8 @@ namespace YTMusicDownloader.ViewModel
             };
 
             Messenger.Default.Send(
-                new ShowMessageDialogMessage(string.Format(Resources.MainViewModel_RemoveWorkspace_Title, workspaceViewModel.Name),
+                new ShowMessageDialogMessage(
+                    string.Format(Resources.MainViewModel_RemoveWorkspace_Title, workspaceViewModel.Name),
                     Resources.MainViewModel_RemoveWorkspace_Description,
                     MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
                     result =>
