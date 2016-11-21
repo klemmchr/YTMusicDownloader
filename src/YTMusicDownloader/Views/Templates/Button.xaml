@@ -3,7 +3,6 @@
                     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls">
 
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <!-- x:Key="Button" TargetType="{x:Type Button}" -->
         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
         <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentBorderBrush}" />
@@ -48,15 +47,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="TriangleButton" TargetType="{x:Type Button}">
-        <!--
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentBorderBrush}"/>
-        -->
-        <!--
-        <Setter Property="BorderThickness" Value="2"/>
-        -->
+    <Style x:Key="TriangleButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="FontFamily" Value="{DynamicResource DefaultFont}"/>
         <Setter Property="FontSize" Value="{DynamicResource UpperCaseContentFontSize}"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -67,19 +58,13 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*" />
-                            <RowDefinition Height="5*" />
+                            <RowDefinition Height="12*" />
                         </Grid.RowDefinitions>
-                        <!--
-                        <Border x:Name="Background" Background="{TemplateBinding Background}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True"/>
-                        <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{x:Null}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True"/>
-                        <Border x:Name="DisabledVisualElement" Background="{DynamicResource ControlsDisabledBrush}" IsHitTestVisible="False" Opacity="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True"/>
-                        <Custom:ContentControlEx x:Name="PART_ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:DesignUseLayoutRounding="True"/>
-                        -->
                         <Viewbox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" Grid.RowSpan="2" Grid.ColumnSpan="2">
                             <Path Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" Fill="{TemplateBinding Background}">
                                 <Path.Data>
@@ -94,7 +79,8 @@
                                 </Path.Data>
                             </Path>
                         </Viewbox>
-                        <Viewbox Grid.Row="1" Grid.Column="1">
+                        
+                        <Viewbox Grid.Column="1" Grid.Row="1">
                             <Label Name="Foreground" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
                         </Viewbox>
                         
@@ -139,9 +125,11 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="Background" Value="Red" />
                         </Trigger>
+                        <!--
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="Background" Value="{DynamicResource GrayBrush7}" />
                         </Trigger>
+                        -->
                         <!--
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="BorderBrush" TargetName="Border"
@@ -154,6 +142,28 @@
                             <!--
                             <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.7" />
                             -->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonIcon" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True"/>
+                        <Custom:ContentControlEx x:Name="PART_ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" UseLayoutRounding="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:DesignUseLayoutRounding="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.6"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.4"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

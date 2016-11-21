@@ -48,7 +48,7 @@
                                 Visibility="{Binding Path=Downloaded, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 BorderThickness="0" Background="Transparent"
                                 Command="{Binding Path=OpenTrackLocationCommand}"
-                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                Style="{StaticResource ButtonIcon}">
                             <icons:PackIconMaterial Kind="Folder" VerticalAlignment="Center" />
                         </Button>
                     </DockPanel>

@@ -27,7 +27,7 @@
 
             <TextBlock Grid.Row="0" Text="{Binding Path=Title}" TextWrapping="Wrap" Foreground="White" FontSize="32" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0" TextAlignment="Center"/>
             
-            <TextBlock Grid.Row="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Foreground="White" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Margin="10,0"/>    
+            <TextBlock Grid.Row="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Foreground="White" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Margin="20,0"/>
 
             <StackPanel Grid.Row="4">
                 <Viewbox MinHeight="40" MaxHeight="80">
@@ -38,7 +38,7 @@
                     </Grid>
                 </Viewbox>
 
-                <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=DefaultValue}" ContentStringFormat="{x:Static p:Resources.MainWindow_Settings_Default}" Foreground="{DynamicResource SettingsDeafaultBrush}" FontWeight="Bold" FontSize="15"/>
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=DefaultValue}" ContentStringFormat="{x:Static p:Resources.MainWindow_Settings_Default}" Foreground="{DynamicResource SettingsDeafaultBrush}" FontWeight="Bold" FontSize="18"/>
             </StackPanel>
 
         </Grid>

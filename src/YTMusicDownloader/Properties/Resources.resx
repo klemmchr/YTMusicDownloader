@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
   <data name="MainViewModel_RemoveWorkspace_Description" xml:space="preserve">
     <value>Do you want to delete the workspace info aswell?
 This will delete all of your stored information about the playlist settings! Your songs won't be deleted.</value>
@@ -249,6 +264,9 @@ This usually happens if you have no internet connection, the song is not availab
   <data name="MainWindow_Headers_Workspace" xml:space="preserve">
     <value>Workspaces</value>
   </data>
+  <data name="MainWindow_Settings_Default" xml:space="preserve">
+    <value>Default: {0}</value>
+  </data>
   <data name="MainWindow_Settings_DownloadFormatChanged_Content" xml:space="preserve">
     <value>You have changed the download format to {0}.
 
@@ -257,23 +275,50 @@ To convert your current tracks to the new format simply just sync your workspace
   <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
     <value>Download format changed</value>
   </data>
+  <data name="MainWindow_Settings_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
+    <value>The limit of playlist items that should be fetched. This prevents from loading infinitely items from an high amount playlist</value>
+  </data>
   <data name="MainWindow_Settings_General_MaximumPlaylistItems_Title" xml:space="preserve">
     <value>Maximum playlist items</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
+    <value>The amount of parallel downloads for each workspace. If multiple workspaces are downloading this limit is applied to each of them. The higher the amount of parallel downloads the higher the CPU load will be</value>
   </data>
   <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
     <value>Parallel downloads</value>
   </data>
+  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
+    <value>Should the workspace be synced automatically when loaded? If you load the workspace it will fetch the playlist and then download all songs which are not downloaded or need convertion</value>
+  </data>
   <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Title" xml:space="preserve">
     <value>Auto sync on startup</value>
   </data>
+  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
+    <value>Should the workspace folder be cleaned up automatically. This means that songs which are not in your playlist are deleted when the playlist was loaded.</value>
+  </data>
   <data name="MainWindow_Settings_Workspace_Cleanup_Title" xml:space="preserve">
     <value>Delete unsynced items</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
+    <value>The download format which should be used for downloading your songs</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
+    <value>Download format</value>
   </data>
   <data name="MainWindow_Workspaces_AddWorkspace" xml:space="preserve">
     <value>Add workspace</value>
   </data>
   <data name="MainWindow_Workspaces_LastSync" xml:space="preserve">
     <value>Last sync</value>
+  </data>
+  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
+    <value>Location</value>
   </data>
   <data name="MainWindow_Workspaces_RemoveWorkspace" xml:space="preserve">
     <value>Remove Workspace</value>
@@ -292,50 +337,5 @@ To convert your current tracks to the new format simply just sync your workspace
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_General" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
-    <value>Workspace</value>
-  </data>
-  <data name="MainWindow_Settings_Default" xml:space="preserve">
-    <value>Default: {0}</value>
-  </data>
-  <data name="Activated" xml:space="preserve">
-    <value>Activated</value>
-  </data>
-  <data name="Deactivated" xml:space="preserve">
-    <value>Deactivated</value>
-  </data>
-  <data name="Activate" xml:space="preserve">
-    <value>Activate</value>
-  </data>
-  <data name="Deactivate" xml:space="preserve">
-    <value>Deactivate</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
-    <value>Download format</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
-    <value>blah</value>
   </data>
 </root>

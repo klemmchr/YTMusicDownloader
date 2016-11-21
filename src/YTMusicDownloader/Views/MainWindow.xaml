@@ -21,7 +21,7 @@
             <controls:Flyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True"
                              IsOpen="{Binding Source={StaticResource Locator}, Path=Main.IsAddingWorkspace}"
                              CloseCommand="{Binding Path=CloseCommand}">
-                <Grid>
+                <Grid Height="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="10" />
@@ -29,13 +29,13 @@
                         <ColumnDefinition Width="40" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" BorderBrush="#E63B32" Height="20" FontSize="12" VerticalAlignment="Center"
+                    <TextBox Grid.Column="0" FontSize="14" VerticalAlignment="Stretch"
                              HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True"
                              controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}" />
-                    <Button Grid.Column="2" Content="Select folder" FontSize="12" Width="120"
+                    <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}" Width="120"
                             VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                            Command="{Binding Path=SelectFolderCommand}" />
-                    <Button Grid.Column="4" Content="Add" FontSize="12" VerticalAlignment="Center"
+                            Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}"/>
+                    <Button Grid.Column="4" Content="Add" FontSize="14" VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}" />
                 </Grid>
             </controls:Flyout>
@@ -53,7 +53,7 @@
 
                     <StackPanel Grid.Column="1" Margin="20,20,20,0">
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="50"
-                                Command="{Binding Path=AddWorkspaceCommand}" FontSize="15" >
+                                Command="{Binding Path=AddWorkspaceCommand}" FontSize="15">
                             <DockPanel>
                                 <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
                                                         HorizontalAlignment="Left" Margin="0,0,10,0" />
@@ -136,7 +136,7 @@
                         <!-- Top controls -->
                         <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_PlaylistUrl}"
                                VerticalAlignment="Top" Width="100" HorizontalAlignment="Left"
-                               Grid.Row="1" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" FontSize="17" />
+                               Grid.Row="1" Foreground="{DynamicResource AccentBrush}" FontWeight="SemiBold" FontSize="17" Margin="-5,5,0,0"/>
                         <TextBox VerticalAlignment="Top" Margin="0,35,0,0" Grid.Row="1"
                                  Text="{Binding Path=PlaylistUrl}" Height="30" FontSize="13"
                                  AcceptsReturn="False" AcceptsTab="False" IsUndoEnabled="False" MaxLines="1"

@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Activate" xml:space="preserve">
+    <value>Akivieren</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>Aktiviert</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deaktivieren</value>
+  </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>Deaktiviert</value>
+  </data>
   <data name="MainViewModel_RemoveWorkspace_Description" xml:space="preserve">
     <value>Möchtest du die Workspace-Daten löschen?
 Das wird die gesamten Informationen über deine heruntergeladenen Songs löschen, jedoch nicht die Songs selber.</value>
@@ -249,6 +264,9 @@ Dies kann an einer fehlenden Internetverbindung liegen oder wenn der Song nicht 
   <data name="MainWindow_Headers_Workspace" xml:space="preserve">
     <value>Workspaces</value>
   </data>
+  <data name="MainWindow_Settings_Default" xml:space="preserve">
+    <value>Standard: {0}</value>
+  </data>
   <data name="MainWindow_Settings_DownloadFormatChanged_Content" xml:space="preserve">
     <value>Du hast das Download-Format zu {0} geändert.
 
@@ -257,23 +275,50 @@ Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lad
   <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
     <value>Download-Format geändert</value>
   </data>
+  <data name="MainWindow_Settings_General" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
+    <value>Das Limit von maximalen Songs, die von einer Playlist geladen werden sollen. Dies verhindert, dass unendlich viele Songs von einer sehr großen Playlist geladen werden</value>
+  </data>
   <data name="MainWindow_Settings_General_MaximumPlaylistItems_Title" xml:space="preserve">
     <value>Maximale Tracks pro Playlist</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
+    <value>Die Anzahl von parallelen Downloads. Dieses Limit wirkt sich auf einzelne Workspaces aus und nicht global. Falls mehrere Workspaces gleichzeitig herunterladen, gilt diese Limitierung für jeden von ihnen. Umso höher die Zahl, desto höher ist die CPU-Belastung</value>
   </data>
   <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
     <value>Parallele Downloads</value>
   </data>
+  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
+    <value>Soll der Workspace beim ersten Laden automatisch gesynced werden? Die Playlist wird automatisch aktualisiert und alle Songs, die nicht heruntergeladen wurden oder eine Konvertierung benötigen, werden automatisch heruntergeladen</value>
+  </data>
   <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Title" xml:space="preserve">
     <value>Synchronisierung beim Start</value>
   </data>
+  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
+    <value>Soll der Workspace-Ordner automatisch aufgeräumt werden? Das bedeutet, dass Songs, die sich nicht in der Playlist befinden beim ersten Laden automatisch gelöscht werden</value>
+  </data>
   <data name="MainWindow_Settings_Workspace_Cleanup_Title" xml:space="preserve">
     <value>Workspace-Ordner aufräumen</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
+    <value>Das Downloadformat, das fürs Herunterladen benutzt werden soll</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
+    <value>Download-Format</value>
   </data>
   <data name="MainWindow_Workspaces_AddWorkspace" xml:space="preserve">
     <value>Workspace hinzufügen</value>
   </data>
   <data name="MainWindow_Workspaces_LastSync" xml:space="preserve">
     <value>Letzte Synchronisierung</value>
+  </data>
+  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
+    <value>Speicherort</value>
   </data>
   <data name="MainWindow_Workspaces_RemoveWorkspace" xml:space="preserve">
     <value>Workspace entfernen</value>
@@ -292,50 +337,5 @@ Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lad
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
-    <value>Speicherort</value>
-  </data>
-  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_General" xml:space="preserve">
-    <value>Allgemein</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
-    <value>Workspace</value>
-  </data>
-  <data name="MainWindow_Settings_Default" xml:space="preserve">
-    <value>Standard: {0}</value>
-  </data>
-  <data name="Activated" xml:space="preserve">
-    <value>Aktiviert</value>
-  </data>
-  <data name="Deactivated" xml:space="preserve">
-    <value>Deaktiviert</value>
-  </data>
-  <data name="Activate" xml:space="preserve">
-    <value>Akivieren</value>
-  </data>
-  <data name="Deactivate" xml:space="preserve">
-    <value>Deaktivieren</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
-    <value>Download-Format</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
-    <value>blah</value>
-  </data>
-  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
-    <value>blah</value>
   </data>
 </root>

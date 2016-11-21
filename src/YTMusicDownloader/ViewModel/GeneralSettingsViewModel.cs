@@ -26,44 +26,6 @@ namespace YTMusicDownloader.ViewModel
 {
     internal class GeneralSettingsViewModel : ViewModelBase
     {
-        /*
-        public string ParallelDownloads
-        {
-            get { return Settings.Default.ParallelDownloads.ToString(); }
-            set
-            {
-                int parsed;
-                if (int.TryParse(value, out parsed))
-                    Settings.Default.ParallelDownloads = Math.Min(20, parsed);
-
-                RaisePropertyChanged(nameof(ParallelDownloads));
-            }
-        }
-
-        public string PlaylistReceiveMaximum
-        {
-            get { return Settings.Default.PlaylistReceiveMaximum.ToString(); }
-            set
-            {
-                int parsed;
-                if (int.TryParse(value, out parsed))
-                    Settings.Default.PlaylistReceiveMaximum = Math.Min(15000, parsed);
-
-                RaisePropertyChanged(nameof(PlaylistReceiveMaximum));
-            }
-        }
-
-        public bool ShowAdvancedSettings
-        {
-            get { return Settings.Default.ShowAdvancedSettings; }
-            set
-            {
-                Settings.Default.ShowAdvancedSettings = value;
-                RaisePropertyChanged(nameof(ShowAdvancedSettings));
-            }
-        }
-        */
-
         public ObservableCollection<SettingViewModel> Settings { get; }
 
         public GeneralSettingsViewModel()
@@ -76,8 +38,8 @@ namespace YTMusicDownloader.ViewModel
         {
             var applicationSettings = Properties.Settings.Default;
 
-            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.ParallelDownloads), Resources.MainWindow_Settings_General_ParallelDownloads_Title, Resources.MainWindow_Settings_General_ParallelDownloads_Description, PackIconMaterialKind.Download, 2, 0, 10));
-            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.PlaylistReceiveMaximum), Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title, Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description, PackIconMaterialKind.SortAscending, 5000, 0, 10000));
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.ParallelDownloads), Resources.MainWindow_Settings_General_ParallelDownloads_Title, Resources.MainWindow_Settings_General_ParallelDownloads_Description, PackIconMaterialKind.Download, 2, 1, 10));
+            Settings.Add(new SettingViewModel(applicationSettings, nameof(applicationSettings.PlaylistReceiveMaximum), Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title, Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description, PackIconMaterialKind.SortAscending, 5000, 1, 10000));
         }
     }
 }
