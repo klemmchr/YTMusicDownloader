@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using YTMusicDownloader.Properties;
+using YTMusicDownloader.ViewModel;
 using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.Views
@@ -31,8 +32,15 @@ namespace YTMusicDownloader.Views
         {
             InitializeComponent();
 
+            Loaded += OnLoaded;
+
             if (Settings.Default.FirstStartup)
                 CenterWindowOnScreen();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ((MainViewModel)DataContext).Startup();
         }
 
         private void CenterWindowOnScreen()

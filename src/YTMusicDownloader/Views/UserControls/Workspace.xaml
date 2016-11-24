@@ -6,6 +6,7 @@
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:p="clr-namespace:YTMusicDownloader.Properties"
              xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
+             xmlns:properties="clr-namespace:YTMusicDownloaderLib.Properties;assembly=YTMusicDownloaderLib"
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="900"
              d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignWorkspace}" BorderThickness="2"
@@ -56,7 +57,7 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static p:Resources.MainWindow_Workspaces_Location}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_Location}" VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="0" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource LabelClickable}"
@@ -81,7 +82,7 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static p:Resources.MainWindow_Workspaces_LastSync}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_LastSync}" VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="2" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource WorkspaceDetailLabel}"
@@ -96,7 +97,7 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="4" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static p:Resources.MainWindow_Workspaces_TrackCount}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_TrackCount}" VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="4" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource WorkspaceDetailLabel}"
@@ -108,7 +109,7 @@
             <Button Grid.Column="1" HorizontalAlignment="Right" Command="{Binding Path=SelectWorkspaceCommand}"
                     Style="{DynamicResource TriangleButton}" BorderBrush="{DynamicResource AccentBrush}"
                     Background="{DynamicResource AccentBrush}" Height="80" VerticalAlignment="Bottom"
-                    HorizontalContentAlignment="Right" Width="150" Margin="1">
+                    HorizontalContentAlignment="Right" Width="130" Margin="1">
                 <icons:PackIconMaterial Kind="PlaylistPlay" Opacity="0.8"
                                         Foreground="{DynamicResource WorkspaceBackgroundBrush}" Margin="0,10,0,0" />
             </Button>

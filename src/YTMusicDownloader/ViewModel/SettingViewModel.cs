@@ -232,7 +232,7 @@ namespace YTMusicDownloader.ViewModel
             if (IsInt)
                 DefaultValue = _defaultValue.ToString();
             else if (IsBool)
-                DefaultValue = (bool) _defaultValue ? Resources.Activated : Resources.Deactivated;
+                DefaultValue = (bool) _defaultValue ? YTMusicDownloaderLib.Properties.Resources.Activated : YTMusicDownloaderLib.Properties.Resources.Deactivated;
             else if (IsEnum)
                 try
                 {

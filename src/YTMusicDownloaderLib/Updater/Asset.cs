@@ -13,23 +13,24 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-using System.Diagnostics.Contracts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace YTMusicDownloaderLibTest.Helpers
+namespace YTMusicDownloaderLib.Updater
 {
-    [TestClass]
-    public class Assembly
+    public class Asset
     {
-        #region Methods
+        #region Properties
+        public string Name { get; }
+        public string DownloadUrl { get; }
+        public Architecture Architecture { get; }
+        #endregion
 
-        [TestMethod]
-        public void GetAssemblyVersionSuccess()
+        #region Construction
+        // ReSharper disable once InconsistentNaming
+        public Asset(string name, string browser_download_url)
         {
-            Contract.Assert(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Assembly.GetAssemblyVersion()));
+            Name = name;
+            DownloadUrl = browser_download_url;
+            Architecture = name.Contains("x64") ? Architecture.x64 : Architecture.x86;
         }
-
         #endregion
     }
 }

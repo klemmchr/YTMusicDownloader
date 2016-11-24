@@ -23,7 +23,7 @@ namespace YTMusicDownloaderLib.DownloadManager
 {
     public enum DownloadFormat
     {
-        [LocalizedDescription(nameof(Resources.DownloadFormat_MP3), typeof(Resources))] MP3,
-        [LocalizedDescription(nameof(Resources.DownloadFormat_M4A), typeof(Resources))] M4A
+        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_MP3), typeof(Resources))] MP3,
+        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_M4A), typeof(Resources))] M4A
     }
 }

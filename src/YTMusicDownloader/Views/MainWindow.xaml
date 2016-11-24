@@ -5,9 +5,8 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                      xmlns:behaviours="clr-namespace:YTMusicDownloader.Views.Behaviours"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-                      xmlns:p="clr-namespace:YTMusicDownloader.Properties"
+                      xmlns:p="clr-namespace:YTMusicDownloaderLib.Properties;assembly=YTMusicDownloaderLib"
                       xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
                       mc:Ignorable="d"
                       Title="YT Music Downloader" Height="800" MinHeight="800" Width="1200" MinWidth="1200"
@@ -57,12 +56,14 @@
                     <StackPanel Grid.Column="1" Margin="20,20,20,0">
                         <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="50"
                                 Command="{Binding Path=AddWorkspaceCommand}" FontSize="15">
-                            <DockPanel>
-                                <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
+                            <Viewbox Margin="5">
+                                <DockPanel>
+                                    <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
                                                         HorizontalAlignment="Left" Margin="0,0,10,0" />
-                                <TextBlock Text="{x:Static p:Resources.MainWindow_Workspaces_AddWorkspace}"
+                                    <TextBlock Text="{x:Static p:Resources.MainWindow_Workspaces_AddWorkspace}"
                                            VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" />
-                            </DockPanel>
+                                </DockPanel>
+                            </Viewbox>
                         </Button>
                     </StackPanel>
                     <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0"
