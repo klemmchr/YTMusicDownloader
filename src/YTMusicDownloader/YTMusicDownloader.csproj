@@ -120,7 +120,9 @@
     <Compile Include="ViewModel\AddWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Messages\RemoveWorkspaceMessage.cs" />
     <Compile Include="ViewModel\Messages\SelectWorkspaceMessage.cs" />
+    <Compile Include="ViewModel\Messages\ShowProgressDialogMessage.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
+    <Compile Include="ViewModel\UpdateViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceSettingsViewModel.cs" />
     <Compile Include="Views\Behaviours\MouseDoubleClick.cs" />
     <Compile Include="Views\Behaviours\MouseSingleClick.cs" />
@@ -198,7 +200,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -218,7 +222,7 @@
       <Name>YTMusicDownloaderLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\YTMusicDownloaderUpdater\YTMusicDownloaderUpdater.csproj">
-      <Project>{fb74b46b-7552-4aff-98d1-64880a548699}</Project>
+      <Project>{cfde5ee8-68ef-43cd-a0e9-ee5a399f5e03}</Project>
       <Name>YTMusicDownloaderUpdater</Name>
     </ProjectReference>
   </ItemGroup>

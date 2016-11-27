@@ -14,28 +14,29 @@
     limitations under the License.
 */
 
-using Newtonsoft.Json;
+using System;
 
 namespace YTMusicDownloaderLib.Updater
 {
-    public class Asset
+    public class UpdateCompletedEventArgs: EventArgs
     {
+        #region Fields        
+        #endregion
+
         #region Properties
-        public string Name { get; }
-
-        public string DownloadUrl { get; }
-
-        public Architecture Architecture { get; }
+        public bool Cancelled { get; }
+        public Exception Error { get; }
         #endregion
 
         #region Construction
-        // ReSharper disable once InconsistentNaming
-        public Asset(string name, string downloadUrl)
+        public UpdateCompletedEventArgs(bool cancelled, Exception error = null)
         {
-            Name = name;
-            DownloadUrl = downloadUrl;
-            Architecture = name.Contains("x64") ? Architecture.x64 : Architecture.x86;
+            Cancelled = cancelled;
+            Error = error;
         }
+        #endregion
+
+        #region Methods
         #endregion
     }
 }

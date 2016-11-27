@@ -149,6 +149,8 @@
     <Compile Include="Updater\Architecture.cs" />
     <Compile Include="Updater\Asset.cs" />
     <Compile Include="Updater\Update.cs" />
+    <Compile Include="Updater\UpdateCompletedEventArgs.cs" />
+    <Compile Include="Updater\UpdateProgressChangedEventArgs.cs" />
     <Compile Include="Updater\Updater.cs" />
     <Compile Include="Workspaces\DeleteMode.cs" />
     <Compile Include="Workspaces\Workspace.cs" />

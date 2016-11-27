@@ -23,26 +23,40 @@ namespace YTMusicDownloaderLib.Updater
     {
         #region Properties
         public Version Version { get; }
-        public string DownloadUrl { get; }
         public List<Asset> Assets { get; }
+        public string MainAssemblyPath { get; }
         #endregion
 
         #region Construction
-        public Update(Version version, string downloadUrl, List<Asset> assets)
+        public Update(Version version, List<Asset> assets, string mainAssemblyPath)
         {
             Version = version;
-            DownloadUrl = downloadUrl;
             Assets = assets;
+            MainAssemblyPath = mainAssemblyPath;
         }
         #endregion
 
-        #region Override
+        #region Methods
 
+        public Asset GetMatchingAsset()
+        {
+            if (Environment.Is64BitOperatingSystem)
+            {
+                var result = Assets.Find(a => a.Architecture == Architecture.x64);
+                if (result != null)
+                    return result;
+            }
+
+            return Assets.Find(a => a.Architecture != Architecture.x64);
+        }
+
+        #endregion
+
+        #region Override
         public override string ToString()
         {
             return Version.ToString();
         }
-
         #endregion
     }
 }

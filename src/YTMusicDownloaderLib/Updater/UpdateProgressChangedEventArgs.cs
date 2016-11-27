@@ -13,29 +13,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-using Newtonsoft.Json;
-
 namespace YTMusicDownloaderLib.Updater
 {
-    public class Asset
+    public class UpdateProgressChangedEventArgs
     {
+        #region Fields        
+        #endregion
+
         #region Properties
-        public string Name { get; }
-
-        public string DownloadUrl { get; }
-
-        public Architecture Architecture { get; }
+        public double ProgressPercentage { get; }
         #endregion
 
         #region Construction
-        // ReSharper disable once InconsistentNaming
-        public Asset(string name, string downloadUrl)
+        public UpdateProgressChangedEventArgs(int processedBytes, int totalBytes)
         {
-            Name = name;
-            DownloadUrl = downloadUrl;
-            Architecture = name.Contains("x64") ? Architecture.x64 : Architecture.x86;
+            if (totalBytes == 0)
+                ProgressPercentage = 0;
+            else
+                ProgressPercentage = processedBytes * 1.0 / (totalBytes * 1.0) * 100;
         }
+        #endregion
+
+        #region Methods
         #endregion
     }
 }

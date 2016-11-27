@@ -337,15 +337,18 @@ To convert your current tracks to the new format simply just sync your workspace
   <data name="MainWindow_Settings_Workspace_DownloadFormat_MP3" xml:space="preserve">
     <value>MP3</value>
   </data>
-  <data name="Updater_Title" xml:space="preserve">
-    <value>Updating application, hang tight</value>
-  </data>
   <data name="MainWindow_UpdateAvailable_Title" xml:space="preserve">
     <value>Update available</value>
   </data>
   <data name="MainWindow_UpdateAvailable_Description" xml:space="preserve">
     <value>A new update is available
 Version: {0}
-Would you like to download it now?</value>
+Would you like to install it now?</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Title" xml:space="preserve">
+    <value>Downloading update...</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Description" xml:space="preserve">
+    <value>Please wait a moment</value>
   </data>
 </root>

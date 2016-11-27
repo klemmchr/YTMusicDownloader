@@ -337,15 +337,18 @@ Um bereits heruntergeladene Songs zu konvertieren, synce einfach erneut oder lad
   <data name="MainWindow_Settings_Workspace_DownloadFormat_MP3" xml:space="preserve">
     <value>MP3</value>
   </data>
-  <data name="Updater_Title" xml:space="preserve">
-    <value>Aktualisiere Anwendung, bitte warten</value>
-  </data>
   <data name="MainWindow_UpdateAvailable_Title" xml:space="preserve">
     <value>Aktualisierung verfügbar</value>
   </data>
   <data name="MainWindow_UpdateAvailable_Description" xml:space="preserve">
     <value>Ein Aktualisierung ist verfügbar
 Version: {0}
-Möchtest Du diese nun herunterladen?</value>
+Möchtest Du diese nun installieren?</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Title" xml:space="preserve">
+    <value>Lade Aktualisierung herunter...</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Description" xml:space="preserve">
+    <value>Einen Moment bitte</value>
   </data>
 </root>

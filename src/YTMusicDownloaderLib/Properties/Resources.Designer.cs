@@ -635,9 +635,27 @@ namespace YTMusicDownloaderLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please wait a moment.
+        /// </summary>
+        public static string MainWindow_Update_UpdateProgress_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Update_UpdateProgress_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading update....
+        /// </summary>
+        public static string MainWindow_Update_UpdateProgress_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_Update_UpdateProgress_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A new update is available
         ///Version: {0}
-        ///Would you like to download it now?.
+        ///Would you like to install it now?.
         /// </summary>
         public static string MainWindow_UpdateAvailable_Description {
             get {
@@ -714,15 +732,6 @@ namespace YTMusicDownloaderLib.Properties {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Updating application, hang tight.
-        /// </summary>
-        public static string Updater_Title {
-            get {
-                return ResourceManager.GetString("Updater_Title", resourceCulture);
             }
         }
         

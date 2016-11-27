@@ -23,6 +23,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
+using YTMusicDownloader.Model.Helpers;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.Helpers;
@@ -56,6 +57,7 @@ namespace YTMusicDownloader.ViewModel
         #region Properties
 
         public static bool IsReleaseVersion { get; }
+        public UpdateViewModel UpdateViewModel { get; private set; }
 
         public WorkspaceViewModel SelectedWorkspace
         {
@@ -163,6 +165,16 @@ namespace YTMusicDownloader.ViewModel
                     message.Callback?.Invoke(result);
                 });
 
+            Messenger.Default.Register<ShowProgressDialogMessage>(this, async message =>
+            {
+                var controller =
+                    await
+                        _dialogCoordinator.ShowProgressAsync(this, message.Title, message.Description,
+                            message.IsCancelable, message.MetroDialogSettings);
+
+                message.Callback?.Invoke(controller);
+            });
+
             Messenger.Default.Register<WorkspaceErrorMessage>(this, message =>
             {
                 if (SelectedWorkspace.Workspace.Equals(message.Workspace))
@@ -214,6 +226,8 @@ namespace YTMusicDownloader.ViewModel
 
             foreach (var workspace in Workspaces)
                 await workspace.Init();
+
+            
 #if DEBUG
             Logger.Trace("Loaded all workspaces: {0} ms", watch.ElapsedMilliseconds);
 #else
@@ -223,21 +237,11 @@ namespace YTMusicDownloader.ViewModel
 
         public async void Startup()
         {
-            var availableUpdate = await Updater.IsUpdateAvailable(new Version(Assembly.GetAssemblyVersion()));
             IsLoaded = true;
 
-            if (availableUpdate == null)
-                return;
-
             await Task.Delay(2000);
-            Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_UpdateAvailable_Title, string.Format(Resources.MainWindow_UpdateAvailable_Description, availableUpdate), MessageDialogStyle.AffirmativeAndNegative,
-                result =>
-                {
-                    if (result == MessageDialogResult.Affirmative)
-                    {
-                        // TODO: Implement updater
-                    }
-                }));
+
+            UpdateViewModel = new UpdateViewModel();
         }
 
         private async void SelectWorkspace(WorkspaceViewModel workspaceViewModel)

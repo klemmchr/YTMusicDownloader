@@ -1,13 +1,17 @@
 ﻿using System.Diagnostics;
 
-namespace YTMusicDownloaderLib.Helpers
+namespace YTMusicDownloader.Model.Helpers
 {
     public class Assembly
     {
+        public static string GetAssemblyLocation()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().Location;
+        }
+
         public static string GetAssemblyVersion()
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            var fvi = FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var fvi = FileVersionInfo.GetVersionInfo(GetAssemblyLocation());
             return fvi.FileVersion;
         }
     }
