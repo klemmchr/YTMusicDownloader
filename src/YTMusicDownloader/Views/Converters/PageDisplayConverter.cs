@@ -18,6 +18,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using YTMusicDownloader.Properties;
+using YTMusicDownloaderLib.Properties;
 
 namespace YTMusicDownloader.Views.Converters
 {

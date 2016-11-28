@@ -1,76 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-		Microsoft ResX Schema
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -89,18 +109,246 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DownloadFormat_MP3" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MainViewModel_RemoveWorkspace_Description" xml:space="preserve">
+    <value>Do you want to delete the workspace info aswell?
+This will delete all of your stored information about the playlist settings! Your songs won't be deleted.</value>
+  </data>
+  <data name="MainViewModel_RemoveWorkspace_Title" xml:space="preserve">
+    <value>Remove workspace {0}</value>
+  </data>
+  <data name="MainWindow_About_GitHub" xml:space="preserve">
+    <value>This project is hosted on</value>
+  </data>
+  <data name="MainWindow_About_GitHubLinkDescription" xml:space="preserve">
+    <value>GitHub</value>
+  </data>
+  <data name="MainWindow_About_License" xml:space="preserve">
+    <value>Licensed under the Apache-2.0 license which can be obtained</value>
+  </data>
+  <data name="MainWindow_About_LicenseLinkDescription" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="MainWindow_About_MainContent" xml:space="preserve">
+    <value>The YouTube Music Downloader was developed in 2016 to create a simple way to download audio from YouTube.
+It offers you a possibility to sync your music playlists from YouTube with your local computer.</value>
+  </data>
+  <data name="MainWindow_About_Thanks" xml:space="preserve">
+    <value>Thank you for using the YouTube Music Downloader!</value>
+  </data>
+  <data name="MainWindow_About_Version" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_CancelSyncButtonLabel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadedTracks" xml:space="preserve">
+    <value>Downloaded: {0} Track(s)</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_Converting" xml:space="preserve">
+    <value>Converting</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_Downloaded" xml:space="preserve">
+    <value>Downloaded</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_NeedsConvertion" xml:space="preserve">
+    <value>Needs convertion</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_NotDownloaded" xml:space="preserve">
+    <value>Not downloaded</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_DownloadState_Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterLabel" xml:space="preserve">
+    <value>Filter by</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterMode_Downloaded" xml:space="preserve">
+    <value>Downloaded</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterMode_Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterMode_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterMode_NotDownloaded" xml:space="preserve">
+    <value>Not downloaded</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_FilterMode_Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_LastSyncNever" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PageView_ItemsPerPage" xml:space="preserve">
+    <value>Items per page</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PageView_Page" xml:space="preserve">
+    <value>Page: {0}</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PageView_PageOf" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PlaylistLoadError_Content" xml:space="preserve">
+    <value>There was an error loading your playlist.
+This could be due to a missing internet connection, an invalid playlist id or that the playlist is listed private.</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PlaylistLoadError_Title" xml:space="preserve">
+    <value>Error loading your playlist</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_PlaylistUrl" xml:space="preserve">
+    <value>Playlist Url</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_ProjectFolderError_Content" xml:space="preserve">
+    <value>The project folder for the workspace {0} was deleted.
+Please set up the folder and select the workspace again.</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_ProjectFolderError_Title" xml:space="preserve">
+    <value>Project folder deleted</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_RemainingTracks" xml:space="preserve">
+    <value>Remaining: {0} Track(s)</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_SearchWatermarkDefault" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_SearchWatermarkResults" xml:space="preserve">
+    <value>{0} results</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_SyncButtonLabel" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_SyncError_Content" xml:space="preserve">
+    <value>The sync is completed but {0} download(s) failed during the syncing process.
+This usually happens if you have no internet connection, the song is not available in your country, was removed or is not accessible at all.</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_SyncError_Title" xml:space="preserve">
+    <value>Errors during sync</value>
+  </data>
+  <data name="MainWindow_CurrentWorkspace_TotalTracks" xml:space="preserve">
+    <value>Total: {0} Track(s)</value>
+  </data>
+  <data name="MainWindow_Headers_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MainWindow_Headers_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MainWindow_Headers_Workspace" xml:space="preserve">
+    <value>Workspaces</value>
+  </data>
+  <data name="MainWindow_Settings_Default" xml:space="preserve">
+    <value>Default: {0}</value>
+  </data>
+  <data name="MainWindow_Settings_DownloadFormatChanged_Content" xml:space="preserve">
+    <value>You have changed the download format to {0}.
+
+To convert your current tracks to the new format simply just sync your workspace or download them manually again.</value>
+  </data>
+  <data name="MainWindow_Settings_DownloadFormatChanged_Title" xml:space="preserve">
+    <value>Download format changed</value>
+  </data>
+  <data name="MainWindow_Settings_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Description" xml:space="preserve">
+    <value>The limit of playlist items that should be fetched. This prevents from loading infinitely items from an high amount playlist</value>
+  </data>
+  <data name="MainWindow_Settings_General_MaximumPlaylistItems_Title" xml:space="preserve">
+    <value>Maximum playlist items</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Description" xml:space="preserve">
+    <value>The amount of parallel downloads for each workspace. If multiple workspaces are downloading this limit is applied to each of them. The higher the amount of parallel downloads the higher the CPU load will be</value>
+  </data>
+  <data name="MainWindow_Settings_General_ParallelDownloads_Title" xml:space="preserve">
+    <value>Parallel downloads</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace" xml:space="preserve">
+    <value>Workspace</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Description" xml:space="preserve">
+    <value>Should the workspace be synced automatically when loaded? If you load the workspace it will fetch the playlist and then download all songs which are not downloaded or need convertion</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_AutoSyncOnStartup_Title" xml:space="preserve">
+    <value>Auto sync on startup</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_Cleanup_Description" xml:space="preserve">
+    <value>Should the workspace folder be cleaned up automatically? This means that songs which are not in your playlist are deleted when the playlist was loaded.</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_Cleanup_Title" xml:space="preserve">
+    <value>Delete unsynced items</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Description" xml:space="preserve">
+    <value>The download format which should be used for downloading your songs</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_Title" xml:space="preserve">
+    <value>Download format</value>
+  </data>
+  <data name="MainWindow_Workspaces_AddWorkspace" xml:space="preserve">
+    <value>Add workspace</value>
+  </data>
+  <data name="MainWindow_Workspaces_LastSync" xml:space="preserve">
+    <value>Last sync</value>
+  </data>
+  <data name="MainWindow_Workspaces_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="MainWindow_Workspaces_TrackCount" xml:space="preserve">
+    <value>Tracks</value>
+  </data>
+  <data name="MainWindow_Workspaces_WorkspaceNotAvailable_Content" xml:space="preserve">
+    <value>The workspace folder seems to be deleted.</value>
+  </data>
+  <data name="MainWindow_Workspaces_WorkspaceNotAvailable_Title" xml:space="preserve">
+    <value>Workspace folder not available</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_M4A" xml:space="preserve">
+    <value>M4A</value>
+  </data>
+  <data name="MainWindow_Settings_Workspace_DownloadFormat_MP3" xml:space="preserve">
     <value>MP3</value>
   </data>
-  <data name="DownloadFormat_M4A" xml:space="preserve">
-    <value>M4A</value>
+  <data name="MainWindow_UpdateAvailable_Title" xml:space="preserve">
+    <value>Update available</value>
+  </data>
+  <data name="MainWindow_UpdateAvailable_Description" xml:space="preserve">
+    <value>A new update is available
+Version: {0}
+Would you like to install it now?</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Title" xml:space="preserve">
+    <value>Downloading update...</value>
+  </data>
+  <data name="MainWindow_Update_UpdateProgress_Description" xml:space="preserve">
+    <value>Please wait a moment</value>
   </data>
 </root>

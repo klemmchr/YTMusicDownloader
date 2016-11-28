@@ -26,6 +26,7 @@ using GalaSoft.MvvmLight.Command;
 using NLog;
 using YTMusicDownloader.Properties;
 using YTMusicDownloaderLib.DownloadManager;
+using YTMusicDownloaderLib.Properties;
 using YTMusicDownloaderLib.RetrieverEngine;
 using DownloadProgressChangedEventArgs = YTMusicDownloaderLib.DownloadManager.DownloadProgressChangedEventArgs;
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace YTMusicDownloader.Properties {
+namespace YTMusicDownloaderLib.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -20,42 +20,6 @@ namespace YTMusicDownloader.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int ParallelDownloads {
-            get {
-                return ((int)(this["ParallelDownloads"]));
-            }
-            set {
-                this["ParallelDownloads"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
-        public int PlaylistReceiveMaximum {
-            get {
-                return ((int)(this["PlaylistReceiveMaximum"]));
-            }
-            set {
-                this["PlaylistReceiveMaximum"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstStartup {
-            get {
-                return ((bool)(this["FirstStartup"]));
-            }
-            set {
-                this["FirstStartup"] = value;
             }
         }
         

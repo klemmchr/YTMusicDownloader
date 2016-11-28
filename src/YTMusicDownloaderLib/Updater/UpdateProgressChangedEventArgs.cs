@@ -13,23 +13,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-using System.Diagnostics.Contracts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace YTMusicDownloaderLibTest.Helpers
+namespace YTMusicDownloaderLib.Updater
 {
-    [TestClass]
-    public class Assembly
+    public class UpdateProgressChangedEventArgs
     {
-        #region Methods
+        #region Fields        
+        #endregion
 
-        [TestMethod]
-        public void GetAssemblyVersionSuccess()
+        #region Properties
+        public double ProgressPercentage { get; }
+        #endregion
+
+        #region Construction
+        public UpdateProgressChangedEventArgs(int processedBytes, int totalBytes)
         {
-            Contract.Assert(!string.IsNullOrEmpty(YTMusicDownloaderLib.Helpers.Assembly.GetAssemblyVersion()));
+            if (totalBytes == 0)
+                ProgressPercentage = 0;
+            else
+                ProgressPercentage = processedBytes * 1.0 / (totalBytes * 1.0) * 100;
         }
+        #endregion
 
+        #region Methods
         #endregion
     }
 }

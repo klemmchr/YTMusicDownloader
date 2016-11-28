@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using MahApps.Metro.IconPacks;
 using YTMusicDownloader.Properties;
+using YTMusicDownloaderLib.Properties;
 
 namespace YTMusicDownloader.ViewModel
 {

@@ -14,6 +14,7 @@
     limitations under the License.
 */
 
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,8 +23,12 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
+using YTMusicDownloader.Model.Helpers;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
+using YTMusicDownloaderLib.Helpers;
+using YTMusicDownloaderLib.Properties;
+using YTMusicDownloaderLib.Updater;
 using YTMusicDownloaderLib.Workspaces;
 #if DEBUG
 using System.Diagnostics;
@@ -42,16 +47,17 @@ namespace YTMusicDownloader.ViewModel
         private WorkspaceViewModel _selectedWorkspace;
         private int _selectedTabIndex;
         private bool _isAddingWorkspace;
-        private bool _isLoaded;
         private string _selectedWorkspaceName;
         private bool _selectedWorkspaceVisible;
         private int _selectedWorkspaceIndex = -1;
+        private bool _isLoaded;
 
         #endregion
 
         #region Properties
 
         public static bool IsReleaseVersion { get; }
+        public UpdateViewModel UpdateViewModel { get; private set; }
 
         public WorkspaceViewModel SelectedWorkspace
         {
@@ -93,12 +99,6 @@ namespace YTMusicDownloader.ViewModel
             {
                 _selectedTabIndex = value;
                 RaisePropertyChanged(nameof(SelectedTabIndex));
-
-                /*
-                if (value == 2)
-                    SelectedWorkspace?.WorkspaceSettingsViewModel.SettingsPageSelected();
-
-                */
             }
         }
 
@@ -115,7 +115,7 @@ namespace YTMusicDownloader.ViewModel
         public bool IsLoaded
         {
             get { return _isLoaded; }
-            private set
+            set
             {
                 _isLoaded = value;
                 RaisePropertyChanged(nameof(IsLoaded));
@@ -165,6 +165,16 @@ namespace YTMusicDownloader.ViewModel
                     message.Callback?.Invoke(result);
                 });
 
+            Messenger.Default.Register<ShowProgressDialogMessage>(this, async message =>
+            {
+                var controller =
+                    await
+                        _dialogCoordinator.ShowProgressAsync(this, message.Title, message.Description,
+                            message.IsCancelable, message.MetroDialogSettings);
+
+                message.Callback?.Invoke(controller);
+            });
+
             Messenger.Default.Register<WorkspaceErrorMessage>(this, message =>
             {
                 if (SelectedWorkspace.Workspace.Equals(message.Workspace))
@@ -184,8 +194,6 @@ namespace YTMusicDownloader.ViewModel
                 if (message.WorkspaceViewModel != null)
                     RemoveWorkspace(message.WorkspaceViewModel);
             });
-
-            Startup();
 
             Logger.Trace("Initialized Main View Model");
         }
@@ -218,6 +226,8 @@ namespace YTMusicDownloader.ViewModel
 
             foreach (var workspace in Workspaces)
                 await workspace.Init();
+
+            
 #if DEBUG
             Logger.Trace("Loaded all workspaces: {0} ms", watch.ElapsedMilliseconds);
 #else
@@ -225,37 +235,13 @@ namespace YTMusicDownloader.ViewModel
 #endif
         }
 
-        public void Startup()
+        public async void Startup()
         {
-            Task.Run(async () =>
-            {
-                while (_dialogCoordinator == null)
-                    await Task.Delay(50);
+            IsLoaded = true;
 
-                IsLoaded = true;
+            await Task.Delay(2000);
 
-                /*
-                if (!Settings.Default.FirstStartup) return;
-
-                var result = await _dialogCoordinator.ShowMessageAsync(this, "YouTube Music Downloader",
-                    "Thank you for using the YouTube Music Downloader!\n\nThis tool will help you keeping your playlists in sync and makes it easy to download your favourite YouTube Playlist all at once.\nDo you want to start a small tour to get started?",
-                    MessageDialogStyle.AffirmativeAndNegative);
-
-                Settings.Default.FirstStartup = false;
-                if (result == MessageDialogResult.Negative) return;
-
-                SelectedTabIndex = 2;
-                await _dialogCoordinator.ShowMessageAsync(this, "Getting started tour",
-                    "This is the settings page. Here you can configure the YT Music Downloader to fit your needs.\n\nOn the left side you can see the general settings. If you load your first workspace you can see the workspace settings on the right side.");
-
-                SelectedTabIndex = 0;
-                await _dialogCoordinator.ShowMessageAsync(this, "Getting started tour",
-                    "This is the Workspace page.\nHere you can create a workspace for every music library you want to create. The workpace is the centralized place where all your downloaded music will be stored.");
-
-                await _dialogCoordinator.ShowMessageAsync(this, "Getting started tour",
-                    "This was the small tour to get you started.\n\nHave fun using the YouTube Music Downloader!");
-                    */
-            });
+            UpdateViewModel = new UpdateViewModel();
         }
 
         private async void SelectWorkspace(WorkspaceViewModel workspaceViewModel)

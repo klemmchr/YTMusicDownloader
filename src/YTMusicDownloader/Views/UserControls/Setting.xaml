@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:p="clr-namespace:YTMusicDownloader.Properties"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:properties="clr-namespace:YTMusicDownloaderLib.Properties;assembly=YTMusicDownloaderLib"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="400"
              d:DataContext="{Binding Source={StaticResource Locator}, Path=DesignSetting}"
@@ -41,7 +42,7 @@
                         <ToggleButton Width="90"
                                       Visibility="{Binding Path=IsBool, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Margin="0,2" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                      Background="{DynamicResource SettingsControlBackgroundBrush}" />
+                                      Background="{DynamicResource SettingsControlBackgroundBrush}" IsChecked="{Binding Path=Setting}"/>
                         <TextBox Width="90"
                                  Visibility="{Binding Path=IsInt, Converter={StaticResource BooleanToVisibilityConverter}}"
                                  Text="{Binding Path=Setting}" TextAlignment="Center" FontSize="16"
@@ -54,12 +55,12 @@
                                   ItemsSource="{Binding Path=Options}" SelectedValue="{Binding Path=SelectedOption}"
                                   SelectedValuePath="Key" DisplayMemberPath="Value" Margin="0,2"
                                   BorderBrush="{DynamicResource AccentBrush}"
-                                  Background="{DynamicResource SettingsControlBackgroundBrush}" />
+                                  Background="{DynamicResource SettingsControlBackgroundBrush}" HorizontalContentAlignment="Center"/>
                     </Grid>
                 </Viewbox>
 
                 <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=DefaultValue}"
-                       ContentStringFormat="{x:Static p:Resources.MainWindow_Settings_Default}"
+                       ContentStringFormat="{x:Static properties:Resources.MainWindow_Settings_Default}"
                        Foreground="{DynamicResource SettingsDeafaultBrush}" FontWeight="Bold" FontSize="18" />
             </StackPanel>
 

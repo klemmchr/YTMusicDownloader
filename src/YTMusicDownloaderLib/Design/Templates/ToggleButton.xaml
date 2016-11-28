@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
-                    xmlns:p="clr-namespace:YTMusicDownloader.Properties">
+                    xmlns:p="clr-namespace:YTMusicDownloaderLib.Properties">
 
     <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource ToggleButtonDeactivatedForegroundBrush}" />

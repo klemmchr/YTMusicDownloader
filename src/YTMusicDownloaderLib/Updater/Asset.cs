@@ -14,16 +14,28 @@
     limitations under the License.
 */
 
-// ReSharper disable InconsistentNaming
+using Newtonsoft.Json;
 
-using YTMusicDownloaderLib.Helpers;
-using YTMusicDownloaderLib.Properties;
-
-namespace YTMusicDownloaderLib.DownloadManager
+namespace YTMusicDownloaderLib.Updater
 {
-    public enum DownloadFormat
+    public class Asset
     {
-        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_MP3), typeof(Resources))] MP3,
-        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_M4A), typeof(Resources))] M4A
+        #region Properties
+        public string Name { get; }
+
+        public string DownloadUrl { get; }
+
+        public Architecture Architecture { get; }
+        #endregion
+
+        #region Construction
+        // ReSharper disable once InconsistentNaming
+        public Asset(string name, string downloadUrl)
+        {
+            Name = name;
+            DownloadUrl = downloadUrl;
+            Architecture = name.Contains("x64") ? Architecture.x64 : Architecture.x86;
+        }
+        #endregion
     }
 }

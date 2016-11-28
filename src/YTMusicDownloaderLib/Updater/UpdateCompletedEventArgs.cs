@@ -14,16 +14,29 @@
     limitations under the License.
 */
 
-// ReSharper disable InconsistentNaming
+using System;
 
-using YTMusicDownloaderLib.Helpers;
-using YTMusicDownloaderLib.Properties;
-
-namespace YTMusicDownloaderLib.DownloadManager
+namespace YTMusicDownloaderLib.Updater
 {
-    public enum DownloadFormat
+    public class UpdateCompletedEventArgs: EventArgs
     {
-        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_MP3), typeof(Resources))] MP3,
-        [LocalizedDescription(nameof(Resources.MainWindow_Settings_Workspace_DownloadFormat_M4A), typeof(Resources))] M4A
+        #region Fields        
+        #endregion
+
+        #region Properties
+        public bool Cancelled { get; }
+        public Exception Error { get; }
+        #endregion
+
+        #region Construction
+        public UpdateCompletedEventArgs(bool cancelled, Exception error = null)
+        {
+            Cancelled = cancelled;
+            Error = error;
+        }
+        #endregion
+
+        #region Methods
+        #endregion
     }
 }
