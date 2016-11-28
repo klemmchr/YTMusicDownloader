@@ -1,3 +1,4 @@
+<img src="https://github.com/chris579/YTMusicDownloader/blob/master/src/YTMusicDownloader/Resources/logo_black.png?raw=true" width="100" height="100" />
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
@@ -95,6 +96,9 @@ Report them directly to the [issue tracker](https://github.com/chris579/YTMusicD
 
 #### Want to contribute?
 Every contribution is highly appreciated. Feature requests are appreciated too but I can't promise that they will find their way to the final product because this is just a hobby project.
+
+#### Thanks to
+- [Dean](https://www.youtube.com/channel/UCBammpwwTteR-Ej5Kv0aHZA) for the awesome logo
 
 
 #### About my motivation
