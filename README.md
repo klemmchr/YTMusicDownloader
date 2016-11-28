@@ -45,17 +45,13 @@ Unlike other YouTube converters you can even download complete playlists and syn
 ### Screenshots
 <details>
   <summary>Toggle</summary>
-  The workspace selection
-  ![Main page](https://cloud.githubusercontent.com/assets/6552521/19769854/600a2e12-9c5d-11e6-8b97-ab15625da41d.png)
-    
-  Add workspaces simple and fast
-  ![Add workspace](https://cloud.githubusercontent.com/assets/6552521/19770066/1e40425e-9c5e-11e6-8b77-3193effd0207.png)
+  ![Main page](https://cloud.githubusercontent.com/assets/6552521/20685186/ab371c00-b5b3-11e6-8fe7-6b1ae87b57e0.png)
+   
+  ![Workspace view](https://cloud.githubusercontent.com/assets/6552521/20685216/ceed7aea-b5b3-11e6-8bc8-adc1c2ba542e.png)
   
-  Manage your playlists
-  ![Workspace view](https://cloud.githubusercontent.com/assets/6552521/19770112/4eb97fea-9c5e-11e6-91c8-21518372085d.png)
-  
-  Adjust the settings to match your preferences
-  ![Settings tab](https://cloud.githubusercontent.com/assets/6552521/19770203/b4f23c3e-9c5e-11e6-9969-379234543ba8.png)
+  ![Updater](https://cloud.githubusercontent.com/assets/6552521/20685261/02161fe4-b5b4-11e6-8a6b-c068d1631d0f.png)
+ 
+  ![Settings tab](https://cloud.githubusercontent.com/assets/6552521/20685274/0f7e197a-b5b4-11e6-9a10-aff112dae971.png)
   
 </details>
 
