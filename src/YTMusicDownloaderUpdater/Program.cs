@@ -62,7 +62,7 @@ namespace YTMusicDownloaderUpdater
             {
                 Debug.WriteLine(ex);
             }
-            finally 
+            finally
             {
 #if DEBUG
                 Console.ReadKey();

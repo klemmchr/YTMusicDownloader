@@ -59,9 +59,9 @@
                             <Viewbox Margin="5">
                                 <DockPanel>
                                     <icons:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
-                                                        HorizontalAlignment="Left" Margin="0,0,10,0" />
+                                                            HorizontalAlignment="Left" Margin="0,0,10,0" />
                                     <TextBlock Text="{x:Static p:Resources.MainWindow_Workspaces_AddWorkspace}"
-                                           VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" />
+                                               VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" />
                                 </DockPanel>
                             </Viewbox>
                         </Button>

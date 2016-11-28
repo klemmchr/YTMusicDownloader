@@ -16,12 +16,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,6 +33,21 @@ namespace YTMusicDownloaderLib.Updater
 {
     public class Updater
     {
+        #region Construction
+
+        public Updater(string downloadUrl, string targetFilePath)
+        {
+            if (string.IsNullOrEmpty(downloadUrl))
+                throw new ArgumentException(nameof(downloadUrl));
+
+            DownloadUrl = downloadUrl;
+
+            SavePath = targetFilePath;
+            _targetFileStream = File.Create(targetFilePath);
+        }
+
+        #endregion
+
         #region Events
 
         public delegate void UpdateCompletedEventHandler(object sender, UpdateCompletedEventArgs arsg);
@@ -45,7 +58,7 @@ namespace YTMusicDownloaderLib.Updater
         {
             UpdaterDownloadCompleted?.Invoke(this, args);
 
-            if (_targetFileStream != null && _targetFileStream.CanRead)
+            if ((_targetFileStream != null) && _targetFileStream.CanRead)
             {
                 _targetFileStream.Close();
                 _targetFileStream.Dispose();
@@ -74,20 +87,6 @@ namespace YTMusicDownloaderLib.Updater
 
         public string DownloadUrl { get; }
         public string SavePath { get; }
-        #endregion
-
-        #region Construction
-
-        public Updater(string downloadUrl, string targetFilePath)
-        {
-            if (string.IsNullOrEmpty(downloadUrl))
-                throw new ArgumentException(nameof(downloadUrl));
-
-            DownloadUrl = downloadUrl;
-
-            SavePath = targetFilePath;
-            _targetFileStream = File.Create(targetFilePath);
-        }
 
         #endregion
 
@@ -109,10 +108,8 @@ namespace YTMusicDownloaderLib.Updater
 
         private void ClientOnOpenReadCompleted(object sender, OpenReadCompletedEventArgs openReadCompletedEventArgs)
         {
-            if (openReadCompletedEventArgs.Cancelled || openReadCompletedEventArgs.Error != null)
-            {
+            if (openReadCompletedEventArgs.Cancelled || (openReadCompletedEventArgs.Error != null))
                 OnUpdateCompleted(new UpdateCompletedEventArgs(true, openReadCompletedEventArgs.Error));
-            }
 
             try
             {
@@ -165,6 +162,7 @@ namespace YTMusicDownloaderLib.Updater
                 Logger.Error(ex, "Failed to start updater {0}", updaterPath);
             }
         }
+
         #endregion
 
         #region StaticMethods
@@ -218,11 +216,14 @@ namespace YTMusicDownloaderLib.Updater
             {
                 using (var client = new WebClient())
                 {
-                    client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                    client.Headers.Add(HttpRequestHeader.UserAgent,
+                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     var data = client.DownloadString(dataUrl);
                     var json = JArray.Parse(data);
 
-                    result.AddRange(json.Select(current => new Asset(current["name"].ToString(), current["browser_download_url"].ToString())));
+                    result.AddRange(
+                        json.Select(
+                            current => new Asset(current["name"].ToString(), current["browser_download_url"].ToString())));
 
                     return result;
                 }
@@ -232,6 +233,7 @@ namespace YTMusicDownloaderLib.Updater
                 return result;
             }
         }
+
         #endregion
     }
 }

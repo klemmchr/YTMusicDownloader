@@ -22,51 +22,60 @@ using YTMusicDownloader.Model.Helpers;
 using YTMusicDownloader.ViewModel.Messages;
 using YTMusicDownloaderLib.Properties;
 using YTMusicDownloaderLib.Updater;
+using YTMusicDownloaderUpdater;
 
 namespace YTMusicDownloader.ViewModel
 {
     internal class UpdateViewModel
     {
+        #region Construction
+
+        public UpdateViewModel()
+        {
+            Init();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Update AvailableUpdate { get; private set; }
+
+        #endregion
+
         #region Fields
 
         private Updater _updater;
         private string _savePath;
         private ProgressDialogController _progressDialogController;
-        #endregion
 
-        #region Properties
-        public Update AvailableUpdate { get; private set; }
-        #endregion
-
-        #region Construction
-        public UpdateViewModel()
-        {
-            Init();
-        }
         #endregion
 
         #region Methods
 
         private async void Init()
         {
-            AvailableUpdate = await Updater.IsUpdateAvailable(new Version(Assembly.GetAssemblyVersion()), Assembly.GetAssemblyLocation());
-            
+            AvailableUpdate =
+                await
+                    Updater.IsUpdateAvailable(new Version(Assembly.GetAssemblyVersion()), Assembly.GetAssemblyLocation());
+
             if (AvailableUpdate == null)
                 return;
 
-            Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_UpdateAvailable_Title, string.Format(Resources.MainWindow_UpdateAvailable_Description, AvailableUpdate), MessageDialogStyle.AffirmativeAndNegative,
+            Messenger.Default.Send(new ShowMessageDialogMessage(Resources.MainWindow_UpdateAvailable_Title,
+                string.Format(Resources.MainWindow_UpdateAvailable_Description, AvailableUpdate),
+                MessageDialogStyle.AffirmativeAndNegative,
                 result =>
                 {
                     if (result == MessageDialogResult.Affirmative)
-                    {
                         StartDownload();
-                    }
                 }));
         }
 
         private void StartDownload()
         {
-            Messenger.Default.Send(new ShowProgressDialogMessage(Resources.MainWindow_Update_UpdateProgress_Title, Resources.MainWindow_Update_UpdateProgress_Description, StartDownloadInternal, true));
+            Messenger.Default.Send(new ShowProgressDialogMessage(Resources.MainWindow_Update_UpdateProgress_Title,
+                Resources.MainWindow_Update_UpdateProgress_Description, StartDownloadInternal, true));
         }
 
         private void StartDownloadInternal(ProgressDialogController progressDialogController)
@@ -80,10 +89,8 @@ namespace YTMusicDownloader.ViewModel
             _savePath = Path.GetTempFileName();
             _updater = new Updater(AvailableUpdate.GetMatchingAsset().DownloadUrl, _savePath);
 
-            _updater.UpdateProgressChanged += (sender, args) =>
-            {
-                _progressDialogController.SetProgress(args.ProgressPercentage);
-            };
+            _updater.UpdateProgressChanged +=
+                (sender, args) => { _progressDialogController.SetProgress(args.ProgressPercentage); };
 
             _updater.UpdaterDownloadCompleted += UpdaterOnUpdaterDownloadCompleted;
 
@@ -92,7 +99,7 @@ namespace YTMusicDownloader.ViewModel
 
         private void UpdaterOnUpdaterDownloadCompleted(object sender, UpdateCompletedEventArgs arsg)
         {
-            var updaterPath = typeof(YTMusicDownloaderUpdater.Program).Assembly.Location;
+            var updaterPath = typeof(Program).Assembly.Location;
             var targetDirectory = Assembly.GetAssemblyPath();
             var zipPath = _updater.SavePath;
             var appPath = Assembly.GetAssemblyLocation();

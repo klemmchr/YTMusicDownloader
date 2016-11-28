@@ -13,28 +13,35 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 namespace YTMusicDownloaderLib.Updater
 {
     public class UpdateProgressChangedEventArgs
     {
-        #region Fields        
-        #endregion
-
-        #region Properties
-        public double ProgressPercentage { get; }
-        #endregion
-
         #region Construction
+
         public UpdateProgressChangedEventArgs(int processedBytes, int totalBytes)
         {
             if (totalBytes == 0)
                 ProgressPercentage = 0;
             else
-                ProgressPercentage = processedBytes * 1.0 / (totalBytes * 1.0) * 100;
+                ProgressPercentage = processedBytes*1.0/(totalBytes*1.0)*100;
         }
+
+        #endregion
+
+        #region Properties
+
+        public double ProgressPercentage { get; }
+
+        #endregion
+
+        #region Fields        
+
         #endregion
 
         #region Methods
+
         #endregion
     }
 }

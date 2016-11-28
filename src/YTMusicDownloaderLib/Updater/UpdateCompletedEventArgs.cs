@@ -18,25 +18,31 @@ using System;
 
 namespace YTMusicDownloaderLib.Updater
 {
-    public class UpdateCompletedEventArgs: EventArgs
+    public class UpdateCompletedEventArgs : EventArgs
     {
-        #region Fields        
-        #endregion
-
-        #region Properties
-        public bool Cancelled { get; }
-        public Exception Error { get; }
-        #endregion
-
         #region Construction
+
         public UpdateCompletedEventArgs(bool cancelled, Exception error = null)
         {
             Cancelled = cancelled;
             Error = error;
         }
+
+        #endregion
+
+        #region Fields        
+
+        #endregion
+
+        #region Properties
+
+        public bool Cancelled { get; }
+        public Exception Error { get; }
+
         #endregion
 
         #region Methods
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
+
 namespace YTMusicDownloaderLib.Updater
 {
     public enum Architecture

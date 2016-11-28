@@ -42,7 +42,8 @@
                         <ToggleButton Width="90"
                                       Visibility="{Binding Path=IsBool, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Margin="0,2" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                      Background="{DynamicResource SettingsControlBackgroundBrush}" IsChecked="{Binding Path=Setting}"/>
+                                      Background="{DynamicResource SettingsControlBackgroundBrush}"
+                                      IsChecked="{Binding Path=Setting}" />
                         <TextBox Width="90"
                                  Visibility="{Binding Path=IsInt, Converter={StaticResource BooleanToVisibilityConverter}}"
                                  Text="{Binding Path=Setting}" TextAlignment="Center" FontSize="16"
@@ -55,7 +56,8 @@
                                   ItemsSource="{Binding Path=Options}" SelectedValue="{Binding Path=SelectedOption}"
                                   SelectedValuePath="Key" DisplayMemberPath="Value" Margin="0,2"
                                   BorderBrush="{DynamicResource AccentBrush}"
-                                  Background="{DynamicResource SettingsControlBackgroundBrush}" HorizontalContentAlignment="Center"/>
+                                  Background="{DynamicResource SettingsControlBackgroundBrush}"
+                                  HorizontalContentAlignment="Center" />
                     </Grid>
                 </Viewbox>
 

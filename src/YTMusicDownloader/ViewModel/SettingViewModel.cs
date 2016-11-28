@@ -18,8 +18,8 @@ using System;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using MahApps.Metro.IconPacks;
-using YTMusicDownloader.Properties;
 using YTMusicDownloaderLib.Helpers;
+using YTMusicDownloaderLib.Properties;
 
 namespace YTMusicDownloader.ViewModel
 {
@@ -232,7 +232,7 @@ namespace YTMusicDownloader.ViewModel
             if (IsInt)
                 DefaultValue = _defaultValue.ToString();
             else if (IsBool)
-                DefaultValue = (bool) _defaultValue ? YTMusicDownloaderLib.Properties.Resources.Activated : YTMusicDownloaderLib.Properties.Resources.Deactivated;
+                DefaultValue = (bool) _defaultValue ? Resources.Activated : Resources.Deactivated;
             else if (IsEnum)
                 try
                 {

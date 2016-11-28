@@ -57,7 +57,8 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static properties:Resources.MainWindow_Workspaces_Location}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_Location}"
+                       VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="0" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource LabelClickable}"
@@ -82,7 +83,8 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static properties:Resources.MainWindow_Workspaces_LastSync}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_LastSync}"
+                       VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="2" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource WorkspaceDetailLabel}"
@@ -97,7 +99,8 @@
                     </Viewbox>
                 </Border>
                 <Label Grid.Row="4" Grid.Column="1" FontWeight="Bold" FontSize="16"
-                       Content="{x:Static properties:Resources.MainWindow_Workspaces_TrackCount}" VerticalAlignment="Stretch"
+                       Content="{x:Static properties:Resources.MainWindow_Workspaces_TrackCount}"
+                       VerticalAlignment="Stretch"
                        Background="{DynamicResource WorkspaceLabelBackgroundBrush}" VerticalContentAlignment="Center" />
                 <Label Grid.Row="4" Grid.Column="2" FontWeight="SemiBold" FontSize="16"
                        Template="{DynamicResource WorkspaceDetailLabel}"

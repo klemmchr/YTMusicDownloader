@@ -21,19 +21,15 @@ namespace YTMusicDownloaderLib.Updater
 {
     public class Update
     {
-        #region Properties
-        public Version Version { get; }
-        public List<Asset> Assets { get; }
-        public string MainAssemblyPath { get; }
-        #endregion
-
         #region Construction
+
         public Update(Version version, List<Asset> assets, string mainAssemblyPath)
         {
             Version = version;
             Assets = assets;
             MainAssemblyPath = mainAssemblyPath;
         }
+
         #endregion
 
         #region Methods
@@ -53,10 +49,20 @@ namespace YTMusicDownloaderLib.Updater
         #endregion
 
         #region Override
+
         public override string ToString()
         {
             return Version.ToString();
         }
+
+        #endregion
+
+        #region Properties
+
+        public Version Version { get; }
+        public List<Asset> Assets { get; }
+        public string MainAssemblyPath { get; }
+
         #endregion
     }
 }

@@ -21,17 +21,11 @@ namespace YTMusicDownloader.ViewModel.Messages
     internal class ShowProgressDialogMessage
     {
         public delegate void ShowProgressDialogResultCallback(ProgressDialogController result);
-        
-        #region Properties
-        public string Title { get; }
-        public string Description { get; }
-        public ShowProgressDialogResultCallback Callback { get; }
-        public bool IsCancelable { get; }
-        public MetroDialogSettings MetroDialogSettings { get; }
-        #endregion
 
         #region Construction
-        public ShowProgressDialogMessage(string title, string description, ShowProgressDialogResultCallback callback, bool isCancelable = false, MetroDialogSettings metroDialogSettings = null)
+
+        public ShowProgressDialogMessage(string title, string description, ShowProgressDialogResultCallback callback,
+            bool isCancelable = false, MetroDialogSettings metroDialogSettings = null)
         {
             Title = title;
             Description = description;
@@ -39,6 +33,17 @@ namespace YTMusicDownloader.ViewModel.Messages
             IsCancelable = isCancelable;
             MetroDialogSettings = metroDialogSettings;
         }
+
+        #endregion
+
+        #region Properties
+
+        public string Title { get; }
+        public string Description { get; }
+        public ShowProgressDialogResultCallback Callback { get; }
+        public bool IsCancelable { get; }
+        public MetroDialogSettings MetroDialogSettings { get; }
+
         #endregion
     }
 }

@@ -40,7 +40,7 @@ namespace YTMusicDownloader.Views
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            ((MainViewModel)DataContext).Startup();
+            ((MainViewModel) DataContext).Startup();
         }
 
         private void CenterWindowOnScreen()

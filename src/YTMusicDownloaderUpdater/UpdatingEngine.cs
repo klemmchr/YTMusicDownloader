@@ -72,9 +72,10 @@ namespace YTMusicDownloaderUpdater
             {
                 // ignored
             }
-            
+
             Environment.Exit(0);
         }
+
         #endregion
     }
 }

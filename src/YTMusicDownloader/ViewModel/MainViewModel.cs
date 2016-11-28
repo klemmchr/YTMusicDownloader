@@ -14,7 +14,6 @@
     limitations under the License.
 */
 
-using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -23,12 +22,8 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
-using YTMusicDownloader.Model.Helpers;
-using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel.Messages;
-using YTMusicDownloaderLib.Helpers;
 using YTMusicDownloaderLib.Properties;
-using YTMusicDownloaderLib.Updater;
 using YTMusicDownloaderLib.Workspaces;
 #if DEBUG
 using System.Diagnostics;
@@ -227,7 +222,7 @@ namespace YTMusicDownloader.ViewModel
             foreach (var workspace in Workspaces)
                 await workspace.Init();
 
-            
+
 #if DEBUG
             Logger.Trace("Loaded all workspaces: {0} ms", watch.ElapsedMilliseconds);
 #else
