@@ -1,20 +1,29 @@
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/master?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader)
 [![Github All Releases](https://img.shields.io/github/downloads/chris579/YTMusicDownloader/total.svg)](https://github.com/chris579/YTMusicDownloader/releases)
-[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/YTMusicDownloader/Lobby)
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/YTMusicDownloader/Main)
 
 This tool offers you the possibility to download YouTube videos as a sound file and keep them in sync with your local library.
-Unlike other YouTube converters you can even download complete playlists and sync them without the need to download all songs again when you added new tracks to your playlist.  
+Unlike other YouTube converters you can even download complete playlists and sync them without the need to download all songs again when you added new tracks to your playlist.
 
+**Latest release**  
+[![GitHub release](https://img.shields.io/github/release/chris579/YTMusicDownloader.svg)](https://github.com/chris579/YTMusicDownloader/releases)  
+
+**Features in progress**  
+[![Stories in Progress](https://badge.waffle.io/chris579/YTMusicDownloader.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/chris579/YTMusicDownloader)
+
+| Branch | Status |
+| --- | --- |
+| Stable branch | [![Build status master](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/master?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader) |
+| Development branch | [![Build status](https://ci.appveyor.com/api/projects/status/ppfs8sdxn16l62af/branch/development?svg=true)](https://ci.appveyor.com/project/chris579/ytmusicdownloader) |
 
 ### Features
 - Download complete playlists directly from YouTube
 - Create different workspaces for different kinds of music
 - No 3rd party web dependencies - use this tool from everywhere around the world
 - Simple and easy to use
-- Fast direct downloads from YouTube
+- Fast direct downloads from YouTube (~ 5 seconds for a song with standard length)
 - Different download formats: M4A and MP3
 - Keep your local music library in sync with your YouTube playlists
 - Handle even playlists with 1000+ items
@@ -53,6 +62,9 @@ Unlike other YouTube converters you can even download complete playlists and syn
 This project itself is licensed under the [Apache-2.0](https://opensource.org/licenses/Apache-2.0) license. This is also stated in the header of every file.
 The used libraries aren't all licensed under Apache-2.0. You can find information about their licenses down below. With the use of the programm you accept all of them automaticially.
 With your contribution you accept that your work is licensed automaticially under the Apache-2.0 too. However you still have your own copyright.
+
+### Any trouble?
+Head over to the [wiki page](https://github.com/chris579/YTMusicDownloader/wiki).
 
 ___
 
