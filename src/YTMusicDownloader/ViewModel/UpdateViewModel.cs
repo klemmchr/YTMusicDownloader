@@ -92,7 +92,12 @@ namespace YTMusicDownloader.ViewModel
 
         private void UpdaterOnUpdaterDownloadCompleted(object sender, UpdateCompletedEventArgs arsg)
         {
-            throw new NotImplementedException();
+            var updaterPath = typeof(YTMusicDownloaderUpdater.Program).Assembly.Location;
+            var targetDirectory = Assembly.GetAssemblyPath();
+            var zipPath = _updater.SavePath;
+            var appPath = Assembly.GetAssemblyLocation();
+
+            _updater.StartUpdater(updaterPath, targetDirectory, zipPath, appPath);
         }
 
         private void ProgressDialogControllerOnCanceled(object sender, EventArgs eventArgs)

@@ -23,6 +23,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -37,6 +38,7 @@ namespace YTMusicDownloaderLib.Updater
         #region Events
 
         public delegate void UpdateCompletedEventHandler(object sender, UpdateCompletedEventArgs arsg);
+
         public event UpdateCompletedEventHandler UpdaterDownloadCompleted;
 
         public void OnUpdateCompleted(UpdateCompletedEventArgs args)
@@ -51,23 +53,27 @@ namespace YTMusicDownloaderLib.Updater
         }
 
         public delegate void UpdateProgressChangedEventHandler(object sender, UpdateProgressChangedEventArgs args);
+
         public event UpdateProgressChangedEventHandler UpdateProgressChanged;
 
         public void OnUpdateProgressChanged(UpdateProgressChangedEventArgs args)
         {
             UpdateProgressChanged?.Invoke(this, args);
         }
+
         #endregion
 
         #region Fields        
 
         private readonly FileStream _targetFileStream;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Properties
-        public string DownloadUrl { get; }
 
+        public string DownloadUrl { get; }
+        public string SavePath { get; }
         #endregion
 
         #region Construction
@@ -79,8 +85,10 @@ namespace YTMusicDownloaderLib.Updater
 
             DownloadUrl = downloadUrl;
 
+            SavePath = targetFilePath;
             _targetFileStream = File.Create(targetFilePath);
         }
+
         #endregion
 
         #region Methods
@@ -112,14 +120,14 @@ namespace YTMusicDownloaderLib.Updater
                 var processed = 0;
                 try
                 {
-                    totalLength = int.Parse(((WebClient)sender).ResponseHeaders["Content-Length"]);
+                    totalLength = int.Parse(((WebClient) sender).ResponseHeaders["Content-Length"]);
                 }
                 catch (Exception)
                 {
                     // ignored
                 }
 
-                var buffer = new byte[4096];
+                var buffer = new byte[16384];
                 int read;
                 while ((read = openReadCompletedEventArgs.Result.Read(buffer, 0, buffer.Length)) > 0)
                 {
@@ -130,12 +138,33 @@ namespace YTMusicDownloaderLib.Updater
 
                 OnUpdateCompleted(new UpdateCompletedEventArgs(false));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 OnUpdateCompleted(new UpdateCompletedEventArgs(true, ex));
             }
+            finally
+            {
+                openReadCompletedEventArgs.Result.Close();
+                openReadCompletedEventArgs.Result.Dispose();
+            }
         }
 
+        public void StartUpdater(string updaterPath, string targetDirectory, string zipPath, string appPath)
+        {
+            try
+            {
+                var tempUpdaterPath = Path.GetTempFileName().Replace("tmp", "exe");
+                File.Copy(updaterPath, tempUpdaterPath, true);
+                Process.Start(tempUpdaterPath, $"{targetDirectory} {zipPath} {appPath}");
+
+                Thread.Sleep(10);
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to start updater {0}", updaterPath);
+            }
+        }
         #endregion
 
         #region StaticMethods
