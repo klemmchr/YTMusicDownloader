@@ -321,6 +321,9 @@ namespace YTMusicDownloader.ViewModel
 
         public RelayCommand SyncCommand => new RelayCommand(() =>
         {
+            if(FetchingPlaylist)
+                return;
+
             if (DownloadingAllSongs)
                 CancelDownload();
             else

@@ -17,6 +17,17 @@
                       dialogs:DialogParticipation.Register="{Binding}" Background="{StaticResource BackendBrush}"
                       WindowTitleBrush="{StaticResource BackendBrush}"
                       NonActiveWindowTitleBrush="{StaticResource BackendBrush}">
+    <controls:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <TextBlock Margin="8 -1 0 0"
+                               VerticalAlignment="Center"
+                               FontFamily="{DynamicResource ContentFontFamily}"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Text="{TemplateBinding Content}"
+                               TextTrimming="CharacterEllipsis" />
+        </DataTemplate>
+    </controls:MetroWindow.TitleTemplate>
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl Name="AddWorkspaceFlyout"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
@@ -80,36 +91,6 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </Border>
-                    <!--
-                    <DataGrid ItemsSource="{Binding Path=Workspaces}" AutoGenerateColumns="False" Grid.Column="0"
-                            SelectedIndex="{Binding Path=SelectedWorkspaceIndex}" SelectionMode="Single" SelectionUnit="FullRow" behaviours:MouseDoubleClick.Command="{Binding Path=SelectWorkspaceCommand}" RowHeight="50" Background="{StaticResource BackgroundBrush}" >
-                        <DataGrid.RowDetailsTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="#B9B9B9" BorderThickness="1" Margin="5">
-                                    <StackPanel>
-                                        <Label Content="{Binding Path=LastSync}" ContentStringFormat="Last sync: {0}" FontSize="15"/>
-                                        <Label Content="Double click to select this workspace" FontSize="14" Opacity="0.8"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </DataGrid.RowDetailsTemplate>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Name}" Width="250"
-                                            FontWeight="SemiBold" FontSize="18" MinWidth="200"/>
-                            <DataGridTemplateColumn Width="*" MinWidth="400" CanUserResize="True">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <TextBlock Text="{Binding Path=Workspace.Path}" FontSize="16" FontWeight="Light"/>
-                                            <Button FontSize="13" Content="{icons:PackIconMaterial Folder}" Width="40" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Command="{Binding Path=OpenLocationCommand}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    -->
-
                 </Grid>
             </TabItem>
 
@@ -153,12 +134,6 @@
                                  Text="{Binding Path=PlaylistUrl}" Height="30" FontSize="13"
                                  AcceptsReturn="False" AcceptsTab="False" IsUndoEnabled="False" MaxLines="1"
                                  controls:TextBoxHelper.ClearTextButton="True" />
-                        <!-- 
-                        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Width="110" Margin="0,35,0,0" FontSize="12"
-                                Content="Load Playlist" Height="30" Grid.Row="1"
-                                Command="{Binding Path=UpdatePlaylistUrlCommand}"
-                                IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}" />
-                        -->
                         <controls:MetroProgressBar VerticalAlignment="Bottom"
                                                    Value="{Binding Path=PlaylistFetchProgress}"
                                                    Visibility="{Binding Path=FetchingPlaylist, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -178,19 +153,6 @@
                                            VerticalAlignment="Center" />
                             </DockPanel>
                         </Button>
-
-                        <!--
-                        <controls:ProgressRing Grid.Row="3" Height="24" Width="25" HorizontalAlignment="Right"
-                                               IsActive="{Binding Path=DownloadingAllSongs}"
-                                               VerticalAlignment="Top" Margin="0,4,115,0" />
-
-                        -->
-                        <!--
-                        <Label Content="{x:Static p:Resources.MainWindow_CurrentWorkspace_FilterLabel}" Grid.Row="4"
-                               Foreground="#7D7D7D" VerticalAlignment="Bottom"
-                               FontSize="15" />
-                        -->
-
                         <icons:PackIconMaterial Grid.Row="4" Kind="SortVariant" Foreground="White" Height="25"
                                                 Width="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
 
@@ -210,19 +172,12 @@
                     </Grid>
 
                     <Grid Grid.Row="1" Margin="5,0,5,2">
-                        <Border Background="#252525" VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Visibility="{Binding Path=Initializing, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <controls:ProgressRing IsActive="{Binding Path=Initializing}" />
-                        </Border>
-
                         <!-- Playlist data -->
                         <Border BorderBrush="{StaticResource PlaylistItemsListBorderBrush}" BorderThickness="2,2,2,0">
                             <ScrollViewer
                                 IsEnabled="{Binding Path=FetchingPlaylist, Converter={StaticResource InverseBooleanConverter}}"
                                 HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
-                                Background="{StaticResource PlaylistItemBackgroundBrush}"
-                                Visibility="{Binding Path=Initializing, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                Background="{StaticResource PlaylistItemBackgroundBrush}">
                                 <ItemsControl ItemsSource="{Binding Path=DisplayedTracks}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type uc:PlaylistItem}">

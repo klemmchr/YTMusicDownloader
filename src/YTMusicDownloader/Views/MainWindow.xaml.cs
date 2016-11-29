@@ -17,6 +17,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel;
 using YTMusicDownloaderLib.Workspaces;
@@ -58,6 +59,12 @@ namespace YTMusicDownloader.Views
             WorkspaceManagement.SaveWorkspaces();
             base.OnClosing(e);
             Environment.Exit(0);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
     }
 }

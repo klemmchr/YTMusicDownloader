@@ -97,8 +97,11 @@ namespace YTMusicDownloader.ViewModel
             _updater.StartDownload();
         }
 
-        private void UpdaterOnUpdaterDownloadCompleted(object sender, UpdateCompletedEventArgs arsg)
+        private void UpdaterOnUpdaterDownloadCompleted(object sender, UpdateCompletedEventArgs args)
         {
+            if(args.Cancelled || args.Error != null)
+                return;
+
             var updaterPath = typeof(Program).Assembly.Location;
             var targetDirectory = Assembly.GetAssemblyPath();
             var zipPath = _updater.SavePath;
