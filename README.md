@@ -94,7 +94,7 @@ Report them directly to the [issue tracker](https://github.com/chris579/YTMusicD
 Every contribution is highly appreciated. Feature requests are appreciated too but I can't promise that they will find their way to the final product because this is just a hobby project.
 
 #### Thanks to
-- [Dean](https://www.youtube.com/channel/UCBammpwwTteR-Ej5Kv0aHZA) for the awesome logo
+- [Dean](https://www.youtube.com/channel/UCBammpwwTteR-Ej5Kv0aHZA) for the awesome logo and design
 
 
 #### About my motivation
