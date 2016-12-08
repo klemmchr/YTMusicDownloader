@@ -6,6 +6,7 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:flyouts="clr-namespace:YTMusicDownloader.Views.Flyouts"
                       xmlns:p="clr-namespace:YTMusicDownloaderLib.Properties;assembly=YTMusicDownloaderLib"
                       xmlns:uc="clr-namespace:YTMusicDownloader.Views.UserControls"
                       mc:Ignorable="d"
@@ -31,27 +32,9 @@
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl Name="AddWorkspaceFlyout"
                                  DataContext="{Binding Source={StaticResource Locator}, Path=AddWorkspace}">
-            <controls:Flyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True"
+            <flyouts:AddWorkspaceFlyout Position="Bottom" Header="Add workspace" Height="200" Theme="Dark" IsModal="True"
                              IsOpen="{Binding Source={StaticResource Locator}, Path=Main.IsAddingWorkspace}"
-                             CloseCommand="{Binding Path=CloseCommand}">
-                <Grid Height="30">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" FontSize="14" VerticalAlignment="Stretch"
-                             HorizontalAlignment="Stretch" controls:TextBoxHelper.ClearTextButton="True"
-                             controls:TextBoxHelper.Watermark="Path to folder" Text="{Binding Path=AddWorkspacePath}" />
-                    <Button Grid.Column="2" Content="{icons:PackIconMaterial Folder}"
-                            VerticalAlignment="Center" HorizontalAlignment="Left"
-                            Command="{Binding Path=SelectFolderCommand}" Style="{DynamicResource ButtonIcon}" />
-                    <Button Grid.Column="4" Content="Add" FontSize="14" VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch" Command="{Binding Path=AddWorkspaceCommand}" />
-                </Grid>
-            </controls:Flyout>
+                             CloseCommand="{Binding Path=CloseCommand}" />
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 

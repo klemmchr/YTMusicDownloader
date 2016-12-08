@@ -141,6 +141,9 @@
     <Compile Include="ViewModel\PlaylistItemViewModel.cs" />
     <Compile Include="ViewModel\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\Flyouts\AddWorkspaceFlyout.xaml.cs">
+      <DependentUpon>AddWorkspaceFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\PlaylistItem.xaml.cs">
       <DependentUpon>PlaylistItem.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,10 @@
     <Compile Include="Views\UserControls\Workspace.xaml.cs">
       <DependentUpon>Workspace.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Flyouts\AddWorkspaceFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
