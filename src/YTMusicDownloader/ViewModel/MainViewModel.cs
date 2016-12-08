@@ -195,7 +195,7 @@ namespace YTMusicDownloader.ViewModel
 
         static MainViewModel()
         {
-#if DEBUG
+#if !DEBUG
             IsReleaseVersion = true;
 #endif
         }
