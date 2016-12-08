@@ -701,11 +701,13 @@ namespace YTMusicDownloader.ViewModel
 
             var removeItems = playlistItems.Except(Workspace.Settings.Items).ToList();
 
-            // Remove the specified items
-            Tracks.RemoveAll(item => removeItems.Contains(item.Item));
-
+            /*
             if (Tracks.Count == 0)
                 addItems.Reverse();
+            */
+
+            // Remove the specified items
+            Tracks.RemoveAll(item => removeItems.Contains(item.Item));
 
 
             // Add the new items
