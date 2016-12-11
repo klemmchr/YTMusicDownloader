@@ -55,7 +55,7 @@ build:
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
 
 after_build:
-  - ps: .\src\signApp.ps1
+  - ps: .\src\signApp.ps1 -certFile "TestCert.cer"
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)

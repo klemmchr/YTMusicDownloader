@@ -1,3 +1,7 @@
+param (
+	[string]$certFile
+)
+
 $Source = @"
     using System;
     using System.IO;
@@ -95,4 +99,5 @@ $Source = @"
 
 Add-Type -TypeDefinition $Source -Language CSharp
 
-[AES.AesDecryption]::DecryptFile($PSScriptRoot + "\TestCert.cer", $env:certPw, $env:certSalt)
+[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certName", $env:certPw, $env:certSalt)
+Write-Output "Decrypted certificate \"$PSScriptRoot\$certName\""
