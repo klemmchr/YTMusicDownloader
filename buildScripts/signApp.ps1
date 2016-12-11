@@ -108,4 +108,5 @@ ForEach-Object {
     $path = $_.FullName
 
     Start-Process $env:signtoolLocation -ArgumentList 'sign /f $PSScriptRoot\$certFile $path'
+	Write-Output "Signed $path"
 }
