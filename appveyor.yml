@@ -42,6 +42,12 @@ before_build:
 platform:
   - x86
 
+environment:
+  certPw:
+    secure: hve1PTkZqb+iqP5fQQKGx6EFQv793CaN1FvYIfuo0jLQ/cjn67wrRnOxAk3GqaeSa7ozkvMyFzY5C1IsfiRezZurvhLlyD3Ut/WTbQo4sEI=
+  certSalt:
+    secure: 3MnTTf8vSQ/f/1vxrJ3zF8fPGDqW4kI5xXEiNaDwBt0Fd6nppcyIpiYKPLVLhqnUTTdz+Tw3x76Wb1npLI84mp58m4jkqELoKtPUgMPtutQ=
+
 configuration: Release
 
 build:
