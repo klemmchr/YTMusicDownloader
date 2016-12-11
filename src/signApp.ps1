@@ -1,8 +1,3 @@
-param(
-    [string]$password,
-    [string]$salt
-)
-
 $Source = @"
     using System;
     using System.IO;
@@ -100,4 +95,4 @@ $Source = @"
 
 Add-Type -TypeDefinition $Source -Language CSharp
 
-[AES.AesDecryption]::DecryptFile($PSScriptRoot + "\TestCert.cer", $password, $salt)
+[AES.AesDecryption]::DecryptFile($PSScriptRoot + "\TestCert.cer", $env:certPw, $env:certSalt)

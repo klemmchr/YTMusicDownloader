@@ -55,7 +55,7 @@ build:
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
 
 after_build:
-  - ps: .\src\signApp.ps1 -password Get-ChildItem env:certPw -salt Get-ChildItem env:certSalt
+  - ps: .\src\signApp.ps1
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
