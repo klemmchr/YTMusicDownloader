@@ -20,15 +20,9 @@ $Source = @"
             #region Methods
             public static byte[] Encrypt(byte[] content, string password, string salt)
             {
-                if (password.Length < 8)
-                    throw new ArgumentException("Password has to be at least 8 chars long", nameof(password));
-
                 var passwordBytes = Encoding.UTF8.GetBytes(password);
                 var saltBytes = Encoding.UTF8.GetBytes(salt);
-                
-                if(saltBytes.Length < 8)
-                    throw new ArgumentException("Salt has to be at least 8 bytes long", nameof(salt));
-
+             
                 byte[] encryptedBytes;
                 using (var ms = new MemoryStream())
                 {

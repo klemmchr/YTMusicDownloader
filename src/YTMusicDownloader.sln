@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\appveyor.yml = ..\appveyor.yml
 		..\README.md = ..\README.md
+		signApp.ps1 = signApp.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibShared", "YTMusicDownloaderLibShared\YTMusicDownloaderLibShared.csproj", "{A3D1E290-5A41-4D58-9190-71702CD2095A}"
