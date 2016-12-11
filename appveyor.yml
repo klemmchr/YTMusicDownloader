@@ -15,11 +15,11 @@
 # version format
 version: 0.1.{build}-alpha
 
-branches:
+# branches:
   # whitelist
-  only:
-  - master
-  - development
+  # only:
+  # - master
+  # - development
 
 image: Visual Studio 2015
 
