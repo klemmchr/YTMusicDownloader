@@ -99,5 +99,5 @@ $Source = @"
 
 Add-Type -TypeDefinition $Source -Language CSharp
 
-[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certName", $env:certPw, $env:certSalt)
-Write-Output "Decrypted certificate \"$PSScriptRoot\$certName\""
+[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
+Write-Output "Decrypted certificate $PSScriptRoot\$certFile\"
