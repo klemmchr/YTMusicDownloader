@@ -1,5 +1,6 @@
 param (
-	[string]$certFile
+	[string]$certFile,
+	[string]$outputDir
 )
 
 $Source = @"
@@ -100,4 +101,11 @@ $Source = @"
 Add-Type -TypeDefinition $Source -Language CSharp
 
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
-Write-Output "Decrypted certificate $PSScriptRoot\$certFile\"
+Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
+
+Get-ChildItem $outputDir -Filter *.exe |
+ForEach-Object {
+    $path = $_.FullName
+
+    Start-Process $env:signtoolLocation -ArgumentList 'sign /f $PSScriptRoot\$certFile $path'
+}
