@@ -107,6 +107,6 @@ Get-ChildItem $outputDir -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
 
-    Start-Process $env:signtoolLocation -ArgumentList 'sign /f $PSScriptRoot\$certFile $path'
+    Start-Process $env:signtoolLocation -ArgumentList 'sign /f $PSScriptRoot\$certFile $path\$env:configuration'
 	Write-Output "Signed $path"
 }
