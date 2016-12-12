@@ -120,7 +120,15 @@ ForEach-Object {
 	$proc.Start() | Out-Null
 	$proc.WaitForExit()
 
-    Write-Output $proc.StandardOutput.ReadToEnd()
+	if($procInfo.StandardOutput)
+	{
+		Write-Output $proc.StandardOutput.ReadToEnd()
+	}    
+
+	if($procInfo.ErrorOutput)
+	{
+		Write-Output $proc.ErrorOutput.ReadToEnd()
+	}
 
 	Write-Output "Signed $path"
 }
