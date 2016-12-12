@@ -103,32 +103,13 @@ Add-Type -TypeDefinition $Source -Language CSharp
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
 Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
 
-$procInfo = New-Object System.Diagnostics.ProcessStartInfo
-$procInfo.FileName = $env:signtoolLocation
-$procInfo.RedirectStandardError = $true
-$procInfo.RedirectStandardInput = $true
-$procInfo.UseShellExecute = $false
-
-
 Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
-	
-	$procInfo.Arguments = "sign /f ""$PSScriptRoot\$certFile\"" ""$path\"""
-	$proc = New-Object System.Diagnostics.Process
-	$proc.StartInfo = $procInfo
-	$proc.Start() | Out-Null
-	$proc.WaitForExit()
 
-	if($procInfo.StandardOutput)
-	{
-		Write-Output $proc.StandardOutput.ReadToEnd()
-	}    
-
-	if($procInfo.ErrorOutput)
-	{
-		Write-Output $proc.ErrorOutput.ReadToEnd()
-	}
+	$args = "sign /f ""$PSScriptRoot\$certFile"" ""$path"""
+	$output = & "$env:signtoolLocation" "$args" 2`>`&1
+    Write-Output $output	
 
 	Write-Output "Signed $path"
 }
