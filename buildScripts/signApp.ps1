@@ -113,3 +113,5 @@ ForEach-Object {
 
 	Write-Output "Signed $path"
 }
+
+Remove-Item $certFile -Force
