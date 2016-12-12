@@ -47,7 +47,7 @@ environment:
     secure: hve1PTkZqb+iqP5fQQKGx6EFQv793CaN1FvYIfuo0jLQ/cjn67wrRnOxAk3GqaeSa7ozkvMyFzY5C1IsfiRezZurvhLlyD3Ut/WTbQo4sEI=
   certSalt:
     secure: 3MnTTf8vSQ/f/1vxrJ3zF8fPGDqW4kI5xXEiNaDwBt0Fd6nppcyIpiYKPLVLhqnUTTdz+Tw3x76Wb1npLI84mp58m4jkqELoKtPUgMPtutQ=
-  signtoolLocation: C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools
+  signtoolLocation: C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\signtool.exe
 
 configuration: Release
 
