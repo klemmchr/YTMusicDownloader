@@ -108,7 +108,7 @@ ForEach-Object {
     $path = $_.FullName
 
 	$args = 'sign /f $PSScriptRoot\$certFile $path'
-	$output = cmd /c $env:signtoolLocation $args 2`>`&1
+	$output = cmd /c "$env:signtoolLocation" $args 2`>`&1
     Write-Output $output	
 
 	Write-Output "Signed $path"
