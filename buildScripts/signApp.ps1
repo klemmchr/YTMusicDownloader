@@ -98,6 +98,8 @@ $Source = @"
     }
 "@
 
+Start-Sleep -Seconds 600
+
 Add-Type -TypeDefinition $Source -Language CSharp
 
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
