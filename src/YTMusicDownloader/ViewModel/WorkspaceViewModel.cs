@@ -639,6 +639,9 @@ namespace YTMusicDownloader.ViewModel
                 Tracks.Clear();
             }
 
+            if(string.IsNullOrEmpty(Workspace.PlaylistId))
+                return;
+
             await Task.Run(() =>
             {
                 foreach (var track in Tracks)
