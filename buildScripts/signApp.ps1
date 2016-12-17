@@ -100,6 +100,8 @@ $Source = @"
 
 Add-Type -TypeDefinition $Source -Language CSharp
 
+# Use double AES decryption
+[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
 Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
 
