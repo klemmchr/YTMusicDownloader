@@ -64,7 +64,15 @@ namespace YTMusicDownloader.Views
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            DragMove();
+
+            try
+            {
+                DragMove();
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }
