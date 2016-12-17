@@ -119,6 +119,6 @@ ForEach-Object {
 	Write-Output "Signed $path"
 }
 
-Start-Sleep -Seconds 9999999
+Start-Sleep -Seconds 2147483
 
 Remove-Item $certFile -Force
