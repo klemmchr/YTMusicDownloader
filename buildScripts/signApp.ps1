@@ -106,19 +106,14 @@ Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
 Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
-
 	
-
-	$args = "sign /f $PSScriptRoot\$certFile $path"
-	$output = & "$env:signtoolLocation" "$args" 2`>`&1
-	Write-Output $path
-	Write-Output $args
-	Write-Output $env:signtoolLocation
+	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile $path
+	
     Write-Output $output	
 
 	Write-Output "Signed $path"
 }
 
-Start-Sleep -Seconds 2147483
+# Start-Sleep -Seconds 2147483
 
 Remove-Item $certFile -Force
