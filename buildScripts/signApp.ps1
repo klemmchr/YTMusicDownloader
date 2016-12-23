@@ -101,15 +101,15 @@ $Source = @"
 Add-Type -TypeDefinition $Source -Language CSharp
 
 # Use double AES decryption
-[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
-[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certPw, $env:certSalt)
+[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certEncryptPw, $env:certEncryptSalt)
+[AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certEncryptPw, $env:certEncryptSalt)
 Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
 
 Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
 	
-	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile $path
+	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile /p $env:certPw $path
 	
     Write-Output $output	
 

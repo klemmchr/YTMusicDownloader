@@ -43,10 +43,12 @@ platform:
   - x86
 
 environment:
+  certEncryptPw:
+    secure: 6NdPPWtPhCGeEKGf9XqASEbzdJ3QPoPSsk6vXNO83WE4D+qAV76M2q/cDgjFjITBh5V2IgfwmXueb7MHgmplL3dw+CbxqAZmn8+PJLGo5TE=
+  certEncryptSalt:
+    secure: 0iLWuQs35JVizf7VxdOeNsVxccxtxPb3RhF2heu6VGW8vP4SzroHy5+d5RXTiiEw+hhTF1SNbu/v2N2/EaP9UNVZaZmPZ2gh4WdO3QGvl7w=
   certPw:
-    secure: 2kdLShlG5xH4zfyfUpnNh72X88QTzA0Jm0ctQeMtO9fnQRC11I9awTfu+9WKyMAryNbTuCtfLuV22V7yxIQ0hZJNvqOgiTJR7j7rNKB722E=
-  certSalt:
-    secure: s9dnDaZCR8REfFgb7OvvcKueaHsfBWpOJJag3on99LjZ2TIxk1e3j/nM7k0guMv1A3RJvJj/QbcBXFxtL7VQLBynIOUe1qgN4hFvMk+pp3I=
+    secure: 39IBOHy06OYh2ozbLTur+A==
   signtoolLocation: C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe
 
 configuration: Release
@@ -56,7 +58,7 @@ build:
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
 
 after_build:
-  - ps: .\buildScripts\signApp.ps1 -certFile ..\cert\TestCert.pfx -outputDir src\YTMusicDownloader\bin\x86
+  - ps: .\buildScripts\signApp.ps1 -certFile ..\cert\YTMusicDownloader.pfx -outputDir src\YTMusicDownloader\bin\x86
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
