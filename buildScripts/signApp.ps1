@@ -109,7 +109,7 @@ Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
 	
-	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile /p $env:certPw $path
+	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile /p $env:certPw /t http://timestamp.verisign.com/scripts/timstamp.dll $path
 	
     Write-Host $output -ForegroundColor Gray
 
