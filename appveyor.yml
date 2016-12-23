@@ -9,8 +9,8 @@
 #---------------------------------#
 
 # Just for troubleshooting
-#init:
-#- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# init:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # version format
 version: 0.1.{build}-alpha
@@ -42,11 +42,23 @@ before_build:
 platform:
   - x86
 
+environment:
+  certEncryptPw:
+    secure: 6NdPPWtPhCGeEKGf9XqASEbzdJ3QPoPSsk6vXNO83WE4D+qAV76M2q/cDgjFjITBh5V2IgfwmXueb7MHgmplL3dw+CbxqAZmn8+PJLGo5TE=
+  certEncryptSalt:
+    secure: 0iLWuQs35JVizf7VxdOeNsVxccxtxPb3RhF2heu6VGW8vP4SzroHy5+d5RXTiiEw+hhTF1SNbu/v2N2/EaP9UNVZaZmPZ2gh4WdO3QGvl7w=
+  certPw:
+    secure: 39IBOHy06OYh2ozbLTur+A==
+  signtoolLocation: C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool.exe
+
 configuration: Release
 
 build:
   verbosity: normal
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
+
+after_build:
+  - ps: .\buildScripts\signApp.ps1 -certFile ..\cert\YTMusicDownloader.pfx -outputDir src\YTMusicDownloader\bin\x86
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
