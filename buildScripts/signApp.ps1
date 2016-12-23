@@ -118,4 +118,4 @@ ForEach-Object {
 
 # Start-Sleep -Seconds 2147483
 
-Remove-Item $certFile -Force
+Remove-Item $PSScriptRoot\$certFile -Force
