@@ -103,7 +103,7 @@ Add-Type -TypeDefinition $Source -Language CSharp
 # Use double AES decryption
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certEncryptPw, $env:certEncryptSalt)
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certEncryptPw, $env:certEncryptSalt)
-Write-Output "Decrypted certificate $PSScriptRoot\$certFile"
+Write-Host "Decrypted certificate $PSScriptRoot\$certFile" -ForegroundColor Yellow
 
 Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
@@ -111,11 +111,14 @@ ForEach-Object {
 	
 	$output = & "$env:signtoolLocation" sign /f $PSScriptRoot\$certFile /p $env:certPw $path
 	
-    Write-Output $output	
+    Write-Host $output -ForegroundColor Gray
 
-	Write-Output "Signed $path"
+	Write-Host "Signed $path `n" -ForegroundColor Green
 }
 
 # Start-Sleep -Seconds 2147483
 
 Remove-Item $PSScriptRoot\$certFile -Force
+Write-Host "Deleted certificate $PSScriptRoot\$certFile" -ForegroundColor Yellow
+
+Write-Host "Finished signing process" -ForegroundColor Green
