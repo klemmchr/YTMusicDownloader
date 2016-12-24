@@ -54,7 +54,7 @@ environment:
 configuration: Release
 
 build:
-  verbosity: normal
+  verbosity: minimal
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
 
 after_build:
