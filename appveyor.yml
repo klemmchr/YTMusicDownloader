@@ -58,7 +58,7 @@ build:
   project: src\YTMusicDownloader\YTMusicDownloader.csproj
 
 after_build:
-  - ps: .\buildScripts\signApp.ps1 -certFile ..\cert\YTMusicDownloader.pfx -outputDir src\YTMusicDownloader\bin\x86\$(configuration)
+  - ps: .\buildScripts\signApp.ps1 -certFile ..\cert\YTMusicDownloader.pfx -outputDir src\YTMusicDownloader\bin\x86
     
 artifacts:
   - path: src\YTMusicDownloader\bin\x86\$(configuration)
