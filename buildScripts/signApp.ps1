@@ -105,7 +105,7 @@ Add-Type -TypeDefinition $Source -Language CSharp
 [AES.AesDecryption]::DecryptFile("$PSScriptRoot\$certFile", $env:certEncryptPw, $env:certEncryptSalt)
 Write-Host "Decrypted certificate $PSScriptRoot\$certFile" -ForegroundColor Yellow
 
-Get-ChildItem $outputDir -Filter *.exe |
+Get-ChildItem "$outputDir\$env:configuration" -Filter *.exe |
 ForEach-Object {
     $path = $_.FullName
 	
