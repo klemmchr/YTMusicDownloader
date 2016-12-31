@@ -703,12 +703,10 @@ namespace YTMusicDownloader.ViewModel
             var addItems = Workspace.Settings.Items.Except(playlistItems).ToList();
 
             var removeItems = playlistItems.Except(Workspace.Settings.Items).ToList();
-
-            /*
-            if (Tracks.Count == 0)
-                addItems.Reverse();
-            */
-
+            
+            // if (Tracks.Count == 0)
+            addItems.Reverse();
+            
             // Remove the specified items
             Tracks.RemoveAll(item => removeItems.Contains(item.Item));
 
