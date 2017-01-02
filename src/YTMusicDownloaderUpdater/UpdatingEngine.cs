@@ -18,6 +18,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Security;
+using System.Security.Permissions;
 
 namespace YTMusicDownloaderUpdater
 {
@@ -38,6 +40,7 @@ namespace YTMusicDownloaderUpdater
                 return false;
             }
         }
+        
 
         internal static void CleanupDirectory(string path)
         {
