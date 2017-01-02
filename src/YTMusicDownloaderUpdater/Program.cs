@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Threading;
 
 // ReSharper disable InconsistentNaming
@@ -48,19 +49,20 @@ namespace YTMusicDownloaderUpdater
             _zipPath = args[1];
             _appPath = args[2];
 
+            Console.WriteLine($"Target dir: {_targetDirectory}");
+            Console.WriteLine($"Zip path: {_zipPath}");
+            Console.WriteLine($"App path: {_appPath}");
+
             Thread.Sleep(1000);
 
             try
             {
-                if (!UpdatingEngine.CheckForZip(_zipPath))
-                    throw new InvalidOperationException();
-
-                UpdatingEngine.CleanupDirectory(_targetDirectory);
-                UpdatingEngine.ExtractAsset(_zipPath, _targetDirectory);
+                PerformUpdate(_zipPath, _targetDirectory);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                Console.WriteLine(ex);
             }
             finally
             {
@@ -69,6 +71,15 @@ namespace YTMusicDownloaderUpdater
 #endif
                 UpdatingEngine.OpenBaseApp(_appPath);
             }
+        }
+        
+        private static void PerformUpdate(string zipPath, string targetDir)
+        {
+            if (!UpdatingEngine.CheckForZip(zipPath))
+                throw new InvalidOperationException();
+
+            UpdatingEngine.CleanupDirectory(targetDir);
+            UpdatingEngine.ExtractAsset(zipPath, targetDir);
         }
     }
 }

@@ -152,7 +152,7 @@ namespace YTMusicDownloaderLib.Updater
             {
                 var tempUpdaterPath = Path.GetTempFileName().Replace("tmp", "exe");
                 File.Copy(updaterPath, tempUpdaterPath, true);
-                Process.Start(tempUpdaterPath, $"{targetDirectory} {zipPath} {appPath}");
+                Process.Start(tempUpdaterPath, $"\"{targetDirectory}\" \"{zipPath}\" \"{appPath}\"");
 
                 Thread.Sleep(10);
                 Environment.Exit(0);

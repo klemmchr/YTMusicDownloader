@@ -55,9 +55,11 @@ namespace YTMusicDownloader.ViewModel
 
         private async void Init()
         {
+            /*
             if(!MainViewModel.IsReleaseVersion)
                 return;
 
+    */
             AvailableUpdate =
                 await
                     Updater.IsUpdateAvailable(new Version(Assembly.GetAssemblyVersion()), Assembly.GetAssemblyLocation());
