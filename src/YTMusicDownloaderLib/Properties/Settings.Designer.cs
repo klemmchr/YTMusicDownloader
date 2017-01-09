@@ -43,5 +43,17 @@ namespace YTMusicDownloaderLib.Properties {
                 this["GitHubRepositoryName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AIzaSyBdA-M63y7UxOSm-lnMU_Ss3EtqJqq1KN4")]
+        public string GoogleApiKey {
+            get {
+                return ((string)(this["GoogleApiKey"]));
+            }
+            set {
+                this["GoogleApiKey"] = value;
+            }
+        }
     }
 }

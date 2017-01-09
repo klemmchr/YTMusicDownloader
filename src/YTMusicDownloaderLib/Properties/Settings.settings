@@ -1,7 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
-              GeneratedClassNamespace="YTMusicDownloaderLib.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="YTMusicDownloaderLib.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="GitHubRepositoryOwner" Type="System.String" Scope="Application">
@@ -9,6 +7,9 @@
     </Setting>
     <Setting Name="GitHubRepositoryName" Type="System.String" Scope="User">
       <Value Profile="(Default)">YTMusicDownloader</Value>
+    </Setting>
+    <Setting Name="GoogleApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AIzaSyBdA-M63y7UxOSm-lnMU_Ss3EtqJqq1KN4</Value>
     </Setting>
   </Settings>
 </SettingsFile>
