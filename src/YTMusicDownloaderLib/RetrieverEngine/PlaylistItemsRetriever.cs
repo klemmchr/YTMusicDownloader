@@ -50,8 +50,8 @@ namespace YTMusicDownloaderLib.RetrieverEngine
                 throw new ArgumentException(nameof(playlistId));
 
             var playlistItems = new List<PlaylistItem>();
-            var client = new RestClient("http://ytdownloaderapi.azurewebsites.net");
-            var request = new RestRequest("api/PlaylistData", Method.GET);
+            var client = new RestClient("https://www.googleapis.com");
+            var request = new RestRequest("/youtube/v3/playlistItems", Method.GET);
 
             var pageToken = "";
             var totalResults = -1;
@@ -61,8 +61,11 @@ namespace YTMusicDownloaderLib.RetrieverEngine
                 while (pageToken != null)
                 {
                     request.Parameters.Clear();
+                    request.AddParameter("key", Properties.Settings.Default.GoogleApiKey);
+                    request.AddParameter("part", "snippet");
                     request.AddParameter("playlistId", playlistId);
                     request.AddParameter("pageToken", pageToken);
+                    request.AddParameter("maxResults", 50);
 
                     var response = client.Execute(request);
 
