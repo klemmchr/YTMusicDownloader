@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -28,8 +29,6 @@ namespace YTMusicDownloader
     /// </summary>
     public partial class App
     {
-        private readonly List<string> _arguments = new List<string>();
-
 #if !DEBUG
         private readonly Mutex _mutex;
 #endif
@@ -50,28 +49,15 @@ namespace YTMusicDownloader
                 Environment.Exit(0);
             }
 #endif
-
-            ParseCommandLineArgs();
-
-            // Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            // Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-
             var logger = LogManager.GetCurrentClassLogger();
 
             logger.Info("");
             logger.Info("======================================");
             logger.Info("Application startup: {0}", DateTime.Now);
-        }
 
-        private void ParseCommandLineArgs()
-        {
-            var args = Environment.GetCommandLineArgs();
-
-            for (var index = 1; index < args.Length; index++)
-            {
-                var arg = args[index].Replace("-", "");
-                _arguments.Add(arg);
-            }
+#pragma warning disable 4014
+            YTMusicDownloaderLib.Analytics.Reporter.StartSession();
+#pragma warning restore 4014
         }
 
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -80,7 +66,7 @@ namespace YTMusicDownloader
 
             LogManager.GetLogger("CrashLog").Fatal(e.Exception);
 
-            if (!_arguments.Contains("debugging"))
+            if (!Debugger.IsAttached)
             {
                 LogManager.GetLogger("CrashWebReport").Fatal(e.Exception);
 

@@ -68,12 +68,12 @@ namespace YTMusicDownloader.ViewModel
             Tracks.CollectionChanged += TracksOnCollectionChanged;
             DisplayedTracks = new ObservableImmutableList<PlaylistItemViewModel>();
             PageSelectorViewModel = new PageSelectorViewModel(this);
-            DownloadManager = new DownloadManager(Settings.Default.ParallelDownloads);
+            DownloadManager = new DownloadManager(Properties.Settings.Default.ParallelDownloads);
             WorkspaceSettingsViewModel = new WorkspaceSettingsViewModel(this);
             DisplayedTracksSource = new List<PlaylistItemViewModel>();
             Workspace.Settings.PropertyChanged += SettingsOnPropertyChanged;
             FilterModes = new Dictionary<FilterMode, string>();
-            Settings.Default.PropertyChanged += ApplicationSettingsOnPropertyChanged;
+            Properties.Settings.Default.PropertyChanged += ApplicationSettingsOnPropertyChanged;
 
             _watcher = new FileSystemWatcher
             {
@@ -423,8 +423,8 @@ namespace YTMusicDownloader.ViewModel
         private void ApplicationSettingsOnPropertyChanged(object sender,
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(Settings.Default.ParallelDownloads))
-                DownloadManager.ParallelDownloads = Settings.Default.ParallelDownloads;
+            if (propertyChangedEventArgs.PropertyName == nameof(Properties.Settings.Default.ParallelDownloads))
+                DownloadManager.ParallelDownloads = Properties.Settings.Default.ParallelDownloads;
         }
 
         private void CleanupWorkspaceFolder()
@@ -651,7 +651,7 @@ namespace YTMusicDownloader.ViewModel
             PlaylistFetchProgress = 0;
             FetchingPlaylist = true;
 
-            var retreiver = new PlaylistItemsRetriever(Settings.Default.PlaylistReceiveMaximum);
+            var retreiver = new PlaylistItemsRetriever(Properties.Settings.Default.PlaylistReceiveMaximum);
             retreiver.PlaylistItemsRetrieverProgressChanged +=
                 delegate(object sender, PlaylistItemRetreiverProgressChangedEventArgs args)
                 {

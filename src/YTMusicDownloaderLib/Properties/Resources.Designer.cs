@@ -518,6 +518,24 @@ namespace YTMusicDownloaderLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This program uses Google Analytics for statistic purposes. This includes either crash reports but usage reports too. All data is transmitted completely anonymized. You can disable the gathering of personal data but crashes and error will still be reported.
+        /// </summary>
+        public static string MainWindow_Settings_General_GoogleAnalytics_Description {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_GoogleAnalytics_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Google Analytics.
+        /// </summary>
+        public static string MainWindow_Settings_General_GoogleAnalytics_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings_General_GoogleAnalytics_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The limit of playlist items that should be fetched. This prevents from loading infinitely items from an high amount playlist.
         /// </summary>
         public static string MainWindow_Settings_General_MaximumPlaylistItems_Description {

@@ -39,7 +39,7 @@
     </controls:MetroWindow.Flyouts>
 
     <Grid>
-        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}" Padding="0">
+        <TabControl SelectedIndex="{Binding Path=SelectedTabIndex}" SelectedItem="{Binding Path=SelectedTabItem}" Padding="0">
             <TabItem Header="{x:Static p:Resources.MainWindow_Headers_Workspace}">
                 <Grid Background="{DynamicResource BackgroundBrush}" Margin="0,-1,0,0">
                     <Grid.ColumnDefinitions>

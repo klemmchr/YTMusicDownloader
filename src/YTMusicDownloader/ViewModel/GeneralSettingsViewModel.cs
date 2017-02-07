@@ -43,6 +43,10 @@ namespace YTMusicDownloader.ViewModel
                 Resources.MainWindow_Settings_General_MaximumPlaylistItems_Title,
                 Resources.MainWindow_Settings_General_MaximumPlaylistItems_Description,
                 PackIconMaterialKind.SortAscending, 5000, 1, 10000));
+            Settings.Add(new SettingViewModel(YTMusicDownloaderLib.Properties.Settings.Default, nameof(YTMusicDownloaderLib.Properties.Settings.TrackingEnabled),
+                Resources.MainWindow_Settings_General_GoogleAnalytics_Title,
+                Resources.MainWindow_Settings_General_GoogleAnalytics_Description,
+                PackIconMaterialKind.Google, true));
         }
     }
 }

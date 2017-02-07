@@ -17,17 +17,18 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using YTMusicDownloader.ViewModel.Messages;
+using YTMusicDownloaderLib.Analytics;
 using YTMusicDownloaderLib.Properties;
 using YTMusicDownloaderLib.Workspaces;
 #if DEBUG
 using System.Diagnostics;
-
 #endif
 
 namespace YTMusicDownloader.ViewModel
@@ -46,6 +47,7 @@ namespace YTMusicDownloader.ViewModel
         private bool _selectedWorkspaceVisible;
         private int _selectedWorkspaceIndex = -1;
         private bool _isLoaded;
+        private TabItem _selectedTabItem;
 
         #endregion
 
@@ -94,6 +96,17 @@ namespace YTMusicDownloader.ViewModel
             {
                 _selectedTabIndex = value;
                 RaisePropertyChanged(nameof(SelectedTabIndex));
+            }
+        }
+
+        public TabItem SelectedTabItem
+        {
+            get { return _selectedTabItem; }
+            set
+            {
+                _selectedTabItem = value;
+                RaisePropertyChanged(nameof(SelectedTabItem));
+                Reporter.SendPageview(_selectedTabItem.Header.ToString());
             }
         }
 

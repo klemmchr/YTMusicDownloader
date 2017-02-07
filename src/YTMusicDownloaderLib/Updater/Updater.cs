@@ -184,7 +184,8 @@ namespace YTMusicDownloaderLib.Updater
                 var updateVersion = new Version(version);
 
                 var update = new Update(updateVersion, GetAssets(release.AssetsUrl), assemblyPath);
-                return updateVersion.CompareTo(assemblyVersion) > 0 ? update : null;
+                var result = updateVersion.CompareTo(assemblyVersion) > 0 ? update : null;
+                return result;
             });
         }
 

@@ -351,4 +351,10 @@ Möchtest Du diese nun installieren?</value>
   <data name="MainWindow_Update_UpdateProgress_Description" xml:space="preserve">
     <value>Einen Moment bitte</value>
   </data>
+  <data name="MainWindow_Settings_General_GoogleAnalytics_Title" xml:space="preserve">
+    <value>Google Analytics</value>
+  </data>
+  <data name="MainWindow_Settings_General_GoogleAnalytics_Description" xml:space="preserve">
+    <value>Dieses Programm nutzt Google Analytics zur Erstellung von Statistiken. Dies umfasst u.a. auch Nutzerstatistiken und Absturzberichte. Die gesamten Daten werden anonymisiert übertragen. Du kannst das Sammeln von Nutzungsdaten deaktivieren, jedoch werden Absturzberichte und Fehler weiterhin gemeldet</value>
+  </data>
 </root>

@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Input;
 using YTMusicDownloader.Properties;
 using YTMusicDownloader.ViewModel;
+using YTMusicDownloaderLib.Analytics;
 using YTMusicDownloaderLib.Workspaces;
 
 namespace YTMusicDownloader.Views
@@ -56,6 +57,9 @@ namespace YTMusicDownloader.Views
 
         protected override void OnClosing(CancelEventArgs e)
         {
+#pragma warning disable 4014
+            Reporter.EndSession();
+#pragma warning restore 4014
             WorkspaceManagement.SaveWorkspaces();
             base.OnClosing(e);
             Environment.Exit(0);
