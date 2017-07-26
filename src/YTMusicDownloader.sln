@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderLibTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YTMusicDownloaderUpdater", "YTMusicDownloaderUpdater\YTMusicDownloaderUpdater.csproj", "{CFDE5EE8-68EF-43CD-A0E9-EE5A399F5E03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libvideo", "libvideo\libvideo.csproj", "{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,14 +89,26 @@ Global
 		{CFDE5EE8-68EF-43CD-A0E9-EE5A399F5E03}.Release|x64.Build.0 = Release|Any CPU
 		{CFDE5EE8-68EF-43CD-A0E9-EE5A399F5E03}.Release|x86.ActiveCfg = Release|Any CPU
 		{CFDE5EE8-68EF-43CD-A0E9-EE5A399F5E03}.Release|x86.Build.0 = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|x64.Build.0 = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Debug|x86.Build.0 = Debug|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|x64.ActiveCfg = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|x64.Build.0 = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DFEDF29-6CB3-4369-8ED9-104A34B8A045}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = True
-		RESX_SortFileContentOnSave = True
-		RESX_ResXSortingComparison = OrdinalIgnoreCase
 		RESX_AutoCreateNewLanguageFiles = False
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
 	EndGlobalSection
 EndGlobal
