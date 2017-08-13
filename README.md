@@ -1,4 +1,5 @@
 <img src="https://github.com/chris579/YTMusicDownloader/blob/master/src/YTMusicDownloader/Resources/logo_black.png?raw=true" width="100" height="100" />
+
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
@@ -45,6 +46,7 @@ Unlike other YouTube converters you can even download complete playlists and syn
 ### Screenshots
 <details>
   <summary>Toggle</summary>
+  
   ![Main page](https://cloud.githubusercontent.com/assets/6552521/20685186/ab371c00-b5b3-11e6-8fe7-6b1ae87b57e0.png)
    
   ![Workspace view](https://cloud.githubusercontent.com/assets/6552521/20685216/ceed7aea-b5b3-11e6-8bc8-adc1c2ba542e.png)
