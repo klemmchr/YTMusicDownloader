@@ -3,6 +3,8 @@
 # YouTube Music Downloader
 A powerful tool to sync your favourite YouTube music with your computer.
 
+*This project is more or less abandoned but should still work.*
+
 [![Github All Releases](https://img.shields.io/github/downloads/chris579/YTMusicDownloader/total.svg)](https://github.com/chris579/YTMusicDownloader/releases)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/YTMusicDownloader/Main)
 
