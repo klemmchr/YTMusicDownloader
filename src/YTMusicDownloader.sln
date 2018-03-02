@@ -102,9 +102,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = True
-		RESX_SortFileContentOnSave = True
-		RESX_ResXSortingComparison = OrdinalIgnoreCase
 		RESX_AutoCreateNewLanguageFiles = False
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_SortFileContentOnSave = True
+		RESX_SaveFilesImmediatelyUponChange = True
 	EndGlobalSection
 EndGlobal

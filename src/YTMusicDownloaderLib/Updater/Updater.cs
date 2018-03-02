@@ -171,20 +171,28 @@ namespace YTMusicDownloaderLib.Updater
         {
             return await Task.Run(async () =>
             {
-                var client = new GitHubClient(new ProductHeaderValue(Settings.Default.GitHubRepositoryName));
-                var release =
-                (await
-                    client.Repository.Release.GetAll(Settings.Default.GitHubRepositoryOwner,
-                        Settings.Default.GitHubRepositoryName))[0];
-                var match = Regex.Match(release.TagName, @"(\d+\.\d+\.\d+(\.\d+)?)");
-                if (!match.Success)
-                    return null;
+                try
+                {
+                    var client = new GitHubClient(new ProductHeaderValue(Settings.Default.GitHubRepositoryName));
+                    var release =
+                    (await
+                        client.Repository.Release.GetAll(Settings.Default.GitHubRepositoryOwner,
+                            Settings.Default.GitHubRepositoryName))[0];
+                    var match = Regex.Match(release.TagName, @"(\d+\.\d+\.\d+(\.\d+)?)");
+                    if (!match.Success)
+                        return null;
 
-                var version = match.Groups[0].ToString();
-                var updateVersion = new Version(version);
+                    var version = match.Groups[0].ToString();
+                    var updateVersion = new Version(version);
 
-                var update = new Update(updateVersion, GetAssets(release.AssetsUrl), assemblyPath);
-                return updateVersion.CompareTo(assemblyVersion) > 0 ? update : null;
+                    var update = new Update(updateVersion, GetAssets(release.AssetsUrl), assemblyPath);
+                    return updateVersion.CompareTo(assemblyVersion) > 0 ? update : null;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                return null;
             });
         }
 
